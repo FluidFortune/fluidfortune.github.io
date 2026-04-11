@@ -251,6 +251,22 @@ p:last-child { margin-bottom: 0; }
 }
 .rail-divider { color: var(--text-muted); padding: 0 0.75rem; font-size: 0.8rem; }
 
+/* ── PROJECT GRID ── */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+/* WozBot spans full width — has video block */
+.project-card--wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 700px) {
+  .project-grid { grid-template-columns: 1fr; }
+  .project-card--wide { grid-column: auto; }
+}
+
 /* ── PROJECT CARDS ── */
 .project-card {
   border: 1px solid var(--border);
@@ -301,9 +317,10 @@ p:last-child { margin-bottom: 0; }
   border: 1px solid;
   font-family: var(--font-mono);
 }
-.project-badge--alpha  { color: var(--amber); border-color: var(--amber-dim); }
-.project-badge--live   { color: var(--green); border-color: var(--green-dim); animation: pulse-border 2s ease-in-out infinite; }
-.project-badge--dev    { color: var(--text-dim); border-color: var(--text-muted); }
+.project-badge--alpha   { color: var(--amber); border-color: var(--amber-dim); }
+.project-badge--live    { color: var(--green); border-color: var(--green-dim); animation: pulse-border 2s ease-in-out infinite; }
+.project-badge--dev     { color: var(--text-dim); border-color: var(--text-muted); }
+.project-badge--version { color: #7af; border-color: #3a6a9a; }
 
 .project-desc  { font-size: 0.9rem; color: var(--text); margin-bottom: 1.25rem; }
 .project-note  { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.5rem; }
