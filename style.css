@@ -421,6 +421,95 @@ p:last-child { margin-bottom: 0; }
 .video-block-footer a { color: var(--text-dim); }
 .video-block-footer a:hover { color: var(--green); }
 
+/* ── MEDIA GRID ── */
+.media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.media-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.media-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--green-mute);
+  transition: background 0.3s;
+}
+.media-card:first-child::before { background: var(--green-mute); }
+.media-card:last-child::before  { background: #1a2a4a; }
+.media-card:hover { border-color: var(--border-bright); box-shadow: 0 0 20px rgba(0,255,65,0.05); }
+.media-card:last-child:hover { box-shadow: 0 0 20px rgba(80,160,255,0.05); }
+
+.media-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.media-card-icon {
+  font-size: 1.3rem;
+  color: var(--green-dim);
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--green-mute);
+  background: rgba(0,192,50,0.05);
+}
+.media-card-icon--blog {
+  color: var(--blue);
+  border-color: #1a2a4a;
+  background: rgba(80,160,255,0.05);
+  font-size: 1rem;
+}
+.media-card-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.media-card-sub {
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: 0.15rem;
+}
+.media-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  flex: 1;
+  margin: 0;
+}
+.media-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.media-card-tags span {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.4rem;
+}
+
+@media (max-width: 700px) {
+  .media-grid { grid-template-columns: 1fr; }
+}
+
 /* ── ROAST MY TECH PRODUCT ── */
 .roast-block {
   margin-top: 3rem;
