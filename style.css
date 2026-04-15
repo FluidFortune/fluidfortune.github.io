@@ -537,6 +537,7 @@ p:last-child { margin-bottom: 0; }
   gap: 1.25rem;
   margin-bottom: 2.5rem;
 }
+.media-grid .media-card:nth-child(3) { grid-column: 1 / 2; }
 .media-card {
   border: 1px solid var(--border);
   background: var(--surface);
@@ -579,6 +580,23 @@ p:last-child { margin-bottom: 0; }
   border-color: #1a2a4a;
   background: rgba(80,160,255,0.05);
   font-size: 1rem;
+}
+.media-card-icon--podcast {
+  color: var(--amber-dim);
+  border-color: #3a2a00;
+  background: rgba(255,183,0,0.05);
+  font-size: 1rem;
+}
+.media-card--amber::before { background: linear-gradient(90deg, var(--amber-dim), var(--amber), var(--amber-dim)); background-size: 200%; animation: burn 3s linear infinite; }
+.media-card--amber:hover { box-shadow: 0 0 20px rgba(255,183,0,0.06); }
+.btn--amber {
+  color: var(--black) !important;
+  background: var(--amber-dim) !important;
+  border-color: var(--amber) !important;
+}
+.btn--amber:hover {
+  background: var(--amber) !important;
+  box-shadow: 0 0 20px rgba(255,183,0,0.35) !important;
 }
 .media-card-title {
   font-family: var(--font-display);
