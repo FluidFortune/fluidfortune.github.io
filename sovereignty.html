@@ -287,18 +287,23 @@
 
     <p>The platform's credibility rests on its having actually been built and validated on physical hardware under real-world conditions. The following six engineering problems were encountered during development and solved — <strong>none had documented solutions for the ESP32-S3 hardware platform prior to this project.</strong> These are problems that did not exist in the literature because no previous software on this hardware was complex enough to trigger them.</p>
 
+    <p>Problem 1 produced the most significant contribution: <strong>The SPI Bus Treaty</strong> — a named architectural standard that now belongs to the public technical literature. It is not a solution to a bug. It is the protocol that makes persistent dual-core background tasking possible on shared-bus hardware. Every other engineering decision in this OS exists in its shadow.</p>
+
     <!-- Problem 1 -->
     <div class="problem-block">
-      <div class="problem-num">PROBLEM 1</div>
-      <div class="problem-title">The SPI Bus Conflict</div>
+      <div class="problem-num">PROBLEM 1 — AND THE INVENTION THAT SOLVED IT</div>
+      <div class="problem-title">The SPI Bus Conflict — and The SPI Bus Treaty</div>
       <div class="problem-sub">The Problem</div>
-      <p>The MicroSD card and the SX1262 LoRa radio module share the ESP32-S3's SPI bus. In a general-purpose OS running the Ghost Engine and the LoRa mesh radio simultaneously, the conflict manifests as a hardware fatal exception — a Guru Meditation error and immediate device reboot with no user warning and no data recovery.</p>
+      <p>The MicroSD card and the SX1262 LoRa radio module share the ESP32-S3's SPI bus. In an OS running the Ghost Engine and the LoRa mesh radio simultaneously, the conflict manifests as a hardware fatal exception — a Guru Meditation error and immediate device reboot with no user warning and no data recovery.</p>
       <div class="problem-sub">Why It Was Hard</div>
       <p>The failure mode does not present as a bus conflict. The Guru Meditation dump points at a memory address identifying where the crash occurred — not why. The address changes between crashes because the timing of the collision is non-deterministic. This problem had no documented solution because no previous ESP32-S3 project had operated both devices under simultaneous sustained load.</p>
       <div class="solution">
-        <div class="solution-label">THE SOLUTION: THE SPI BUS TREATY</div>
-        <p>A formal behavioral protocol governing all OS components and third-party ELF module developers. Four rules: Hit and run — open, write, close, release immediately. No extended holds. Radio traffic management via shared boolean flag. Metadata-only destructive operations for the Nuke security function.</p>
-        <p>Historical parallel: Unix filesystem locking conventions (1970s), the Apollo Guidance Computer's priority scheduling protocol (1969), Nintendo's N64 RSP time budget (1996). The Treaty is the first documented instance of this solution class applied to the ESP32-S3 SPI bus architecture.</p>
+        <div class="solution-label">THE INVENTION: THE SPI BUS TREATY</div>
+        <p>The SPI Bus Treaty is not a bug fix. It is a named architectural standard — the first formal behavioral protocol governing shared-bus arbitration on the ESP32-S3 hardware class. It did not exist before this project. It now belongs to the public technical literature.</p>
+        <p>The Treaty consists of four rules that all OS components and all third-party ELF module developers must follow: <strong>Hit and run</strong> — open, write, close, release the bus immediately, no exceptions. <strong>No extended holds</strong> — no operation may hold the SPI bus for extended periods under any circumstances. <strong>Radio traffic management</strong> — a shared boolean flag coordinates WiFi radio access between the Ghost Engine and the AI client. <strong>Metadata-only destructive operations</strong> — the Nuke security function deletes index files in milliseconds rather than formatting the card over seconds.</p>
+        <p>These are not workarounds. They are laws. Every component in the OS is written to obey them. Every ELF module developer who builds for this platform is required to obey them. The Treaty is the reason Core 0 never stops — it is the architectural guarantee that makes persistent dual-core background tasking possible on shared-bus hardware.</p>
+        <p>The historical precedent is instructive: Unix filesystem locking conventions (1970s) established formal rules for competing processes sharing a filesystem. The Apollo Guidance Computer's priority scheduling protocol (1969) established formal rules for competing tasks sharing a processor under load. Nintendo's N64 RSP time budget (1996) established formal rules for competing subsystems sharing a signal processor. In each case, the solution was not a patch — it was a protocol. A named standard. A thing that could be taught, documented, and enforced across an entire platform.</p>
+        <p><strong>The SPI Bus Treaty is that standard for the ESP32-S3. It is the first documented instance of this solution class applied to this hardware architecture. Any developer who builds concurrent multi-subsystem software on the ESP32-S3 and encounters this problem now has a reference. They did not have one before.</strong></p>
       </div>
     </div>
 
