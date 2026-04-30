@@ -278,29 +278,29 @@
       <div class="callout-label">TIER 2 — THE LINUX DISTRIBUTION (EXISTING HARDWARE, FREE)</div>
       <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Initial target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation with native integration of the Tier 1 device as a dedicated radio coprocessor.</p>
       <p>The enterprise pitch is exact: Pisces Moon Linux turns hardware you have already purchased, already depreciated, and already written off into a functional security analysis workstation. Your sunk cost is paid. The software is free. Your hardware refresh cycle just extended by five years.</p>
-    </div>
-
-    <div class="callout">
-      <div class="callout-label">TIER 3 — THE APPLICATION RUNTIME (ANY DEVICE, ANY OS)</div>
-      <p>A minimal cross-platform execution host — approximately 2 megabytes — that accepts an HTML/CSS/JavaScript frontend and a Python/SQL backend and executes them as a native local application. The runtime compiles to any target platform. The application code never changes between targets.</p>
+      <p>Applications on Pisces Moon Linux run as single-file HTML/CSS/JavaScript tools — the same files that power the T-Deck Plus interface — requiring no installation beyond a browser. On constrained Atom-class hardware, this matters. The dominant alternative for cross-platform desktop apps is Electron, which ships a full Chromium browser and Node.js runtime with every application:</p>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th></th><th>Electron</th><th>Pisces Moon Runtime</th></tr>
+          <tr><th></th><th>Electron</th><th>Pisces Moon Application Layer</th></tr>
         </thead>
         <tbody>
-          <tr><td>Executable size</td><td>150–300 MB</td><td>~2 MB</td></tr>
-          <tr><td>Browser engine</td><td>Bundled Chromium</td><td>System native (no bundle)</td></tr>
-          <tr><td>Backend language</td><td>Node.js only</td><td>Python + SQL + system libraries</td></tr>
-          <tr><td>RAM on launch</td><td>200–400 MB</td><td>10–50 MB</td></tr>
+          <tr><td>Executable size</td><td>150–300 MB</td><td>Single HTML file</td></tr>
+          <tr><td>Browser engine</td><td>Bundled Chromium</td><td>System browser (no bundle)</td></tr>
+          <tr><td>RAM on launch</td><td>200–400 MB</td><td>Negligible</td></tr>
           <tr><td>Runs on Atom/ARM</td><td>Barely</td><td>Yes</td></tr>
-          <tr><td>Mobile support</td><td>No</td><td>Yes — same application code</td></tr>
-          <tr><td>Packaging</td><td>npm + build toolchain</td><td>Drag and drop</td></tr>
-          <tr><td>Who can build</td><td>Engineers only</td><td>Anyone who writes HTML + Python</td></tr>
+          <tr><td>Mobile support</td><td>No</td><td>Yes — same file</td></tr>
+          <tr><td>Installation required</td><td>Yes</td><td>No</td></tr>
+          <tr><td>Who can build</td><td>Engineers only</td><td>Anyone who writes HTML</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">TIER 3 — THE APPLICATION LAYER (PISCES MOON LINUX)</div>
+      <p>On Pisces Moon Linux, the application suite runs as single-file HTML/CSS/JavaScript tools — the same files that power the T-Deck Plus interface, now running in a full browser on the Linux tablet with no additional installation required. This means the intelligence tools built for the field device run identically on the analysis workstation. One codebase. Two hardware tiers. No duplication of effort. Applications can additionally be wrapped as native desktop apps via Trojan Horse — a separate Fluid Fortune project — gaining direct filesystem and hardware access without a build toolchain or vendor approval process.</p>
     </div>
   </div>
 
