@@ -178,7 +178,35 @@
   <p>This paper presents Pisces Moon OS and its two primary inventions: <strong>the Ghost Engine</strong> — a persistent Core 0 intelligence collection process that wardrives, scans BLE, and logs GPS continuously regardless of operator activity, the first implementation of this architecture for field use on the ESP32-S3 — and <strong>the SPI Bus Treaty</strong> — the first named architectural standard for shared-bus arbitration on this hardware class, without which the Ghost Engine cannot run. Together they constitute the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. The paper presents these inventions as a coherent answer to three simultaneous crises in modern computing: rising hardware costs driven by semiconductor tariffs and supply chain disruption; the architectural obsolescence of cloud-dependent software stacks that require continuously upgraded hardware; and the developer gatekeeping that prevents domain experts from shipping capable software without engineering intermediaries. It documents six novel engineering problems encountered and solved during development, none of which had prior documented solutions for this hardware platform. It presents the platform's three-tier architecture — embedded OS, Linux distribution, and cross-platform application runtime — as a unified economic and technical argument that sovereign, capable, locally-executed computing is achievable today on hardware that costs $50 to $350. The platform obliterates five assumptions the current industry depends on. This document explains what those assumptions are, why they are wrong, and what the replacement looks like.</p>
 </div>
 
+<div style="max-width:var(--max-w);margin:0 auto;padding:2rem 1.5rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#0a1410 0%,#0f1a14 100%)">
+  <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:var(--green-dim);margin-bottom:.75rem">▶ LIVE WEB DEMO — NO HARDWARE REQUIRED</div>
+  <h3 style="font-family:var(--font-disp);font-size:1.15rem;color:#fff;font-weight:900;letter-spacing:.04em;margin-bottom:.75rem">Try Pisces Moon OS in Your Browser</h3>
+  <p style="font-family:var(--font-ui);font-size:.88rem;color:var(--text-dim);line-height:1.75;margin-bottom:1rem">A working interactive demo of Pisces Moon OS runs in any modern browser. The same HTML/JS application layer that powers the T-Deck Plus interface, deployed standalone — 47 apps, the Ghost Engine simulator, the AI terminal, and a hardware bridge mode that connects via USB to a real T-Deck running Pisces Moon OS for live device data. Bring your own free Gemini API key (1,500 requests/day, no credit card) for live AI; without one, the terminal returns pre-written demo responses. The same code runs on the device, in the browser, and inside Trojan Horse as a native application.</p>
+  <a href="https://piscesdemo.fluidfortune.com" style="display:inline-block;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;color:#0a1410;background:var(--green);padding:.6rem 1.2rem;text-decoration:none;font-weight:700;border:1px solid var(--green)" target="_blank" rel="noopener">▶ LAUNCH DEMO — piscesdemo.fluidfortune.com</a>
+  <p style="font-family:var(--font-mono);font-size:.55rem;color:var(--text-muted);letter-spacing:.1em;margin-top:1rem">CHROME / EDGE FOR USB DEVICE BRIDGE — ANY MODERN BROWSER FOR DEMO MODE</p>
+</div>
+
 <div class="doc-body">
+
+  <!-- 0. OPERATIONAL OBSCURITY -->
+  <div class="section" style="background:#0a0807;border:1px solid var(--amber-dim);padding:2rem;margin-bottom:2rem;position:relative">
+    <div style="position:absolute;top:-.6rem;left:1rem;background:var(--amber);color:#0a0807;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;padding:.2rem .8rem;font-weight:700">★ OPERATIONAL CONTEXT</div>
+    <h2 class="section-title" style="color:var(--amber);margin-top:.5rem">THE GHOST ENGINE IS UNSEEN</h2>
+
+    <p>The Ghost Engine runs on Core 0. Every interactive application — the AI terminal, the games, the notes editor, the file browser, the GPS app — runs on Core 1. This is not just a performance decision. It is an operational one.</p>
+
+    <p>Anyone watching the operator of a Pisces Moon device sees Core 1. They see a small handheld with a QWERTY keyboard. They see someone playing Snake, looking up a recipe in the field reference, writing a note, asking the AI a question. They do not see the Ghost Engine — because the Ghost Engine has no visible interface. It produces no notification. It writes to a thin status bar that only appears if the operator deliberately opens the WarDrive app. There is no badge, no toast, no LED. The device looks like a toy.</p>
+
+    <blockquote style="color:var(--amber);border-left-color:var(--amber)">It is collecting the entire time. WiFi APs. BLE devices. GPS coordinates. Every wireless signature in range, written to the SD card with location and timestamp, while the operator does anything else.</blockquote>
+
+    <p>This is the operational paradigm that distinguishes Pisces Moon OS from every other ESP32-S3 project. Bruce announces what it is doing. Meshtastic shows the operator the radio is active. Tactility loads the app the operator selected. Every other firmware on this hardware presents a coherent foreground state that an observer can read. Pisces Moon OS presents a coherent foreground state that lies — by design — about what the device is actually doing.</p>
+
+    <p>The Ghost Partition pairs with this directly. The captured data lives in a partition that is invisible in normal operation — no icon, no menu entry, no listing in the file browser. It requires a specific PIN combination at boot to even acknowledge it exists. With one of three PINs, the operator gets Tactical Mode (full access), Student Mode (a sanitized decoy partition that looks like a normal device), or the Nuke (sub-millisecond metadata deletion that renders the captured data permanently unreachable through any OS interface).</p>
+
+    <p>The device is always collecting. The operator can always destroy what was collected, instantly, on demand, without the destruction being visible. To a casual observer, an interrupted session, or a confiscation scenario, the device is a handheld toy that someone was playing chess on.</p>
+
+    <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--amber-dim);letter-spacing:.05em;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.5rem">This is security through architecture, not through encryption. Encryption can be coerced. Architecture that hides the fact that there is anything to coerce is a different category of defense entirely.</p>
+  </div>
 
   <!-- I. THE THESIS -->
   <div class="section">
