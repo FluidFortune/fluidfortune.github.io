@@ -205,7 +205,44 @@
 
     <p>The device is always collecting. The operator can always destroy what was collected, instantly, on demand, without the destruction being visible. To a casual observer, an interrupted session, or a confiscation scenario, the device is a handheld toy that someone was playing chess on.</p>
 
+    <p>The Android deployment extends this argument further. A T-Deck Plus looks like a specialized field device — unusual enough that a trained observer might identify it. An Android phone looks like a phone. Everyone already ignores phones. The Pisces Moon Android APK runs the full wardrive intelligence suite as a background service while the operator plays Galaga, checks the weather, or watches a video in a regular Android app. A swipe exits the Pisces Moon interface entirely — the phone returns to a normal Android home screen. There is no visible indicator that a wardrive is running. There is no indicator that it was ever running. The most powerful cover for a field intelligence platform is the device everyone already trusts and already ignores.</p>
+
+    <p>Android's background task handling also removes the SPI Bus Treaty constraint entirely. On the T-Deck Plus, the Ghost Engine required inventing a named architectural protocol to run concurrent workloads on shared hardware without crashing. Android handles concurrent processes natively at the OS level. The wardrive runs as a background service. The foreground application does anything the operator needs. The OS manages the arbitration. The operator benefits from both the field capability and the most effective operational cover available: looking exactly like everyone else.</p>
+
     <p style="font-family:var(--font-mono);font-size:.7rem;color:var(--amber-dim);letter-spacing:.05em;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.5rem">This is security through architecture, not through encryption. Encryption can be coerced. Architecture that hides the fact that there is anything to coerce is a different category of defense entirely.</p>
+  </div>
+
+  <!-- 0.5 SOVEREIGN BY DESIGN -->
+  <div class="section" style="background:#07080f;border:1px solid #1f2a4a;padding:2rem;margin-bottom:2rem;position:relative">
+    <div style="position:absolute;top:-.6rem;left:1rem;background:#1f4788;color:#fff;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;padding:.2rem .8rem;font-weight:700">ARCHITECTURE</div>
+    <h2 class="section-title" style="color:#7ba7e8;margin-top:.5rem">SOVEREIGN BY DESIGN: STANDALONE INTELLIGENCE OR NETWORKED EDGE NODE</h2>
+
+    <p>Pisces Moon OS was built on a single architectural principle: the device must never require external infrastructure to be useful.</p>
+
+    <p>Every capability — wardriving, BLE reconnaissance, packet analysis, GPS logging, AI inference, encrypted storage — runs entirely on the T-Deck Plus hardware. No cloud dependency. No subscription. No phone home. The operator owns the full stack, physically and legally. This is sovereignty in the traditional sense: the device does what the operator tells it to do, nothing more, nothing less, with no third party in the loop.</p>
+
+    <p>The reason this works reliably — the reason "fully functional offline" is a real claim rather than a marketing qualifier — is the SPI Bus Treaty. Without it, sustained concurrent workloads cause non-deterministic crashes that make offline capability theoretical rather than operational. With it, the Ghost Engine runs unconditionally. The device does not degrade under load. The standalone capability is not a fallback. It is the baseline.</p>
+
+    <blockquote style="color:#7ba7e8;border-left-color:#1f4788">Sovereignty does not mean isolation.</blockquote>
+
+    <p>Pisces Moon's Bridge App protocol allows the device to function as an intelligent edge sensor for a broader operator platform — feeding live RF, BLE, GPS, and network intelligence to an Android tablet, a Linux workstation, or any Web Serial capable host via a documented, open JSON protocol. The key distinction from traditional networked tools: the device remains fully functional if the connection drops. The tablet enhances the picture. It does not complete it.</p>
+
+    <p>This is the architectural difference between a sovereign edge node and a dependent peripheral. Most tools in this space are one or the other. Pisces Moon is both, simultaneously, by design.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.5rem 0">
+      <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STANDALONE MODE</div>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">T-Deck Plus → Full Pisces Moon OS → Operator. All 47 applications. Ghost Engine wardriving Core 0. Ghost Partition with Nuke. Local AI inference. LoRa mesh radio. GPS. No external dependency at any layer.</p>
+      </div>
+      <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">EDGE NODE MODE</div>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">T-Deck Plus → Bridge Protocol → Android tablet or Linux workstation. Live wardrive, GPS, BLE, and RF intelligence fed to operator-controlled visualization and analysis platform. Identical firmware. Operator chooses mode in the field with a cable.</p>
+      </div>
+    </div>
+
+    <p>Neither mode compromises the other. The firmware is identical in both cases. The operator chooses the deployment model in the field, in real time, by whether they plug in a cable. A device that requires a cloud backend to function is not owned by the operator — it is licensed to them, conditionally, at the discretion of the vendor. When the vendor changes terms, kills the service, or receives a legal demand, the operator's capability disappears. A device that functions fully offline, with optional network enhancement on the operator's own terms, cannot be remotely degraded. The capability lives in the hardware and the firmware. It ships when you ship it. It works where you take it.</p>
+
+    <p style="font-family:var(--font-mono);font-size:.7rem;color:#3a5a8a;letter-spacing:.05em;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.5rem">The SPI Bus Treaty is the technical foundation that makes the standalone claim real. Architecture built on it does not crash under load. Sovereignty built on it does not fail in the field.</p>
   </div>
 
   <!-- I. THE THESIS -->
@@ -277,17 +314,19 @@
     <div class="section-num">III</div>
     <h2 class="section-title">THE PLATFORM ARCHITECTURE</h2>
 
-    <p>Pisces Moon OS is not a single product. It is a three-tier platform, each tier sovereign at its hardware level, each tier composable with the others.</p>
+    <p>Pisces Moon is not a single product. It is a unified platform deployed across five hardware targets — from a $50 pocket device to a discarded enterprise tablet to an Android phone — all running the same application layer, all sovereign at their hardware level, all composable with each other.</p>
+
+    <p>The application layer is 76 self-contained HTML files. Each one is single-file, dependency-free where possible, and runs in a browser or a Chromium window with no installation required. The same file that runs on the T-Deck Plus runs on a Linux tablet, an Android phone, a Luckfox embedded panel, or a MacBook. Deploy with <code>cp</code>. Update with <code>git pull</code>. No build toolchain. No package manager. No vendor permission.</p>
 
     <div class="callout">
-      <div class="callout-label">TIER 1 — THE EMBEDDED DEVICE ($50–$350)</div>
-      <p>The LilyGO T-Deck Plus — ESP32-S3 at 240MHz, 8MB PSRAM, QWERTY keyboard, LoRa radio, GPS, WiFi, Bluetooth LE, I2S audio, MicroSD storage. Retail price: $50. Pisces Moon OS introduces two inventions that did not exist for this hardware class. <strong>The Ghost Engine</strong> runs on Core 0 continuously — wardriving, BLE scanning, GPS logging — always, regardless of what the operator is doing on Core 1. <strong>The SPI Bus Treaty</strong> is the architectural standard that makes the Ghost Engine possible: the first formal behavioral protocol for shared-bus arbitration on the ESP32-S3, now part of the public technical literature. The device is always collecting. The operator is never interrupted. 47 built-in applications, ELF module runtime, Ghost Partition security system.</p>
+      <div class="callout-label">TARGET 1 — T-DECK PLUS ($50) — FIELD INTELLIGENCE DEVICE</div>
+      <p>The LilyGO T-Deck Plus — ESP32-S3 at 240MHz, 8MB PSRAM, QWERTY keyboard, LoRa radio, GPS, WiFi, Bluetooth LE, I2S audio, MicroSD storage. Retail price: $50. Running Pisces Moon OS v1.0.1 "The Arsenal" with two inventions that did not exist for this hardware class. <strong>The Ghost Engine</strong> runs on Core 0 continuously — wardriving, BLE scanning, GPS logging — always, regardless of what the operator is doing on Core 1. <strong>The SPI Bus Treaty</strong> is the architectural standard that makes the Ghost Engine possible: the first formal behavioral protocol for shared-bus arbitration on the ESP32-S3. 47 built-in applications, ELF module runtime for SD card app deployment without reflashing, Ghost Partition security with sub-millisecond data destruction.</p>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Capability</th><th>Pisces Moon Device (~$350)</th><th>Nearest Commercial Equivalent</th></tr>
+          <tr><th>Capability</th><th>Pisces Moon T-Deck (~$350 full kit)</th><th>Nearest Commercial Equivalent</th></tr>
         </thead>
         <tbody>
           <tr><td>Form factor</td><td>Pocket-sized handheld</td><td>$500–$2,000 ruggedized edge device</td></tr>
@@ -303,10 +342,10 @@
     </div>
 
     <div class="callout">
-      <div class="callout-label">TIER 2 — THE LINUX DISTRIBUTION (EXISTING HARDWARE, FREE)</div>
-      <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Initial target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation with native integration of the Tier 1 device as a dedicated radio coprocessor.</p>
+      <div class="callout-label">TARGET 2 — LINUX ON OBSOLETE x86/ARM (FREE) — ANALYSIS WORKSTATION</div>
+      <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Primary target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation — 76 applications across 11 categories — with native integration of the T-Deck Plus as a dedicated radio coprocessor via the Bridge App protocol.</p>
       <p>The enterprise pitch is exact: Pisces Moon Linux turns hardware you have already purchased, already depreciated, and already written off into a functional security analysis workstation. Your sunk cost is paid. The software is free. Your hardware refresh cycle just extended by five years.</p>
-      <p>Applications on Pisces Moon Linux run as single-file HTML/CSS/JavaScript tools — the same files that power the T-Deck Plus interface — requiring no installation beyond a browser. On constrained Atom-class hardware, this matters. The dominant alternative for cross-platform desktop apps is Electron, which ships a full Chromium browser and Node.js runtime with every application:</p>
+      <p>Applications run as single-file HTML/CSS/JavaScript tools requiring no installation beyond a browser. On constrained Atom-class hardware, this matters. The dominant alternative for cross-platform desktop apps is Electron, which ships a full Chromium browser and Node.js runtime with every application:</p>
     </div>
 
     <div class="table-wrap">
@@ -327,10 +366,24 @@
     </div>
 
     <div class="callout">
-      <div class="callout-label">TIER 3 — THE APPLICATION LAYER (PISCES MOON LINUX)</div>
-      <p>On Pisces Moon Linux, the application suite runs as single-file HTML/CSS/JavaScript tools — the same files that power the T-Deck Plus interface, now running in a full browser on the Linux tablet with no additional installation required. This means the intelligence tools built for the field device run identically on the analysis workstation. One codebase. Two hardware tiers. No duplication of effort. Applications can additionally be wrapped as native desktop apps via Trojan Horse — a separate Fluid Fortune project — gaining direct filesystem and hardware access without a build toolchain or vendor approval process.</p>
+      <div class="callout-label">TARGET 3 — ANDROID APK — MOBILE OPERATIONS LAYER</div>
+      <p>The same 76-application HTML suite wraps as a native Android APK. The same wardrive analysis tools, security suite, field reference apps, and intelligence tools that run on the Linux tablet run on an Android phone or tablet — no new codebase, no per-platform development cost. The APK is a thin wrapper: Chromium rendering, local file access, no external dependencies, no telemetry, no analytics, no cookies. All HTTPS endpoints explicitly declared in the network security config. The operator brings the device they already carry.</p>
     </div>
-  </div>
+
+    <div class="callout">
+      <div class="callout-label">TARGET 4 — LUCKFOX PICO 86 PANEL (RV1106 / BUILDROOT) — EMBEDDED PANEL</div>
+      <p>The Luckfox Pico 86 Panel is an RV1106-based embedded Linux device running a Buildroot environment with LVGL. Pisces Moon deploys to it via a dedicated serial daemon and LVGL application layer. A $30–50 embedded panel running the same sovereign stack as the $350 field device. The application layer adapts to the form factor. The sovereignty principle does not.</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">TARGET 5 — M5STACK CARDPUTER (ESP32-S3) — COMPACT FIELD DEVICE</div>
+      <p>The M5Stack Cardputer is an ESP32-S3 device in a compact keyboard form factor — the same silicon class as the T-Deck Plus. Pisces Moon firmware ports to it with display and input HAL adaptation. The Ghost Engine architecture, the SPI Bus Treaty, and the dual-core task split carry over unchanged. The silicon is the same. The protocol is the same. The problems were already solved.</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">THE UNIFIED PRINCIPLE</div>
+      <p>Five deployment targets. One application layer. One philosophical foundation. The operator chooses the hardware. The hardware serves the operator. The vendor — any vendor — is not in the loop at any layer. This is what a platform looks like when sovereignty is the design constraint rather than a feature the platform vendor decided to offer.</p>
+    </div>
 
   <!-- IV. SIX NOVEL PROBLEMS -->
   <div class="section">
