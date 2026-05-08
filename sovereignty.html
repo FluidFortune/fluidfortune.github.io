@@ -175,7 +175,7 @@
 
 <div class="abstract">
   <div class="abstract-label">ABSTRACT</div>
-  <p>This paper presents Pisces Moon OS and its two primary inventions: <strong>the Ghost Engine</strong> — a persistent Core 0 intelligence collection process that wardrives, scans BLE, and logs GPS continuously regardless of operator activity, the first implementation of this architecture for field use on the ESP32-S3 — and <strong>the SPI Bus Treaty</strong> — the first named architectural standard for shared-bus arbitration on this hardware class, without which the Ghost Engine cannot run. Together they constitute the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. The paper presents these inventions as a coherent answer to three simultaneous crises in modern computing: rising hardware costs driven by semiconductor tariffs and supply chain disruption; the architectural obsolescence of cloud-dependent software stacks that require continuously upgraded hardware; and the developer gatekeeping that prevents domain experts from shipping capable software without engineering intermediaries. It documents six novel engineering problems encountered and solved during development, none of which had prior documented solutions for this hardware platform. It presents the platform's three-tier architecture — embedded OS, Linux distribution, and cross-platform application runtime — as a unified economic and technical argument that sovereign, capable, locally-executed computing is achievable today on hardware that costs $50 to $350. The platform obliterates five assumptions the current industry depends on. This document explains what those assumptions are, why they are wrong, and what the replacement looks like.</p>
+  <p>This paper presents Pisces Moon OS and its two primary inventions: <strong>the Ghost Engine</strong> — a persistent Core 0 intelligence collection process that wardrives, scans BLE, and logs GPS continuously regardless of operator activity, the first known documented implementation of this architecture for field use on the ESP32-S3 — and <strong>the SPI Bus Treaty</strong> — the first known documented named architectural standard for shared-bus arbitration on this hardware class, without which the Ghost Engine cannot run. Together they constitute the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. The paper presents these inventions as a coherent answer to three simultaneous crises in modern computing: rising hardware costs driven by semiconductor tariffs and supply chain disruption; the architectural obsolescence of cloud-dependent software stacks that require continuously upgraded hardware; and the developer gatekeeping that prevents domain experts from shipping capable software without engineering intermediaries. It documents six novel engineering problems encountered and solved during development, none of which had prior documented solutions for this hardware platform. It presents the platform's three-tier architecture — embedded OS, Linux distribution, and cross-platform application runtime — as a unified economic and technical argument that sovereign, capable, locally-executed computing is achievable today on hardware that costs $50 to $350. The platform disproves five assumptions the current industry depends on. This document explains what those assumptions are, why they are wrong, and what the replacement looks like.</p>
 </div>
 
 <div style="max-width:var(--max-w);margin:0 auto;padding:2rem 1.5rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#0a1410 0%,#0f1a14 100%)">
@@ -187,6 +187,12 @@
 </div>
 
 <div class="doc-body">
+
+  <!-- AUTHORIZED USE -->
+  <div class="section" style="background:#0e0a07;border:1px solid #3a2a1a;padding:1.5rem 2rem;margin-bottom:1.5rem;position:relative">
+    <div style="position:absolute;top:-.6rem;left:1rem;background:#3a2a1a;color:#c8a06a;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;padding:.2rem .8rem;font-weight:700">AUTHORIZED USE &amp; RF ETHICS</div>
+    <p style="font-family:var(--font-ui);font-size:.9rem;color:var(--text-dim);line-height:1.8;margin:.75rem 0 0">Pisces Moon OS is intended for authorized RF research, field diagnostics, resilience testing, security education, and operator-owned infrastructure analysis. It collects ambient wireless metadata such as SSIDs, BSSIDs, BLE advertisements, RSSI, channel, timestamp, and GPS correlation. It does not decrypt protected traffic, bypass authentication, or access private network contents. Stealth, cover, and Ghost Partition features are documented as architectural research into operator safety, coercion resistance, and sensitive-data minimization — not as authorization to collect where prohibited. Operators are responsible for compliance with applicable laws in their jurisdiction.</p>
+  </div>
 
   <!-- 0. OPERATIONAL OBSCURITY -->
   <div class="section" style="background:#0a0807;border:1px solid var(--amber-dim);padding:2rem;margin-bottom:2rem;position:relative">
@@ -232,7 +238,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.5rem 0">
       <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
         <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STANDALONE MODE</div>
-        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">T-Deck Plus → Full Pisces Moon OS → Operator. All 47 applications. Ghost Engine wardriving Core 0. Ghost Partition with Nuke. Local AI inference. LoRa mesh radio. GPS. No external dependency at any layer.</p>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">T-Deck Plus → Full Pisces Moon OS → Operator. All 47 applications. Ghost Engine wardriving Core 0. Ghost Partition with Nuke. Direct Gemini API integration with operator-provided key — no Fluid Fortune intermediary, no data egress beyond the operator's own API call. LoRa mesh radio. GPS. No external dependency at any layer.</p>
       </div>
       <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
         <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">EDGE NODE MODE</div>
@@ -266,7 +272,7 @@
   <!-- II. FIVE SYSTEMS -->
   <div class="section">
     <div class="section-num">II</div>
-    <h2 class="section-title">FIVE SYSTEMS BEING OBLITERATED</h2>
+    <h2 class="section-title">FIVE ASSUMPTIONS BEING DISPROVED</h2>
 
     <p>The current technology industry runs on five interlocking assumptions. Each benefits the industry's incumbents. Each is wrong. Pisces Moon OS breaks all five simultaneously.</p>
 
@@ -320,7 +326,7 @@
 
     <div class="callout">
       <div class="callout-label">TARGET 1 — T-DECK PLUS ($50) — FIELD INTELLIGENCE DEVICE</div>
-      <p>The LilyGO T-Deck Plus — ESP32-S3 at 240MHz, 8MB PSRAM, QWERTY keyboard, LoRa radio, GPS, WiFi, Bluetooth LE, I2S audio, MicroSD storage. Retail price: $50. Running Pisces Moon OS v1.0.1 "The Arsenal" with two inventions that did not exist for this hardware class. <strong>The Ghost Engine</strong> runs on Core 0 continuously — wardriving, BLE scanning, GPS logging — always, regardless of what the operator is doing on Core 1. <strong>The SPI Bus Treaty</strong> is the architectural standard that makes the Ghost Engine possible: the first formal behavioral protocol for shared-bus arbitration on the ESP32-S3. 47 built-in applications, ELF module runtime for SD card app deployment without reflashing, Ghost Partition security with sub-millisecond data destruction.</p>
+      <p>The LilyGO T-Deck Plus — ESP32-S3 at 240MHz, 8MB PSRAM, QWERTY keyboard, LoRa radio, GPS, WiFi, Bluetooth LE, I2S audio, MicroSD storage. Retail price: $50. Running Pisces Moon OS v1.0.1 "The Arsenal" with two inventions that did not exist for this hardware class. <strong>The Ghost Engine</strong> runs on Core 0 continuously — wardriving, BLE scanning, GPS logging — always, regardless of what the operator is doing on Core 1. <strong>The SPI Bus Treaty</strong> is the architectural standard that makes the Ghost Engine possible: the first known documented formal behavioral protocol for shared-bus arbitration on the ESP32-S3. 47 built-in applications, ELF module runtime for SD card app deployment without reflashing, Ghost Partition security with sub-millisecond data destruction.</p>
     </div>
 
     <div class="table-wrap">
@@ -333,7 +339,7 @@
           <tr><td>LoRa mesh radio</td><td>Native, infrastructure-free</td><td>Rare, usually external module</td></tr>
           <tr><td>Passive wardriving</td><td>Continuous, Core 0, background</td><td>Separate device + manual operation</td></tr>
           <tr><td>GPS + RF correlation</td><td>Continuous, automatic</td><td>Separate device or application</td></tr>
-          <tr><td>Local AI inference</td><td>On-device, no API, no data egress</td><td>Cloud-dependent in all commercial units</td></tr>
+          <tr><td>AI integration</td><td>Direct Gemini API, operator-provided key, no intermediary; Lighthouse path uses operator's own subscription session</td><td>Cloud-dependent, vendor-controlled in all commercial units</td></tr>
           <tr><td>Security partitioning</td><td>Hardware-level PIN-gated, Nuke fn.</td><td>Software-level at best</td></tr>
           <tr><td>App deployment</td><td>ELF modules via SD card, no reflash</td><td>Full reflash required</td></tr>
           <tr><td>Combined capability</td><td>One device, $50–$350 hardware</td><td>Three+ devices, $1,500+</td></tr>
@@ -390,6 +396,11 @@
     <div class="section-num">IV</div>
     <h2 class="section-title">THE ENGINEERING: SIX NOVEL PROBLEMS SOLVED</h2>
 
+    <div class="callout" style="border-color:var(--accent);background:#100d08;margin-bottom:1.75rem">
+      <div class="callout-label">THE TECHNICAL CONTRIBUTION</div>
+      <p><strong>Six hardware/software failure modes discovered under real field conditions, solved, documented, and published as reusable architecture.</strong> None had prior documented solutions for the ESP32-S3 hardware class. All six are now in the public technical record, verifiable against the public codebase at github.com/FluidFortune/pisces-moon-os. Any developer building concurrent multi-subsystem software on this hardware class starts from a documented foundation rather than rediscovering these problems from scratch.</p>
+    </div>
+
     <p>The platform's credibility rests on its having actually been built and validated on physical hardware under real-world conditions. The following six engineering problems were encountered during development and solved — <strong>none had documented solutions for the ESP32-S3 hardware platform prior to this project.</strong> These are problems that did not exist in the literature because no previous software on this hardware was complex enough to trigger them.</p>
 
     <p>Two inventions define this project. <strong>The Ghost Engine</strong> — the persistent Core 0 intelligence collection process that is the entire reason this OS exists — and <strong>the SPI Bus Treaty</strong> — the named architectural standard that makes the Ghost Engine possible on shared-bus hardware. The Ghost Engine is the operational paradigm. The Treaty is the engineering standard that enables it. Every other engineering decision in this OS exists in service of one guarantee: the Ghost Engine never stops.</p>
@@ -404,11 +415,11 @@
       <p>The failure mode does not present as a bus conflict. The Guru Meditation dump points at a memory address identifying where the crash occurred — not why. The address changes between crashes because the timing of the collision is non-deterministic. This problem had no documented solution because no previous ESP32-S3 project had operated both devices under simultaneous sustained load.</p>
       <div class="solution">
         <div class="solution-label">THE INVENTION: THE SPI BUS TREATY</div>
-        <p>The SPI Bus Treaty is not a bug fix. It is a named architectural standard — the first formal behavioral protocol governing shared-bus arbitration on the ESP32-S3 hardware class. It did not exist before this project. It now belongs to the public technical literature.</p>
+        <p>The SPI Bus Treaty is not a bug fix. It is a named architectural standard — the first known documented formal behavioral protocol governing shared-bus arbitration on the ESP32-S3 hardware class. It did not exist before this project. It now belongs to the public technical literature.</p>
         <p>The Treaty consists of four rules that all OS components and all third-party ELF module developers must follow: <strong>Hit and run</strong> — open, write, close, release the bus immediately, no exceptions. <strong>No extended holds</strong> — no operation may hold the SPI bus for extended periods under any circumstances. <strong>Radio traffic management</strong> — a shared boolean flag coordinates WiFi radio access between the Ghost Engine and the AI client. <strong>Metadata-only destructive operations</strong> — the Nuke security function deletes index files in milliseconds rather than formatting the card over seconds.</p>
         <p>These are not workarounds. They are laws. Every component in the OS is written to obey them. Every ELF module developer who builds for this platform is required to obey them. The Treaty is the reason Core 0 never stops — it is the architectural guarantee that makes persistent dual-core background tasking possible on shared-bus hardware.</p>
         <p>The historical precedent is instructive: Unix filesystem locking conventions (1970s) established formal rules for competing processes sharing a filesystem. The Apollo Guidance Computer's priority scheduling protocol (1969) established formal rules for competing tasks sharing a processor under load. Nintendo's N64 RSP time budget (1996) established formal rules for competing subsystems sharing a signal processor. In each case, the solution was not a patch — it was a protocol. A named standard. A thing that could be taught, documented, and enforced across an entire platform.</p>
-        <p><strong>The SPI Bus Treaty is that standard for the ESP32-S3. It is the first documented instance of this solution class applied to this hardware architecture. Any developer who builds concurrent multi-subsystem software on the ESP32-S3 and encounters this problem now has a reference. They did not have one before.</strong></p>
+        <p><strong>The SPI Bus Treaty is that standard for the ESP32-S3. It is the first known documented instance of this solution class applied to this hardware architecture. Any developer who builds concurrent multi-subsystem software on the ESP32-S3 and encounters this problem now has a reference. They did not have one before.</strong></p>
       </div>
     </div>
 
@@ -479,7 +490,7 @@
       <p>Silent failure without error output is the hardest category of embedded hardware problem to diagnose. The code is syntactically correct, compiles without warnings, executes without exceptions. Arriving at the hardware variation hypothesis requires eliminating every other possible cause first — a hypothesis that is difficult to generate without prior knowledge that this type of manufacturing variation occurs.</p>
       <div class="solution">
         <div class="solution-label">THE SOLUTION: BAUD RATE AUTO-DETECTION</div>
-        <p>An auto-detection system attempts GPS initialization at each supported baud rate in sequence, checks for valid NMEA sentence structure at each rate, and latches to the first configuration that produces valid output. Handles any future baud rate variants without requiring code changes. This is the first documented solution to the T-Deck Plus GPS baud rate variation problem.</p>
+        <p>An auto-detection system attempts GPS initialization at each supported baud rate in sequence, checks for valid NMEA sentence structure at each rate, and latches to the first configuration that produces valid output. Handles any future baud rate variants without requiring code changes. This is the first known documented solution to the T-Deck Plus GPS baud rate variation problem.</p>
       </div>
     </div>
 
@@ -524,7 +535,7 @@
 
     <p>Every technical decision in Pisces Moon OS is an expression of a single principle: that computing sovereignty — the condition in which the compute belongs to the person running it — is more valuable than any feature a cloud vendor can offer.</p>
 
-    <p>The SPI Bus Treaty exists so that LoRa communications and SD card logging can coexist without crashing — because a device that can only do one thing at a time is not sovereign, it is limited. The Ghost Partition exists so that sensitive data is invisible without authentication — because data you cannot protect is not yours. The ELF module runtime exists so that new applications can be deployed without vendor permission — because a device you cannot extend without someone else's approval is not yours. The local AI inference exists so that queries do not leave the hardware — because intelligence that passes through someone else's infrastructure is not intelligence, it is a liability.</p>
+    <p>The SPI Bus Treaty exists so that LoRa communications and SD card logging can coexist without crashing — because a device that can only do one thing at a time is not sovereign, it is limited. The Ghost Partition exists so that sensitive data is invisible without authentication — because data you cannot protect is not yours. The ELF module runtime exists so that new applications can be deployed without vendor permission — because a device you cannot extend without someone else's approval is not yours. The Gemini API integration exists so that AI queries route directly from the device to the operator's own API key — no Fluid Fortune intermediary, no vendor logging of operator queries. The Lighthouse path routes queries through the operator's own subscription session. In both cases: the intelligence stays on the operator's side of the wire.</p>
 
     <p>Computing sovereignty is not a privacy argument, though privacy follows from it. It is not a security argument, though security follows from it. It is not a cost argument, though cost reduction follows from it. It is the foundational claim that the person using the compute should be the person in control of the compute. Everything else is a consequence of that claim.</p>
 
@@ -585,7 +596,7 @@
 
     <h3 class="subsection-title">THE ECONOMIC ARGUMENT</h3>
 
-    <p>The comparable enterprise capability — a ruggedized edge device with integrated radio (WiFi, BLE, LoRa, GPS), a companion compute platform, native application deployment infrastructure, a local AI inference layer, and engineering time to solve the documented architectural problems from scratch — costs between $5,000 and $50,000 per deployment depending on tier, vendor, and support contract.</p>
+    <p>The comparable enterprise capability — a ruggedized edge device with integrated radio (WiFi, BLE, LoRa, GPS), a companion compute platform, native application deployment infrastructure, a direct AI integration layer, and engineering time to solve the documented architectural problems from scratch — costs between $5,000 and $50,000 per deployment depending on tier, vendor, and support contract.</p>
 
     <p>The Fluid Fortune stack costs $144-250 in hardware. The software is AGPL-3.0 with commercial licensing available. The engineering problems are solved and documented. The prior art is timestamped. The code is public.</p>
 
@@ -602,6 +613,35 @@
     <p>The hardware is already out there. The software is now documented. The architecture is proven. The question is whether the industry is willing to ask its existing hardware the right questions.</p>
 
     <p>Pisces Moon OS asked. Core 0 answered.</p>
+  </div>
+
+  <!-- LIVE DEMONSTRATION PLAN -->
+  <div class="section" style="background:#07080f;border:1px solid #1f2a4a;padding:2rem;margin-bottom:2rem;position:relative">
+    <div style="position:absolute;top:-.6rem;left:1rem;background:#1f4788;color:#fff;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;padding:.2rem .8rem;font-weight:700">LIVE DEMONSTRATION PLAN</div>
+    <h2 class="section-title" style="color:#7ba7e8;margin-top:.5rem">WHAT THE HARDWARE DOES ON STAGE</h2>
+
+    <p>The live talk demonstrates the claim directly. The T-Deck Plus boots with the Ghost Engine running on Core 0 before the presentation begins. No setup is required during the talk — the device arrives collecting.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0">
+      <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STEP 1 — GHOST ENGINE PROOF</div>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">Core 0 wardrive count and BLE device count increment visibly in the thin status bar while Core 1 runs a foreground application — Snake, Chess, or the file browser. The operator switches apps. The count continues. This is the primary claim made visible.</p>
+      </div>
+      <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STEP 2 — AI TERMINAL</div>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">The Gemini terminal on Core 1 sends a query and receives a response while the Ghost Engine continues on Core 0. Two simultaneous workloads. One device. Neither interrupts the other.</p>
+      </div>
+      <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STEP 3 — GHOST PARTITION / NUKE</div>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">Ghost Partition authentication and the Nuke function demonstrated using synthetic demo data. The destruction completes in milliseconds. The data is unreachable through any OS interface immediately after.</p>
+      </div>
+      <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STEP 4 — BRIDGE STREAM</div>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">Pisces Bridge stream from the T-Deck feeding live data to a host interface. RF detections as events in real time. The edge node architecture made visible: device collects, host receives, both are operator-controlled.</p>
+      </div>
+    </div>
+
+    <p style="font-family:var(--font-mono);font-size:.7rem;color:#3a5a8a;letter-spacing:.05em;border-top:1px solid var(--border);padding-top:1rem;margin-top:.5rem"><strong style="color:#7ba7e8">FAILURE MODE:</strong> If RF conditions or conference hardware policy limit live collection, the same firmware replays a captured field session while the architecture, source code, and live device state remain inspectable on stage. The code is public and verifiable at any point during or after the talk.</p>
   </div>
 
   <!-- CLOSING -->
