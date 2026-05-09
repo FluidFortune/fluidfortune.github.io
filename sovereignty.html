@@ -181,7 +181,7 @@
 <div style="max-width:var(--max-w);margin:0 auto;padding:2rem 1.5rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#0a1410 0%,#0f1a14 100%)">
   <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:var(--green-dim);margin-bottom:.75rem">▶ LIVE WEB DEMO — NO HARDWARE REQUIRED</div>
   <h3 style="font-family:var(--font-disp);font-size:1.15rem;color:#fff;font-weight:900;letter-spacing:.04em;margin-bottom:.75rem">Try Pisces Moon OS in Your Browser</h3>
-  <p style="font-family:var(--font-ui);font-size:.88rem;color:var(--text-dim);line-height:1.75;margin-bottom:1rem">A working interactive demo of Pisces Moon OS runs in any modern browser. The same HTML/JS application layer that powers the T-Deck Plus interface, deployed standalone — 47 apps, the Ghost Engine simulator, the AI terminal, and a hardware bridge mode that connects via USB to a real T-Deck running Pisces Moon OS for live device data. Bring your own free Gemini API key (1,500 requests/day, no credit card) for live AI; without one, the terminal returns pre-written demo responses. The same code runs on the device, in the browser, and inside Trojan Horse as a native application.</p>
+  <p style="font-family:var(--font-ui);font-size:.88rem;color:var(--text-dim);line-height:1.75;margin-bottom:1rem">A working interactive demo of Pisces Moon OS runs in any modern browser. The same HTML/JS application layer that powers the T-Deck Plus interface, deployed standalone — 47 apps in the T-Deck simulator, the Ghost Engine simulator, the AI terminal, and a hardware bridge mode that connects via USB to a real T-Deck running Pisces Moon OS for live device data including GPS-tagged wardrive, BLE, and promiscuous-mode 802.11 frames. Bring your own free Gemini API key (1,500 requests/day, no credit card) for live AI; without one, the terminal returns pre-written demo responses. The same code runs on the device, in the browser, and inside Trojan Horse as a native application.</p>
   <a href="https://piscesdemo.fluidfortune.com" style="display:inline-block;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;color:#0a1410;background:var(--green);padding:.6rem 1.2rem;text-decoration:none;font-weight:700;border:1px solid var(--green)" target="_blank" rel="noopener">▶ LAUNCH DEMO — piscesdemo.fluidfortune.com</a>
   <p style="font-family:var(--font-mono);font-size:.55rem;color:var(--text-muted);letter-spacing:.1em;margin-top:1rem">CHROME / EDGE FOR USB DEVICE BRIDGE — ANY MODERN BROWSER FOR DEMO MODE</p>
 </div>
@@ -238,7 +238,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.5rem 0">
       <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
         <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">STANDALONE MODE</div>
-        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">T-Deck Plus → Full Pisces Moon OS → Operator. All 47 applications. Ghost Engine wardriving Core 0. Ghost Partition with Nuke. Direct Gemini API integration with operator-provided key — no Fluid Fortune intermediary, no data egress beyond the operator's own API call. LoRa mesh radio. GPS. No external dependency at any layer.</p>
+        <p style="font-size:.85rem;line-height:1.7;color:var(--text-dim);margin:0">T-Deck Plus → Full Pisces Moon OS → Operator. All 47 applications (T-Deck firmware). Ghost Engine wardriving Core 0. Ghost Partition with Nuke. Direct Gemini API integration with operator-provided key — no Fluid Fortune intermediary, no data egress beyond the operator's own API call. LoRa mesh radio. GPS. No external dependency at any layer.</p>
       </div>
       <div style="background:#050810;border:1px solid #1f2a4a;padding:1.25rem">
         <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#7ba7e8;margin-bottom:.75rem">EDGE NODE MODE</div>
@@ -349,7 +349,7 @@
 
     <div class="callout">
       <div class="callout-label">TARGET 2 — LINUX ON OBSOLETE x86/ARM (FREE) — ANALYSIS WORKSTATION</div>
-      <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Primary target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation — 76 applications across 11 categories — with native integration of the T-Deck Plus as a dedicated radio coprocessor via the Bridge App protocol.</p>
+      <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Primary target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation — 77 applications across 11 categories — with native integration of the T-Deck Plus as a dedicated radio coprocessor via the Bridge App protocol.</p>
       <p>The enterprise pitch is exact: Pisces Moon Linux turns hardware you have already purchased, already depreciated, and already written off into a functional security analysis workstation. Your sunk cost is paid. The software is free. Your hardware refresh cycle just extended by five years.</p>
       <p>Applications run as single-file HTML/CSS/JavaScript tools requiring no installation beyond a browser. On constrained Atom-class hardware, this matters. The dominant alternative for cross-platform desktop apps is Electron, which ships a full Chromium browser and Node.js runtime with every application:</p>
     </div>
@@ -497,6 +497,54 @@
     </div>
 
     <blockquote>All six problems were always present in the hardware. They were discovered because this project was the first software on this hardware class complex enough to trigger them. The solutions are now part of the project's public technical documentation — a reference standard for any developer building on this platform.</blockquote>
+  </div>
+
+  <!-- IV.5 THE HOST BRIDGE -->
+  <div class="section" style="background:#060a06;border:1px solid #1a2e1a;padding:2rem;margin-bottom:2rem;position:relative">
+    <div style="position:absolute;top:-.6rem;left:1rem;background:#2d5a2d;color:#aee8ae;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;padding:.2rem .8rem;font-weight:700">HOST INTELLIGENCE LAYER</div>
+    <div class="section-num" style="color:#5a8a5a">IV.5</div>
+    <h2 class="section-title" style="color:#7aba7a">PM_BRIDGE.PY — THE HOST INTELLIGENCE DAEMON</h2>
+
+    <p>The T-Deck Plus is the field device. pm_bridge.py is what turns any laptop, tablet, or Android phone into the analysis workstation that receives it.</p>
+
+    <p>pm_bridge.py is a 2,754-line Python daemon — no external dependencies beyond pyserial and websockets — that runs on macOS, Linux, Windows, and Android (via Termux). It serves as the hardware abstraction layer for the 77-application HTML suite, unifying three data sources into one JSON protocol over <code>ws://127.0.0.1:8080</code>:</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0">
+      <div style="background:#050a05;border:1px solid #1a2e1a;padding:1rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#5a8a5a;margin-bottom:.5rem">SOURCE 1</div>
+        <div style="font-family:var(--font-mono);font-size:.75rem;color:#aee8ae;margin-bottom:.5rem">T-DECK / T-BEAM</div>
+        <p style="font-size:.8rem;color:var(--text-dim);margin:0">USB Serial at 921600 baud. GPS-tagged WiFi, BLE, probe requests, LoRa mesh links, and promiscuous-mode 802.11 frames streamed as JSON events. Richest data source — GPS correlation, monitor mode, LoRa.</p>
+      </div>
+      <div style="background:#050a05;border:1px solid #1a2e1a;padding:1rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#5a8a5a;margin-bottom:.5rem">SOURCE 2</div>
+        <div style="font-family:var(--font-mono);font-size:.75rem;color:#aee8ae;margin-bottom:.5rem">HOST OS RADIOS</div>
+        <p style="font-size:.8rem;color:var(--text-dim);margin:0">macOS CoreWLAN + CoreBluetooth, Linux nmcli/bluetoothctl, Windows netsh, Android termux-wifi-scaninfo. No T-Deck required for basic WiFi and BLE intelligence — the operator's own machine is the sensor.</p>
+      </div>
+      <div style="background:#050a05;border:1px solid #1a2e1a;padding:1rem">
+        <div style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.2em;color:#5a8a5a;margin-bottom:.5rem">SOURCE 3</div>
+        <div style="font-family:var(--font-mono);font-size:.75rem;color:#aee8ae;margin-bottom:.5rem">77 HTML APPS</div>
+        <p style="font-size:.8rem;color:var(--text-dim);margin:0">WebSocket clients. Apps never need to know whether data came from the T-Deck's GPS-tagged radio or the host machine's own WiFi adapter. The bridge abstracts the source. The app just receives events.</p>
+      </div>
+    </div>
+
+    <p>All three sources are unified. The 77 HTML apps never know or care whether data came from a T-Deck in the field, a Pisces Bridge sensor, or the host machine's own radio. The bridge abstracts the hardware. The apps receive a consistent event stream.</p>
+
+    <div class="problem-block">
+      <div class="problem-block-label">WiGLE 1.4 FORMAT — FIELD SESSIONS ARE PORTABLE</div>
+      <p>Wardrive output from pm_bridge.py is written in WiGLE 1.4 CSV format — the dominant wardriving database standard. Field sessions can be submitted to WiGLE directly, imported into any WiGLE-compatible analysis tool, or kept local. The operator owns the data and chooses what to do with it. Pisces Moon produces the format. Submission to a third-party database is never required.</p>
+    </div>
+
+    <div class="problem-block">
+      <div class="problem-block-label">.PMSESSION BUNDLE — PORTABLE FIELD SESSIONS</div>
+      <p>At the end of a field session, pm_bridge.py bundles all CSV logs (wardrive, BLE, probe requests, LoRa mesh links) plus a manifest.json into a <code>.pmsession</code> ZIP archive. A session from a T-Deck field operation can be transferred to a Linux analysis workstation and opened in Spadra Smelter for post-processing. The data pipeline is complete: collect in the field, analyze on the workstation, all operator-controlled.</p>
+    </div>
+
+    <div class="problem-block">
+      <div class="problem-block-label">PROMISCUOUS MODE — 802.11 FRAME CAPTURE</div>
+      <p>When a T-Deck Plus running Pisces Moon OS is connected, pm_bridge.py can command the device into promiscuous (monitor) mode via the bridge protocol. Raw 802.11 management frames — beacons, probe requests, deauthentication frames, association responses — stream to the host at 921600 baud. The baud rate is not negotiable: 115200 saturates at approximately 58 frames per second. Deauth flood detection triggers automatically when more than ten deauthentication frames arrive within 60 seconds.</p>
+    </div>
+
+    <p style="font-family:var(--font-mono);font-size:.7rem;color:#3a5a3a;letter-spacing:.05em;border-top:1px solid var(--border);padding-top:1rem;margin-top:1.5rem">pm_bridge.py v1.2 · 2,754 lines · Python 3 · macOS / Linux / Windows / Android · pyserial + websockets · No other dependencies. Start with <code>python3 pm_bridge.py</code>.</p>
   </div>
 
   <!-- V. TWO MARKETS -->
