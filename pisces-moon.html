@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pisces Moon OS | Fluid Fortune</title>
-  <meta name="description" content="The Ghost Engine never stops. The SPI Bus Treaty is why. Two inventions. One $50 device. Computing sovereignty on the ESP32-S3.">
+  <title>Pisces Moon OS | Sovereign Computing on $50 Hardware</title>
+  <meta name="description" content="Pisces Moon OS v1.1.1 — the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. Ghost Engine. SPI Bus Treaty. 47 firmware apps. 77 HTML apps. Five deployment targets. Lety IDE. $144 total hardware cost.">
   <link rel="canonical" href="https://fluidfortune.com/pisces-moon.html">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fluidfortune.com/pisces-moon.html">
-  <meta property="og:title" content="Pisces Moon OS — Computing Sovereignty on $50 Hardware">
-  <meta property="og:description" content="The Ghost Engine never stops. The SPI Bus Treaty is why. Two inventions that didn't exist before this project, on a $50 device.">
+  <meta property="og:title" content="Pisces Moon OS | Sovereign Computing on $50 Hardware">
+  <meta property="og:description" content="Pisces Moon OS v1.1.1 — the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. Ghost Engine. SPI Bus Treaty. 47 firmware apps. 77 HTML apps. Five deployment targets. Lety IDE. $144 total hardware cost.">
   <meta property="og:image" content="https://fluidfortune.com/piscesmoon.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -161,7 +161,7 @@
     <h1>PISCES <span>MOON</span></h1>
     <div class="hero-tagline">A SOVEREIGN COMPUTING PLATFORM — FROM A $50 POCKET DEVICE TO YOUR OBSOLETE TABLET</div>
     <div class="hero-badges">
-      <span class="badge badge-ver">v1.0.1 "THE ARSENAL"</span>
+      <span class="badge badge-ver">v1.1.1 "THE ARSENAL"</span>
       <span class="badge badge-live">● 5 DEPLOYMENT TARGETS</span>
       <span class="badge badge-agpl">AGPL-3.0</span>
       <span class="badge badge-ver">$50 — $350 HARDWARE</span>
@@ -171,6 +171,8 @@
       <a href="https://lety.fluidfortune.com" class="btn btn-primary" target="_blank" rel="noopener" style="background:var(--amber);color:#0a0807">⚡ OPEN LETY IDE</a>
       <a href="https://github.com/FluidFortune/pisces-moon-os" class="btn btn-sec" target="_blank" rel="noopener">FIRMWARE REPO</a>
       <a href="https://github.com/FluidFortune/pisces-moon-linux" class="btn btn-sec" target="_blank" rel="noopener">LINUX/ANDROID REPO</a>
+      <a href="https://github.com/FluidFortune/emulator" class="btn btn-sec" target="_blank" rel="noopener">EMULATOR REPO</a>
+      <a href="https://github.com/FluidFortune/pisces-bridge" class="btn btn-sec" target="_blank" rel="noopener">BRIDGE REPO</a>
       <a href="sovereignty.html" class="btn btn-sec">WHITE PAPER</a>
       <a href="#architecture" class="btn btn-ghost">LEARN MORE ↓</a>
     </div>
@@ -222,7 +224,7 @@
         <div class="tier-num">TARGET 3</div>
         <div class="tier-title">ANDROID APK</div>
         <div class="tier-price">YOUR PHONE — FREE</div>
-        <div class="tier-desc">The same 76-application HTML suite wraps as a native Android APK. The wardrive runs as a background service while the operator uses the phone normally — the OS handles concurrent processes natively. Swipe out of Pisces Moon, the phone looks like a phone again. The most effective operational cover available: the device everyone already trusts and ignores.</div>
+        <div class="tier-desc">The same 77-application HTML suite wraps as a native Android APK. The wardrive runs as a background service while the operator uses the phone normally — the OS handles concurrent processes natively. Swipe out of Pisces Moon, the phone looks like a phone again. The most effective operational cover available: the device everyone already trusts and ignores.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 4</div>
@@ -315,6 +317,12 @@
         <a href="https://github.com/FluidFortune/pisces-moon-linux" class="repo-link" target="_blank" rel="noopener">github.com/FluidFortune/pisces-moon-linux →</a>
       </div>
       <div class="repo-card">
+        <div class="repo-name">PISCES MOON EMULATOR</div>
+        <div class="repo-sub">BROWSER EMULATOR — T-DECK PLUS &amp; KODE DOT</div>
+        <div class="repo-desc">A browser-based emulator for the full Pisces Moon environment, targeting both T-Deck Plus and Kode Dot hardware. Try the OS without flashing a device. Live at piscesdemo.fluidfortune.com — three modes: pre-written demo, live AI with your free Gemini key, and hardware bridge mode for connected device data.</div>
+        <a href="https://github.com/FluidFortune/emulator" class="repo-link" target="_blank" rel="noopener">github.com/FluidFortune/emulator →</a>
+      </div>
+      <div class="repo-card">
         <div class="repo-name">LETY — PISCES MOON IDE</div>
         <div class="repo-sub">BROWSER IDE WITH CLOUD BUILD &amp; WEB SERIAL FLASH</div>
         <div class="repo-desc">The complete developer environment for Pisces Moon, in your browser. Monaco editor with API autocomplete. Live preview emulator. 13 templates including Wardriver (full SPI Bus Treaty), Mesh Messenger, Bridge App extension, and D-pad App (compiles for both T-Deck Plus and Kode Dot). Cloud build via PlatformIO. Web Serial flash directly to your T-Deck — no toolchain install required. Live at lety.fluidfortune.com.</div>
@@ -326,13 +334,19 @@
         <div class="repo-desc">The host-side bridge daemon that unifies T-Deck radio data, host OS WiFi/BLE (CoreWLAN, nmcli, netsh, termux), and the 77-app HTML suite into one WebSocket protocol. WiGLE 1.4 compatible wardrive CSV output. .pmsession portable session bundles. Promiscuous mode 802.11 frame capture. macOS, Linux, Windows, Android. Ships with pisces-moon-linux repo. Start with <code>python3 pm_bridge.py</code>.</div>
         <a href="https://github.com/FluidFortune/pisces-moon-linux" class="repo-link" target="_blank" rel="noopener">github.com/FluidFortune/pisces-moon-linux →</a>
       </div>
+      <div class="repo-card">
+        <div class="repo-name">PISCES BRIDGE</div>
+        <div class="repo-sub">FIRMWARE — TURNS ANY ESP32 INTO A SENSOR</div>
+        <div class="repo-desc">Firmware that turns any ESP32 dev board into a Pisces Bridge sensor — streaming WiFi, BLE, LoRa, and GPS detections live over USB to any host. Bridges don't log; they stream. The host owns persistence. Generic ESP32/ESP32-S3 firmware ($5-15) and full T-Beam Supreme S3 firmware (~$60) with WiFi, BLE, LoRa, GPS, and OLED. JSON over USB Serial. Forward-compatible protocol. Multiple bridges, one host.</div>
+        <a href="https://github.com/FluidFortune/pisces-bridge" class="repo-link" target="_blank" rel="noopener">github.com/FluidFortune/pisces-bridge →</a>
+      </div>
     </div>
   </div>
 
   <!-- CTA -->
   <div class="cta-block">
     <div class="cta-title">READ THE SOVEREIGNTY WHITE PAPER</div>
-    <p class="cta-desc">The full technical and philosophical documentation. Five industry assumptions being obliterated. Six novel engineering problems documented. Two markets, one platform. All claims verifiable.</p>
+    <p class="cta-desc">The full technical and philosophical documentation. Five industry assumptions being disproved. Six novel engineering problems documented. Two markets, one platform. All claims verifiable.</p>
     <div class="cta-links">
       <a href="sovereignty.html" class="btn btn-primary">READ THE WHITE PAPER →</a>
       <a href="https://github.com/FluidFortune/pisces-moon-os" class="btn btn-sec" target="_blank" rel="noopener">VIEW SOURCE CODE</a>
