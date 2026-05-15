@@ -45,7 +45,7 @@
 
     /* HERO */
     .hero{position:relative;overflow:hidden;min-height:70vh;display:flex;align-items:center;justify-content:center}
-    .hero-bg{position:absolute;inset:0;background-image:url('piscesmoon.jpeg');background-size:cover;background-position:center top;filter:brightness(.45) saturate(1.2)}
+    .hero-bg{position:absolute;inset:0;background-image:url('pisces-moon-field.jpeg');background-size:cover;background-position:center center;filter:brightness(.35) saturate(1.1)}
     .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,10,5,.3) 0%,rgba(5,10,5,.6) 60%,var(--deep) 100%)}
     .hero-inner{position:relative;z-index:2;text-align:center;padding:4rem 1.5rem 5rem;max-width:var(--max-w);margin:0 auto}
     .hero-kicker{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.25em;color:var(--amber-dim);margin-bottom:1rem;animation:fadeIn .6s ease both}
@@ -159,7 +159,7 @@
   <div class="hero-inner">
     <div class="hero-kicker">FLUID FORTUNE — ORIGIN PROJECT</div>
     <h1>PISCES <span>MOON</span></h1>
-    <div class="hero-tagline">A SOVEREIGN COMPUTING PLATFORM — FROM A $50 POCKET DEVICE TO YOUR OBSOLETE TABLET</div>
+    <div class="hero-tagline">TWO DEVICES. ONE OS. DOWNTOWN LOS ANGELES. MAY 15, 2026.</div>
     <div class="hero-badges">
       <span class="badge badge-ver">v1.1.1 "THE ARSENAL"</span>
       <span class="badge badge-live">● 5 DEPLOYMENT TARGETS</span>
@@ -181,6 +181,18 @@
 
 <div class="main">
 
+  <!-- FIELD PHOTO -->
+  <div class="section" style="padding-top:0;border-top:none;margin-top:0">
+    <figure style="margin:0 0 0 0;background:var(--surface);border:1px solid var(--border);overflow:hidden">
+      <img src="pisces-moon-field.jpeg" alt="Two LilyGo devices running Pisces Moon OS simultaneously — T-Deck Plus and T-LoRa Pager — both wardriving in downtown Los Angeles, May 15, 2026" style="width:100%;display:block;max-height:480px;object-fit:cover;object-position:center">
+      <figcaption style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.12em;color:var(--text-muted);padding:.75rem 1rem;border-top:1px solid var(--border);background:var(--surface)">
+        T-DECK PLUS + T-LORA PAGER — BOTH RUNNING PISCES MOON OS — WARDRIVE LIVE — DOWNTOWN LOS ANGELES — MAY 15, 2026 — LAT: 34.01964 / LNG: -118.22242 — SESSION 83
+      </figcaption>
+    </figure>
+  </div>
+
+
+
   <!-- THE PITCH -->
   <div class="section" id="architecture">
     <div class="section-label">WHAT IT IS</div>
@@ -200,55 +212,67 @@
     </div>
   </div>
 
-  <!-- FIVE DEPLOYMENT TARGETS -->
+  <!-- DEPLOYMENT TARGETS -->
   <div class="section">
     <div class="section-label">ARCHITECTURE</div>
-    <h2 class="section-title">ONE PLATFORM. FIVE DEPLOYMENT TARGETS.</h2>
+    <h2 class="section-title">ONE PLATFORM. MULTIPLE DEPLOYMENT TARGETS.</h2>
 
-    <p>The Ghost Engine and the SPI Bus Treaty are the engineering achievements of the T-Deck Plus firmware — and they remain the technical foundation of everything Pisces Moon does. But the platform extends beyond the original device. The same application architecture, the same Clark Beddows Protocol, the same sovereignty principle now runs on five different hardware classes — from a $50 pocket device to an Android phone you already own.</p>
+    <p>As of May 15, 2026, Pisces Moon OS runs on two LilyGo devices simultaneously in the field. The same firmware. The same Ghost Engine. The same SPI Bus Treaty. Different hardware. One platform. The photo above was taken this morning — both devices wardriving in downtown Los Angeles, session 83.</p>
 
     <div class="tiers">
       <div class="tier-card">
-        <div class="tier-num">TARGET 1</div>
+        <div class="tier-num">TARGET 1A</div>
         <div class="tier-title">T-DECK PLUS</div>
-        <div class="tier-price">$50 — $350 — FIELD INTELLIGENCE</div>
-        <div class="tier-desc">LilyGO T-Deck Plus running Pisces Moon OS firmware. The origin device. Dual-core architecture, Ghost Engine on Core 0, 47 apps, Ghost Partition security with sub-millisecond Nuke, ELF module runtime, LoRa mesh radio, GPS, local AI inference. The SPI Bus Treaty makes it all run concurrently. This is where the inventions live.</div>
+        <div class="tier-price">$50 — $350 — ORIGIN DEVICE</div>
+        <div class="tier-desc">The device that started it all. LilyGO T-Deck Plus — ESP32-S3, QWERTY keyboard, trackball, 320×240 touchscreen, LoRa SX1262, GPS, WiFi, BLE, MicroSD. Ghost Engine on Core 0, 47 apps, Ghost Partition with sub-millisecond Nuke, ELF module runtime. This is where the SPI Bus Treaty was invented. Session 83 running as of May 15, 2026.</div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-num">TARGET 1B</div>
+        <div class="tier-title">T-LORA PAGER</div>
+        <div class="tier-price">LILYGO ESP32-S3 — CONFIRMED RUNNING</div>
+        <div class="tier-desc">Second confirmed LilyGo device running Pisces Moon OS as of May 15, 2026. Compact form factor, QWERTY keyboard, orange function keys. Same firmware, same Ghost Engine, same SPI Bus Treaty. Both devices wardriving simultaneously: 34.01964, -118.22242. Display optimization and mesh testing this weekend.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 2</div>
         <div class="tier-title">PISCES MOON LINUX</div>
         <div class="tier-price">EXISTING HARDWARE — FREE</div>
-        <div class="tier-desc">Debian 13 + XFCE distribution targeting obsolete x86 and ARM hardware — Intel Atom tablets, Core i5 laptops from 2012–2016. 77 applications across 11 categories. The Fujitsu Stylistic Q508 ($50–100 secondary market) becomes a complete security analysis workstation. pm_bridge.py runs as the host intelligence daemon — unifying T-Deck radio data, host OS WiFi/BLE, and the 77-app HTML suite over one WebSocket protocol. WiGLE 1.4 compatible wardrive output. .pmsession portable field bundles. Native integration with the T-Deck Plus as a dedicated radio coprocessor.</div>
+        <div class="tier-desc">Debian 13 + XFCE on obsolete x86/ARM hardware. 77 HTML applications across 11 categories. pm_bridge.py as the host intelligence daemon — WiGLE 1.4 compatible wardrive output, .pmsession field bundles, promiscuous mode 802.11 capture. Fujitsu Stylistic Q508 ($50–100) becomes a complete security analysis workstation.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 3</div>
         <div class="tier-title">ANDROID APK</div>
         <div class="tier-price">YOUR PHONE — FREE</div>
-        <div class="tier-desc">The same 77-application HTML suite wraps as a native Android APK. The wardrive runs as a background service while the operator uses the phone normally — the OS handles concurrent processes natively. Swipe out of Pisces Moon, the phone looks like a phone again. The most effective operational cover available: the device everyone already trusts and ignores.</div>
+        <div class="tier-desc">77-application HTML suite as a native Android APK. Wardrive runs as a background service — Android handles concurrent processes natively without requiring a treaty. Swipe out; the phone looks like a phone. Pairs with any Tier 1 device over Web Bluetooth or USB-OTG.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 4</div>
         <div class="tier-title">LUCKFOX PICO 86 PANEL</div>
         <div class="tier-price">$30 — $50 — EMBEDDED PANEL</div>
-        <div class="tier-desc">RV1106-based embedded Linux device running Buildroot with LVGL. A dedicated panel for fixed-installation deployments — kiosk, dashboard, headless intelligence node — running the same sovereign stack as the field device. The application layer adapts to the form factor. The sovereignty principle does not.</div>
+        <div class="tier-desc">RV1106/Buildroot/LVGL. Fixed-installation deployments — kiosk, dashboard, headless intelligence node. The application layer adapts to the form factor. The sovereignty principle does not.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 5</div>
-        <div class="tier-title">M5STACK CARDPUTER</div>
-        <div class="tier-price">$30 — COMPACT FIELD DEVICE</div>
-        <div class="tier-desc">Compact ESP32-S3 device in a credit-card form factor with built-in keyboard. Same silicon class as the T-Deck Plus — the Ghost Engine architecture, the SPI Bus Treaty, and the dual-core task split carry over unchanged. Different hardware. Same protocol. The problems were already solved.</div>
+        <div class="tier-title">CARDPUTER ADV</div>
+        <div class="tier-price">ESP32-S3 — LORA/GPS HEADSTOCK PENDING</div>
+        <div class="tier-desc">Compact ESP32-S3 with built-in keyboard. LoRa/GPS headstock on order — full test late May or early June 2026. Ghost Engine, SPI Bus Treaty, dual-core split carry over unchanged. Same silicon. Same protocol. Same problems already solved.</div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-num">TARGET 6</div>
+        <div class="tier-title">ESP32-P4 (ELECROW 7")</div>
+        <div class="tier-price">FIRST BOOT MAY 13, 2026</div>
+        <div class="tier-desc">Dual RISC-V HP cores at 360MHz. Ghost Engine on dedicated C6 silicon via SDIO — not a software trick, dedicated hardware. 1024×600 MIPI-DSI. Four-core convention: Ghost Engine (C6), OS Core (HP0), UI Core (HP1), Sentinel Core (LP). UART peripheral map as the P4 treaty. 57 apps registered. Two C6 variants: stock ESP-Hosted and experimental custom firmware for promiscuous mode. Roadmap to KodeDot P4/C6 hardware confirmed.</div>
       </div>
     </div>
 
-    <blockquote style="margin-top:2rem">Sovereign by design: every target is fully functional offline, with optional networked enhancement on the operator's own terms. The operator chooses the hardware. The hardware serves the operator. No vendor — at any layer — is in the loop.</blockquote>
+    <blockquote style="margin-top:2rem">The Ghost Engine never stops. The SPI Bus Treaty is why. Two devices. Downtown Los Angeles. Session 83. May 15, 2026.</blockquote>
   </div>
 
   <!-- SIX PROBLEMS -->
   <div class="section">
     <div class="section-label">THE ENGINEERING</div>
-    <h2 class="section-title">SIX NOVEL PROBLEMS — NONE IN THE LITERATURE BEFORE THIS PROJECT</h2>
+    <h2 class="section-title">EIGHT NOVEL PROBLEMS — NONE IN THE LITERATURE BEFORE THIS PROJECT</h2>
 
-    <p>These problems did not exist in prior documentation because no previous ESP32-S3 project was complex enough to trigger them. The solutions are now the public reference standard for this hardware class.</p>
+    <p>The first six problems did not exist in prior documentation because no previous ESP32-S3 project was complex enough to trigger them. Problems seven and eight emerged during the T-LoRa Pager port — hardware-variant GPIO collisions and SPI bus state corruption that only surface when the same firmware runs on two physically different devices. All eight solutions are now the public reference standard for this hardware class. <a href="device-architecture.html" style="color:var(--amber-dim);font-family:var(--font-mono);font-size:.8em">DEVICE ARCHITECTURE REFERENCE →</a></p>
 
     <div class="problems">
       <div class="problem-item">
