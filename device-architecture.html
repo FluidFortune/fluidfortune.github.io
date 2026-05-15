@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Device Architecture | Pisces Moon OS — T-Deck Plus vs T-LoRa Pager</title>
+<meta name="description" content="Architectural comparison of the two LilyGO devices running Pisces Moon OS: T-Deck Plus and T-LoRa Pager. Same SPI Bus Treaty, same Ghost Engine, different everything else. The treaty doesn't change. The hardware around the treaty does.">
+<link rel="canonical" href="https://fluidfortune.com/device-architecture.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#050a05;--deep:#0d1117;--surface:#161b22;--border:#30363d;
+  --green:#00ff41;--green-dim:#00c032;--green-mute:#1a3a1a;
+  --amber:#ffb700;--amber-dim:#cc9200;--amber-mute:#2a1f00;
+  --blue:#58a6ff;--blue-mute:#0d1f3a;
+  --red:#ff4a4a;--red-mute:#2a0d0d;
+  --text:#e6edf3;--text-dim:#8b949e;--text-muted:#484f58;
+  --font-mono:'Share Tech Mono',monospace;
+  --font-ui:'Inter',sans-serif;
+  --font-disp:'Orbitron',monospace;
+  --max-w:940px;
+  --accent:var(--amber-dim);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--deep);color:var(--text);font-family:var(--font-ui);line-height:1.75}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(to bottom,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:9999}
+
+nav{background:var(--black);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1.5rem;position:sticky;top:0;z-index:100}
+nav a{font-family:var(--font-disp);font-size:.72rem;color:var(--green-dim);text-decoration:none;letter-spacing:.12em}
+nav a:hover{color:#fff}
+nav .sep{color:var(--text-muted);font-size:.6rem}
+nav .spacer{flex:1}
+nav .badge{font-family:var(--font-mono);font-size:.55rem;color:var(--amber-dim);border:1px solid var(--amber-mute);padding:.15rem .6rem;letter-spacing:.1em}
+
+.hero{max-width:var(--max-w);margin:0 auto;padding:4rem 1.5rem 2.5rem;border-bottom:1px solid var(--border)}
+.hero-eye{font-family:var(--font-mono);font-size:.58rem;letter-spacing:.25em;color:var(--text-muted);margin-bottom:1rem}
+.hero h1{font-family:var(--font-disp);font-size:clamp(1.4rem,4vw,2.2rem);font-weight:900;letter-spacing:.06em;color:#fff;line-height:1.15;margin-bottom:.75rem}
+.hero h1 span{color:var(--amber)}
+.hero-sub{font-family:var(--font-mono);font-size:.82rem;color:var(--text-dim);letter-spacing:.05em;line-height:1.7;max-width:680px;margin-bottom:2rem}
+.hero-meta{font-family:var(--font-mono);font-size:.6rem;color:var(--text-muted);letter-spacing:.12em}
+
+/* ── TAB SYSTEM ─────────────────── */
+.tab-nav{display:flex;gap:0;border-bottom:1px solid var(--border);margin:0;overflow-x:auto;scrollbar-width:none;max-width:var(--max-w);margin:0 auto;padding:0 1.5rem}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.15em;color:var(--text-muted);padding:.7rem 1.25rem;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:.15s;text-transform:uppercase}
+.tab-btn:hover{color:var(--text);border-bottom-color:var(--border)}
+.tab-btn.active{color:var(--amber-dim);border-bottom-color:var(--amber-dim)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.tab-wrap{max-width:var(--max-w);margin:0 auto;padding:2.5rem 1.5rem 6rem}
+
+/* ── CONTENT STYLES ─────────────── */
+h2{font-family:var(--font-disp);font-size:clamp(.95rem,2.5vw,1.15rem);color:var(--amber);font-weight:700;letter-spacing:.08em;margin:2.5rem 0 1rem;line-height:1.3;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+h2:first-child{margin-top:0}
+h3{font-family:var(--font-ui);font-size:.95rem;color:var(--text);font-weight:600;margin:1.75rem 0 .6rem;letter-spacing:.01em}
+p{color:var(--text-dim);margin-bottom:1rem;line-height:1.8}
+p:last-child{margin-bottom:0}
+strong{color:var(--text);font-weight:600}
+code{font-family:var(--font-mono);font-size:.85em;background:#1a1f2a;color:var(--blue);padding:.1rem .35rem;border:1px solid var(--border);border-radius:2px}
+pre{background:#0d1117;border:1px solid var(--border);border-left:3px solid var(--amber-dim);padding:1.25rem 1.5rem;overflow-x:auto;margin:1.25rem 0}
+pre code{background:none;border:none;padding:0;color:var(--text-dim);font-size:.8rem;line-height:1.65}
+
+/* Comparison table */
+.cmp-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.82rem}
+.cmp-table th{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-muted);text-transform:uppercase;padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+.cmp-table th:nth-child(2){color:var(--amber-dim)}
+.cmp-table th:nth-child(3){color:var(--green-dim)}
+.cmp-table td{padding:.6rem 1rem;border-bottom:1px solid #1a1f2a;vertical-align:top;line-height:1.55;color:var(--text-dim)}
+.cmp-table td:first-child{font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);white-space:nowrap}
+.cmp-table tr:hover td{background:#0d1117}
+
+/* Device cards */
+.device-pair{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}
+.device-card{border:1px solid var(--border);background:var(--surface);padding:1.25rem;position:relative}
+.device-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
+.device-card.tdeck::before{background:var(--amber-dim)}
+.device-card.tpager::before{background:var(--green-dim)}
+.device-card-label{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;margin-bottom:.5rem}
+.device-card.tdeck .device-card-label{color:var(--amber-dim)}
+.device-card.tpager .device-card-label{color:var(--green-dim)}
+.device-card-title{font-family:var(--font-disp);font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.06em;margin-bottom:.75rem}
+.device-card p{font-size:.82rem;line-height:1.6}
+
+/* Callout */
+.callout{border:1px solid var(--border);background:var(--surface);padding:1.25rem 1.5rem;margin:1.5rem 0;position:relative}
+.callout-label{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;color:var(--amber-dim);margin-bottom:.6rem;text-transform:uppercase}
+.callout.warning{border-color:#5a3a00;background:#150e00}
+.callout.warning .callout-label{color:var(--amber)}
+.callout.critical{border-color:#5a0000;background:#150000}
+.callout.critical .callout-label{color:var(--red)}
+.callout p{font-size:.85rem;line-height:1.7;margin-bottom:.75rem}
+.callout p:last-child{margin-bottom:0}
+
+/* Treaty banner */
+.treaty-banner{border:1px solid var(--amber-dim);background:var(--amber-mute);padding:1.5rem 2rem;margin:2rem 0;text-align:center}
+.treaty-banner-title{font-family:var(--font-disp);font-size:1rem;color:var(--amber);font-weight:900;letter-spacing:.1em;margin-bottom:.5rem}
+.treaty-banner-sub{font-family:var(--font-mono);font-size:.7rem;color:var(--amber-dim);letter-spacing:.1em}
+
+/* Pitfall list */
+.pitfall-list{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}
+.pitfall{border:1px solid var(--border);background:var(--surface);padding:1rem 1.25rem;display:grid;grid-template-columns:2rem 1fr;gap:.75rem;align-items:start}
+.pitfall-num{font-family:var(--font-disp);font-size:.72rem;color:var(--red);font-weight:700}
+.pitfall-title{font-size:.88rem;color:var(--text);font-weight:600;margin-bottom:.25rem}
+.pitfall-desc{font-size:.8rem;color:var(--text-dim);line-height:1.55;margin:0}
+.pitfall-fix{font-family:var(--font-mono);font-size:.72rem;color:var(--green-dim);margin-top:.35rem}
+
+/* Boot sequence */
+.boot-steps{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}
+.boot-col-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.2em;color:var(--text-muted);margin-bottom:.75rem;text-transform:uppercase}
+.boot-col-label.tdeck{color:var(--amber-dim)}
+.boot-col-label.tpager{color:var(--green-dim)}
+ol{padding-left:1.25rem;color:var(--text-dim);font-size:.84rem;line-height:1.9}
+li{margin-bottom:.2rem}
+li strong{color:var(--green-dim)}
+
+footer{border-top:1px solid var(--border);padding:2rem 1.5rem;text-align:center;font-family:var(--font-mono);font-size:.62rem;color:var(--text-muted)}
+footer a{color:var(--green-dim);text-decoration:none}
+
+@media(max-width:700px){
+  .device-pair,.boot-steps{grid-template-columns:1fr}
+  .cmp-table{font-size:.75rem}
+  .cmp-table td,.cmp-table th{padding:.5rem .6rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://fluidfortune.com">FLUID FORTUNE</a>
+  <span class="sep">/</span>
+  <a href="pisces-moon.html">PISCES MOON</a>
+  <span class="sep">/</span>
+  <a href="device-architecture.html" style="color:var(--amber-dim)">DEVICE ARCHITECTURE</a>
+  <div class="spacer"></div>
+  <span class="badge">v1.1.0 — MAY 2026</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-eye">PISCES MOON OS — TECHNICAL REFERENCE</div>
+  <h1>DEVICE <span>ARCHITECTURE</span></h1>
+  <p class="hero-sub">T-Deck Plus vs T-LoRa Pager — same SoC, same SPI Bus Treaty, same Ghost Engine. Different display, different input, different power topology, different SD timing. The treaty doesn't change. The hardware around the treaty does.</p>
+  <div class="hero-meta">DOCUMENT v1.1.0 · MAY 2026 · ERIC BECKER / FLUID FORTUNE · AGPL-3.0</div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn" data-tab="overview" aria-selected="true">AT A GLANCE</button>
+  <button class="tab-btn" data-tab="display">DISPLAY</button>
+  <button class="tab-btn" data-tab="input">INPUT</button>
+  <button class="tab-btn" data-tab="power">POWER</button>
+  <button class="tab-btn" data-tab="treaty">SPI BUS TREATY</button>
+  <button class="tab-btn" data-tab="boot">BOOT SEQUENCE</button>
+  <button class="tab-btn" data-tab="rendering">WIDTH-AWARE RENDERING</button>
+  <button class="tab-btn" data-tab="pitfalls">COMMON PITFALLS</button>
+</div>
+
+<!-- ══ OVERVIEW ══════════════════════════════════════════ -->
+<div id="tab-overview" class="tab-panel">
+<div class="tab-wrap">
+
+  <div class="treaty-banner">
+    <div class="treaty-banner-title">THE TREATY DOESN'T CHANGE. THE HARDWARE AROUND THE TREATY DOES.</div>
+    <div class="treaty-banner-sub">Both devices. Same SPI Bus Treaty. Same Ghost Engine. Session 83 — downtown Los Angeles — May 15, 2026.</div>
+  </div>
+
+  <p>Pisces Moon OS now runs on two physically different LilyGO handhelds that share an ESP32-S3 SoC but differ in almost every other way: display, input, power management, peripheral wiring, and SPI bus topology. Code that compiled fine on the T-Deck Plus often misbehaved in subtle, hard-to-debug ways on the T-LoRa Pager because the same Arduino API call talks to entirely different hardware underneath.</p>
+
+  <div class="device-pair">
+    <div class="device-card tdeck">
+      <div class="device-card-label">TARGET 1A — ORIGIN DEVICE</div>
+      <div class="device-card-title">T-DECK PLUS</div>
+      <p>320×240 ST7789, GT911 capacitive touch, physical 5-pin trackball, AXP2101 PMU with direct GPIO peripheral rails. SD mounts synchronously at boot. The device where the SPI Bus Treaty was invented. v1.1.1 "The Arsenal".</p>
+    </div>
+    <div class="device-card tpager">
+      <div class="device-card-label">TARGET 1B — CONFIRMED RUNNING</div>
+      <div class="device-card-title">T-LORA PAGER</div>
+      <p>480×222 ST7796 (rendered at 480×240), no touch, synthetic trackball via rotary encoder + TCA8418 keyboard controller, XL9555 I/O expander gates almost all peripheral rails. Deferred SD mount. Confirmed running May 15, 2026.</p>
+    </div>
+  </div>
+
+  <h2>AT-A-GLANCE COMPARISON</h2>
+
+  <table class="cmp-table">
+    <thead>
+      <tr><th>Aspect</th><th>T-Deck Plus</th><th>T-LoRa Pager</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SoC</td><td>ESP32-S3</td><td>ESP32-S3</td></tr>
+      <tr><td>PSRAM</td><td>8 MB</td><td>8 MB</td></tr>
+      <tr><td>Flash</td><td>16 MB</td><td>16 MB</td></tr>
+      <tr><td>Display</td><td>320×240 ST7789</td><td>480×222 ST7796 (rendered 480×240)</td></tr>
+      <tr><td>Touch</td><td>GT911 capacitive</td><td>None</td></tr>
+      <tr><td>Keyboard</td><td>Direct-wired matrix, polled</td><td>TCA8418 dedicated controller over I²C</td></tr>
+      <tr><td>Cursor input</td><td>5-pin physical trackball</td><td>Rotary encoder + click (synthetic TrackballState)</td></tr>
+      <tr><td>Power</td><td>AXP2101 + BOARD_POWERON GPIO</td><td>AXP2101 + XL9555 I/O expander</td></tr>
+      <tr><td>Peripheral enables</td><td>Direct GPIOs</td><td>Almost all behind XL9555 I²C expander</td></tr>
+      <tr><td>SD card</td><td>Mounts at boot, synchronous</td><td>Deferred mount, background task, poll g_sd_ready</td></tr>
+      <tr><td>LoRa radio</td><td>SX1262 on shared SPI</td><td>SX1262 on shared SPI</td></tr>
+      <tr><td>GPS</td><td>UART (RX=44, TX=43)</td><td>UART (RX=4, TX=12)</td></tr>
+      <tr><td>Audio</td><td>I²S → MAX98357 amp (pins 5/6/7)</td><td>I²S → ES8311 codec (different pins + codec init)</td></tr>
+      <tr><td>Build target</td><td><code>[env:tdeckplus]</code></td><td><code>[env:tlorapager]</code></td></tr>
+      <tr><td>Define</td><td><code>DEVICE_TDECK_PLUS</code></td><td><code>DEVICE_TLORAPAGER</code></td></tr>
+      <tr><td>Platform</td><td>espressif32 @ 6.7.0</td><td>espressif32 @ 6.10.0</td></tr>
+      <tr><td>Memory type</td><td>(default)</td><td>qio_qspi</td></tr>
+      <tr><td>GPIO 21</td><td>Touch reset (TOUCH_RST)</td><td>⚠ SD chip-select — DO NOT initialize touch here</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <div class="callout-label">CRITICAL PIN COLLISION</div>
+    <p>GPIO 21 is the touch reset pin on T-Deck Plus and the SD chip-select on T-LoRa Pager. Initializing touch code on T-LoRa Pager pulls SD_CS low at boot and corrupts the SD mount. All touch code must be gated behind <code>#ifdef DEVICE_TDECK_PLUS</code>.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ DISPLAY ═════════════════════════════════════════ -->
+<div id="tab-display" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>DISPLAY</h2>
+
+  <div class="device-pair">
+    <div class="device-card tdeck">
+      <div class="device-card-label">T-DECK PLUS</div>
+      <div class="device-card-title">ST7789 — 320×240</div>
+      <p>ST7789 panel, 320×240 native, RGB565. Driven by Arduino_GFX_Library directly over SPI. Backlight on GPIO 42. Reset is a direct GPIO — can be pulsed synchronously. <code>gfx</code> typed as <code>Arduino_GFX *</code>.</p>
+    </div>
+    <div class="device-card tpager">
+      <div class="device-card-label">T-LORA PAGER</div>
+      <div class="device-card-title">ST7796 — 480×240</div>
+      <p>ST7796 panel, wider than datasheet 480×222 — renders correctly at 480×240 with no clipping. Driven by custom <code>PMDispTLoRaPager</code> class wrapping the same API surface. Backlight GPIO 42 (same pin, different rail). Display reset routed through XL9555 P06 — must be pulsed via I²C, not direct GPIO. <code>gfx</code> typed as <code>PMDispTLoRaPager *</code>.</p>
+    </div>
+  </div>
+
+  <h3>Conditional gfx declaration</h3>
+  <p>Every <code>extern gfx;</code> declaration must be conditional:</p>
+  <pre><code>#ifdef DEVICE_TLORAPAGER
+extern PMDispTLoRaPager *gfx;
+static constexpr int DISP_W = 480;
+#else
+extern Arduino_GFX *gfx;
+static constexpr int DISP_W = 320;
+#endif
+static constexpr int DISP_H = 240;</code></pre>
+
+  <p>Both pointers expose the same drawing API surface (<code>fillRect</code>, <code>drawFastHLine</code>, <code>setCursor</code>, <code>print</code>, etc.) but are not interchangeable at compile time. This is why every app file begins with this block.</p>
+
+  <h3>Layout implications</h3>
+  <p>T-Deck Plus apps assume 320×240. T-LoRa Pager needs 480×240 to fill the screen. Any hardcoded <code>320</code> width renders correctly on T-Deck but draws a narrowing column on T-LoRa Pager. Any hardcoded <code>setCursor(160, y)</code> puts text at center on T-Deck (160 = 320/2) but at the ⅓ mark on T-LoRa Pager (160 ≠ 240).</p>
+  <p>v1.1.0 resolves this with <code>DISP_W</code> constants throughout. Games use <code>X_OFF = (480 - 320) / 2 = 80</code> for horizontal centering on T-LoRa Pager while keeping their 320×240 canvas.</p>
+
+</div>
+</div>
+
+<!-- ══ INPUT ═══════════════════════════════════════════ -->
+<div id="tab-input" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>INPUT</h2>
+  <p>The input architecture is the single biggest divergence between the two devices and the source of the most subtle bugs.</p>
+
+  <div class="device-pair">
+    <div class="device-card tdeck">
+      <div class="device-card-label">T-DECK PLUS</div>
+      <div class="device-card-title">PHYSICAL TRACKBALL + MATRIX KEYBOARD + TOUCH</div>
+      <p>5-pin mechanical trackball wired to direct ESP32 GPIOs with internal pullups. <code>update_trackball()</code> does edge-detection with lockout. <code>update_trackball_game()</code> uses shorter lockout for gameplay. 4×10 keyboard matrix scanned directly by the ESP32. GT911 capacitive touch on I²C (SDA=18, SCL=8), reset on GPIO 21.</p>
+    </div>
+    <div class="device-card tpager">
+      <div class="device-card-label">T-LORA PAGER</div>
+      <div class="device-card-title">SYNTHETIC TRACKBALL — NO PHYSICAL BALL</div>
+      <p>No trackball at all. <code>TrackballState</code> is synthesized from: rotary encoder (ENC_A=40, ENC_B=41) → <code>y = ±1</code> per detent; encoder click button (ENC_BTN=7) → <code>state.clicked = true</code>; keyboard nav keys (WASD + Q/O). Apps call <code>update_trackball()</code> and receive the same struct shape regardless. TCA8418 keyboard controller on I²C — the ESP32 consumes events from its FIFO rather than scanning the matrix itself. No touch at all.</p>
+    </div>
+  </div>
+
+  <h3>Universal input convention</h3>
+  <p>Code against the <code>TrackballState</code> interface, never against specific GPIO pins for direction. The launcher and apps should remain unaware of whether the trackball is physical or synthetic. Code that assumes physical roll velocity (rapid up/up/up = faster) will not work on T-LoRa Pager — the encoder emits discrete detents.</p>
+
+  <div class="callout warning">
+    <div class="callout-label">PENDING AUDIT</div>
+    <p>On T-LoRa Pager, sleep should NOT be triggered by a long trackwheel click — that's leftover T-Deck behavior. Power button = sleep. Single encoder click = exit app. Audit of all apps for long-press assumptions is pending v1.1.1.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ POWER ═══════════════════════════════════════════ -->
+<div id="tab-power" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>POWER MANAGEMENT</h2>
+
+  <div class="device-pair">
+    <div class="device-card tdeck">
+      <div class="device-card-label">T-DECK PLUS</div>
+      <div class="device-card-title">AXP2101 + DIRECT GPIO RAILS</div>
+      <p>AXP2101 PMU handles battery charging and voltage regulation. <code>BOARD_POWERON = GPIO 10</code> gates the main peripheral rail. Backlight LOW + panel sleep = display off. BOARD_POWERON LOW = peripherals off. Simple path.</p>
+    </div>
+    <div class="device-card tpager">
+      <div class="device-card-label">T-LORA PAGER</div>
+      <div class="device-card-title">AXP2101 + XL9555 I/O EXPANDER</div>
+      <p>AXP2101 is still there, but most peripheral power gating happens through an XL9555 I/O expander on the I²C bus. The XL9555 must be initialized before any of its gated peripherals can be used. <code>xl9555_init()</code> runs during boot; <code>xl9555_set_bit(pin, true/false)</code> toggles individual rails.</p>
+    </div>
+  </div>
+
+  <h3>XL9555 pin map</h3>
+  <table class="cmp-table">
+    <thead><tr><th>XL9555 Pin</th><th>Function</th><th>Active State</th></tr></thead>
+    <tbody>
+      <tr><td>P03</td><td>LORA_EN — power to SX1262</td><td>High</td></tr>
+      <tr><td>P04</td><td>GPS_EN — power to GPS module</td><td>High</td></tr>
+      <tr><td>P05</td><td>NFC_EN — power to NFC chip</td><td>High</td></tr>
+      <tr><td>P06</td><td>DISP_RST — display reset (active low)</td><td>High (released)</td></tr>
+      <tr><td>P07</td><td>GPS_RST — GPS reset</td><td>High</td></tr>
+      <tr><td>P08</td><td>NFC_RST — NFC reset</td><td>High</td></tr>
+      <tr><td>P10</td><td>DRV_EN — haptic motor driver</td><td>High when active</td></tr>
+      <tr><td>P11</td><td>AMP_EN — audio amplifier enable</td><td>High when playing</td></tr>
+      <tr><td>P12</td><td>SD_DET — SD card detect (INPUT)</td><td>Reads card presence</td></tr>
+      <tr><td>P13</td><td>EXPANDS_GPIO_EN — general-purpose enable</td><td>HIGH always</td></tr>
+      <tr><td>P14</td><td>SD_EN — SD card power rail</td><td>High</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <div class="callout-label">SCHEMATIC LABEL WARNING</div>
+    <p>XL9555 P13 is labeled <code>EXPANDS_GPIO_EN</code> in the schematic but earlier code mis-named it <code>NRF_CE</code>. P11 is the amp enable, not "AMP_RAIL". Cross-reference against working LilyGoLib code, not just the PDF schematic. Keep P13 HIGH — several rails depend on it.</p>
+  </div>
+
+  <h3>Sleep path on T-LoRa Pager</h3>
+  <ol>
+    <li>Stop wardrive task (stops SD writes)</li>
+    <li>Take SPI mutex, unmount SD cleanly</li>
+    <li>Backlight off</li>
+    <li><strong>Walk all XL9555 enable bits to LOW</strong> (LORA_EN, GPS_EN, NFC_EN, DRV_EN, AMP_EN, SD_EN, plus reset lines)</li>
+    <li><code>SPI.end()</code> and <code>Wire.end()</code></li>
+    <li>Configure ext1 wakeup on rotary-click and BOOT button</li>
+    <li><code>esp_deep_sleep_start()</code></li>
+  </ol>
+  <p>Forgetting step 4 costs ~10mA in sleep. Not catastrophic, but measurable on a field device.</p>
+
+</div>
+</div>
+
+<!-- ══ SPI BUS TREATY ══════════════════════════════════ -->
+<div id="tab-treaty" class="tab-panel">
+<div class="tab-wrap">
+
+  <div class="treaty-banner">
+    <div class="treaty-banner-title">THE SPI BUS TREATY</div>
+    <div class="treaty-banner-sub">Same convention. Both devices. Every SPI transaction wrapped in take/give of spi_mutex.</div>
+  </div>
+
+  <p>Multiple peripherals share a single SPI bus on both devices: the display (write-only, latency-tolerant), the SD card (must complete writes before bus re-clock), and the SX1262 LoRa radio (timing-sensitive — missing a chip-select edge during reception loses packets). These devices have different chip-select pins, so electrically they don't collide. But they share the MOSI/MISO/SCK lines and the SPI peripheral block inside the ESP32. If two FreeRTOS tasks use the SPI bus simultaneously, one task's bytes get interleaved into the other's transaction.</p>
+
+  <h3>The convention</h3>
+  <pre><code>if (spi_mutex && xSemaphoreTake(spi_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+    // SPI transaction here — SD write, LoRa transmit, etc.
+    xSemaphoreGive(spi_mutex);
+}</code></pre>
+
+  <p>A task that skips the mutex is "in violation of the treaty." The Mesh Messenger was historically a violator — it caused LoRa transmissions to fail when wardrive was running concurrently. Fixed in v1.0.x.</p>
+
+  <h3>How the Treaty differs in practice</h3>
+
+  <div class="device-pair">
+    <div class="device-card tdeck">
+      <div class="device-card-label">T-DECK PLUS</div>
+      <div class="device-card-title">SYNCHRONOUS SD, DIRECT CS</div>
+      <p>SD chip-select on a direct GPIO. SD mounts at boot. The Treaty prevents collisions between display, SD writes, and LoRa — all of which can happen concurrently once apps are running. Straightforward.</p>
+    </div>
+    <div class="device-card tpager">
+      <div class="device-card-label">T-LORA PAGER</div>
+      <div class="device-card-title">DEFERRED SD, XL9555 LORA ENABLE</div>
+      <p>SD chip-select is GPIO 21 — the T-Deck touch reset. Can't reuse touch driver here. SD mount deferred: <code>late_sd_init_task()</code> tears down SPI, waits 20ms, rebuilds it cold, retries mount up to 10 times. Apps poll <code>g_sd_ready</code> before touching SD. LoRa reset via XL9555 P03 (LORA_EN) — bringing LoRa into the Treaty involves an I²C transaction first.</p>
+    </div>
+  </div>
+
+  <h3>Why the deferred SD mount was the hardest bug</h3>
+  <p>SD CMD0 returned <code>0xFF</code> eight times in a row on every cold boot. Three causes:</p>
+  <ol>
+    <li>Arduino-ESP32 core 2.0.16 SPI/SD driver bug — bumping to espressif32 @ 6.10.0 (core 2.0.17) helped but didn't fix it</li>
+    <li>Wrong SPI pin map by default — <code>pins_arduino.h</code> from LilyGoLib must be in the include path so SPI uses SCK=35, MISO=33, MOSI=34, SS=21 instead of devkit defaults</li>
+    <li>SD needed a fresh SPI bus — other SPI peripherals (display, LoRa init) left the bus in a state SD didn't accept. Fix: defer SD mount entirely past the early boot phase, tear down SPI, rebuild cold, then mount</li>
+  </ol>
+  <p>T-Deck Plus doesn't need this because its boot sequence happens to leave SPI in an SD-mountable state. Same code path. Completely different timing requirements.</p>
+
+  <h3>sd_in_use flag</h3>
+  <p>In addition to the SPI mutex, a higher-level flag <code>volatile bool sd_in_use</code> (declared in <code>gemini_client.cpp</code> for historical reasons) coordinates the wifi_filemgr HTTP streaming with the wardrive writer. Wardrive checks this flag before each periodic write — if true, it skips that write cycle entirely. Same on both devices.</p>
+
+</div>
+</div>
+
+<!-- ══ BOOT SEQUENCE ═══════════════════════════════════ -->
+<div id="tab-boot" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>BOOT SEQUENCE</h2>
+
+  <div class="boot-steps">
+    <div>
+      <div class="boot-col-label tdeck">T-DECK PLUS — ~3 seconds to launcher</div>
+      <ol>
+        <li>ESP32 powers up</li>
+        <li>Arduino setup() runs</li>
+        <li><code>pinMode(BOARD_POWERON, OUTPUT); HIGH</code> — peripheral rail on</li>
+        <li>Initialize PMU (AXP2101) over I²C</li>
+        <li>Initialize display over SPI</li>
+        <li>Initialize SD card over SPI — <strong>synchronous, blocks until complete</strong></li>
+        <li>Mount or create vault directory</li>
+        <li>Auto-connect WiFi</li>
+        <li>Spawn wardrive task on Core 0</li>
+        <li>Launcher takes over on Core 1</li>
+      </ol>
+    </div>
+    <div>
+      <div class="boot-col-label tpager">T-LORA PAGER — ~2s to launcher, ~6s to SD ready</div>
+      <ol>
+        <li>ESP32 powers up</li>
+        <li>Arduino setup() runs</li>
+        <li>Initialize I²C</li>
+        <li>Initialize PMU (AXP2101)</li>
+        <li><strong>Initialize XL9555 I/O expander</strong> — unique to T-LoRa Pager</li>
+        <li>Walk XL9555 bits HIGH: LORA_EN, GPS_EN, DISP_RST release, KB_EN, SD_EN, EXPANDS_GPIO_EN</li>
+        <li>Initialize display via PMDispTLoRaPager</li>
+        <li><strong>Skip SD mount</strong> — defer to background task</li>
+        <li>Initialize keyboard (TCA8418)</li>
+        <li>Initialize rotary encoder pin modes</li>
+        <li>Auto-connect WiFi</li>
+        <li>Spawn wardrive task on Core 0</li>
+        <li><strong>Spawn late_sd_init_task on Core 1</strong></li>
+        <li>Launcher takes over on Core 1 immediately</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">SD READINESS PATTERN FOR T-LORA PAGER APPS</div>
+    <pre><code>#ifdef DEVICE_TLORAPAGER
+extern volatile bool g_sd_ready;
+int attempts = 0;
+while (!g_sd_ready && attempts < 30) {
+    vTaskDelay(pdMS_TO_TICKS(500));
+    attempts++;
+}
+if (!g_sd_ready) {
+    // SD never came up — handle gracefully
+}
+#endif</code></pre>
+    <p>New apps that touch SD must include this check. T-Deck apps can assume SD is mounted. T-LoRa Pager apps cannot.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ WIDTH-AWARE RENDERING ═══════════════════════════ -->
+<div id="tab-rendering" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>WIDTH-AWARE RENDERING (v1.1.0)</h2>
+
+  <p>Every app that draws to the display uses this pattern at the top of the file:</p>
+
+  <pre><code>#ifdef DEVICE_TLORAPAGER
+extern PMDispTLoRaPager *gfx;
+static constexpr int DISP_W = 480;
+#else
+extern Arduino_GFX *gfx;
+static constexpr int DISP_W = 320;
+#endif
+static constexpr int DISP_H = 240;</code></pre>
+
+  <p>All hardcoded <code>320</code> references in rendering code become <code>DISP_W</code>. Headers span full width, content scales appropriately.</p>
+
+  <h3>Rules</h3>
+  <p><strong>Apps</strong> render at full <code>DISP_W × DISP_H</code>. <strong>Games</strong> keep their 320×240 canvas, centered horizontally on T-LoRa Pager via <code>X_OFF = (480 - 320) / 2 = 80</code>. For games, every absolute x-coordinate adds <code>X_OFF</code>. Headers still span the full screen width.</p>
+
+  <h3>Centering pattern</h3>
+  <pre><code>// Wrong — T-Deck centric
+gfx->setCursor(160, y);   // center on 320px screen only
+
+// Correct — cross-device
+gfx->setCursor(DISP_W / 2 - textWidth / 2, y);
+
+// Or define at function start:
+const int CX = DISP_W / 2;</code></pre>
+
+  <h3>Right-anchoring pattern</h3>
+  <pre><code>// Wrong
+gfx->setCursor(280, y);
+
+// Correct
+gfx->setCursor(DISP_W - margin, y);</code></pre>
+
+</div>
+</div>
+
+<!-- ══ COMMON PITFALLS ═════════════════════════════════ -->
+<div id="tab-pitfalls" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>COMMON PITFALLS</h2>
+  <p>These are the failure modes encountered during T-LoRa Pager bring-up, documented so you can avoid them on the next port.</p>
+
+  <div class="pitfall-list">
+    <div class="pitfall">
+      <div class="pitfall-num">01</div>
+      <div>
+        <div class="pitfall-title">Hardcoded 320 widths</div>
+        <p class="pitfall-desc">Renders correctly on T-Deck, draws a narrowing column on T-LoRa Pager's 480px screen.</p>
+        <div class="pitfall-fix">Fix: use DISP_W throughout</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">02</div>
+      <div>
+        <div class="pitfall-title">Hardcoded setCursor(160, y) for centering</div>
+        <p class="pitfall-desc">160 = center of 320px screen. On T-LoRa Pager's 480px screen, 160 is the ⅓ mark.</p>
+        <div class="pitfall-fix">Fix: setCursor(DISP_W / 2 - textWidth / 2, y)</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">03</div>
+      <div>
+        <div class="pitfall-title">Right-anchored elements via setCursor(280, y)</div>
+        <p class="pitfall-desc">T-Deck-centric absolute position leaves a gap on the wider screen.</p>
+        <div class="pitfall-fix">Fix: setCursor(DISP_W - margin, y)</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">04</div>
+      <div>
+        <div class="pitfall-title">Assuming SD is mounted at startup</div>
+        <p class="pitfall-desc">True on T-Deck. False on T-LoRa Pager. Silent file-write failures during the first ~6 seconds after launch.</p>
+        <div class="pitfall-fix">Fix: poll g_sd_ready with timeout before any SD operations on T-LoRa Pager</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">05</div>
+      <div>
+        <div class="pitfall-title">Forgetting spi_mutex on a new SPI peripheral</div>
+        <p class="pitfall-desc">Mysterious data corruption that only manifests under concurrent load. Violates the Treaty.</p>
+        <div class="pitfall-fix">Fix: every SPI transaction goes through xSemaphoreTake/Give(spi_mutex, ...)</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">06</div>
+      <div>
+        <div class="pitfall-title">Touching GPIO 21 on T-LoRa Pager</div>
+        <p class="pitfall-desc">That pin is SD_CS on T-LoRa Pager. The T-Deck touch driver uses it as touch reset. Initializing touch code here pulls SD_CS low and corrupts the SD mount.</p>
+        <div class="pitfall-fix">Fix: gate all touch code behind #ifdef DEVICE_TDECK_PLUS</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">07</div>
+      <div>
+        <div class="pitfall-title">Assuming a physical trackball</div>
+        <p class="pitfall-desc">T-LoRa Pager has none. Code that checks specific trackball GPIOs or assumes analog roll velocity will fail.</p>
+        <div class="pitfall-fix">Fix: code against the TrackballState interface only, never against specific direction GPIOs</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">08</div>
+      <div>
+        <div class="pitfall-title">Hardcoded I²S pins for audio</div>
+        <p class="pitfall-desc">T-Deck: direct I²S to MAX98357 on pins 5/6/7. T-LoRa Pager: ES8311 codec on different pins requiring its own init sequence.</p>
+        <div class="pitfall-fix">Fix: gate audio playback behind #ifdef DEVICE_TDECK_PLUS until T-LoRa Pager audio backend lands</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">09</div>
+      <div>
+        <div class="pitfall-title">Forgetting XL9555 peripheral power-gate on sleep</div>
+        <p class="pitfall-desc">Leaving LORA_EN, GPS_EN, AMP_EN etc. HIGH in deep sleep costs ~10mA. Measurable drain on a field device.</p>
+        <div class="pitfall-fix">Fix: in pm_power_sleep(), walk all XL9555 enables to LOW before esp_deep_sleep_start()</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">10</div>
+      <div>
+        <div class="pitfall-title">Believing the schematic pin labels</div>
+        <p class="pitfall-desc">XL9555 P13 is labeled EXPANDS_GPIO_EN but was mis-coded as NRF_CE in earlier code. Cross-reference against working LilyGoLib code.</p>
+        <div class="pitfall-fix">Fix: keep P13 HIGH — several rails depend on it regardless of what the label says</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="treaty-banner" style="margin-top:3rem">
+    <div class="treaty-banner-title">THE TREATY DOESN'T CHANGE. THE HARDWARE AROUND THE TREATY DOES.</div>
+    <div class="treaty-banner-sub">Use DISP_W. Wrap SPI in the mutex. Wait for g_sd_ready. Gate platform-specific code behind #ifdef DEVICE_TLORAPAGER.</div>
+  </div>
+
+</div>
+</div>
+
+<footer>
+  <a href="https://fluidfortune.com">FLUID FORTUNE</a> &nbsp;|&nbsp;
+  <a href="pisces-moon.html">PISCES MOON</a> &nbsp;|&nbsp;
+  <a href="sovereignty.html">WHITE PAPER</a> &nbsp;|&nbsp;
+  <a href="https://github.com/FluidFortune/pisces-moon-os">GITHUB</a> &nbsp;|&nbsp;
+  AGPL-3.0 · ERIC BECKER · 2026
+</footer>
+
+<script>
+(function() {
+  function activateTab(id) {
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.tab === id);
+      b.setAttribute('aria-selected', b.dataset.tab === id);
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(p) {
+      p.classList.toggle('active', p.id === 'tab-' + id);
+    });
+  }
+  var tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = btn.dataset.tab;
+      history.replaceState(null, '', '#' + id);
+      activateTab(id);
+    });
+  });
+  var hash = location.hash.replace('#','');
+  var valid = Array.from(tabs).map(function(b){return b.dataset.tab;});
+  activateTab(valid.includes(hash) ? hash : valid[0]);
+})();
+</script>
+
+</body>
+</html>
