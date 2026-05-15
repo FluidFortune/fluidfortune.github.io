@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sovereignty White Paper | Pisces Moon OS — SPI Bus Treaty & Ghost Engine</title>
-  <meta name="description" content="Technical white paper for Pisces Moon OS. Documents the Ghost Engine (first known persistent dual-core background intelligence collection on ESP32-S3), the SPI Bus Treaty (first named architectural standard for shared-bus arbitration on ESP32-S3), and six novel engineering problems solved in field conditions. DEF CON 34 CFP submission ID 1349.">
+  <meta name="description" content="Technical white paper for Pisces Moon OS. Documents the Ghost Engine, the SPI Bus Treaty, and the methodology behind both: name the constraint, document the protocol, make it a platform contract. First boot on ESP32-P4 hardware May 13, 2026. Six deployment targets. DEF CON 34 CFP submission ID 1349.">
   <link rel="canonical" href="https://fluidfortune.com/sovereignty.html">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://fluidfortune.com/sovereignty.html">
@@ -175,7 +175,7 @@
 
 <div class="abstract">
   <div class="abstract-label">ABSTRACT</div>
-  <p>This paper presents Pisces Moon OS and its two primary inventions: <strong>the Ghost Engine</strong> — a persistent Core 0 intelligence collection process that wardrives, scans BLE, and logs GPS continuously regardless of operator activity, the first known documented implementation of this architecture for field use on the ESP32-S3 — and <strong>the SPI Bus Treaty</strong> — the first known documented named architectural standard for shared-bus arbitration on this hardware class, without which the Ghost Engine cannot run. Together they constitute the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. The paper presents these inventions as a coherent answer to three simultaneous crises in modern computing: rising hardware costs driven by semiconductor tariffs and supply chain disruption; the architectural obsolescence of cloud-dependent software stacks that require continuously upgraded hardware; and the developer gatekeeping that prevents domain experts from shipping capable software without engineering intermediaries. It documents six novel engineering problems encountered and solved during development, none of which had prior documented solutions for this hardware platform. It presents the platform's three-tier architecture — embedded OS, Linux distribution, and cross-platform application runtime — as a unified economic and technical argument that sovereign, capable, locally-executed computing is achievable today on hardware that costs $50 to $350. The platform disproves five assumptions the current industry depends on. This document explains what those assumptions are, why they are wrong, and what the replacement looks like.</p>
+  <p>This paper presents Pisces Moon OS and its two primary inventions: <strong>the Ghost Engine</strong> — a persistent Core 0 intelligence collection process that wardrives, scans BLE, and logs GPS continuously regardless of operator activity, the first known documented implementation of this architecture for field use on the ESP32-S3 — and <strong>the SPI Bus Treaty</strong> — the first known documented named architectural standard for shared-bus arbitration on this hardware class, without which the Ghost Engine cannot run. Together they constitute the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3 — a pattern now proven portable across hardware generations. On the ESP32-P4 (first boot May 13, 2026), the Ghost Engine runs on dedicated silicon: a separate ESP32-C6 connected via SDIO, in a four-core architecture with formal conventions governing which core owns which responsibility. The SPI Bus Treaty was one expression of a broader methodology: name the constraint, document the protocol, make it a platform contract. The paper presents these inventions as a coherent answer to three simultaneous crises in modern computing: rising hardware costs driven by semiconductor tariffs and supply chain disruption; the architectural obsolescence of cloud-dependent software stacks that require continuously upgraded hardware; and the developer gatekeeping that prevents domain experts from shipping capable software without engineering intermediaries. It documents six novel engineering problems encountered and solved during development, none of which had prior documented solutions for this hardware platform. It presents the platform's three-tier architecture — embedded OS, Linux distribution, and cross-platform application runtime — as a unified economic and technical argument that sovereign, capable, locally-executed computing is achievable today on hardware that costs $50 to $350. The platform disproves five assumptions the current industry depends on. This document explains what those assumptions are, why they are wrong, and what the replacement looks like.</p>
 </div>
 
 <div style="max-width:var(--max-w);margin:0 auto;padding:2rem 1.5rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#0a1410 0%,#0f1a14 100%)">
@@ -320,13 +320,30 @@
     <div class="section-num">III</div>
     <h2 class="section-title">THE PLATFORM ARCHITECTURE</h2>
 
-    <p>Pisces Moon is not a single product. It is a unified platform deployed across five hardware targets — from a $50 pocket device to a discarded enterprise tablet to an Android phone — all running the same application layer, all sovereign at their hardware level, all composable with each other.</p>
+    <p>Pisces Moon is not a single product. It is a platform with two architecturally distinct application layers, deployed across six hardware targets, composable through a documented protocol.</p>
 
-    <p>The application layer is 76 self-contained HTML files. Each one is single-file, dependency-free where possible, and runs in a browser or a Chromium window with no installation required. The same file that runs on the T-Deck Plus runs on a Linux tablet, an Android phone, a Luckfox embedded panel, or a MacBook. Deploy with <code>cp</code>. Update with <code>git pull</code>. No build toolchain. No package manager. No vendor permission.</p>
+    <p>These are not the same layer running everywhere. They are two different tiers that solve different problems at different levels of the stack — and pm_bridge.py is the connective tissue between them.</p>
+
+    <div class="callout" style="border-color:#1f4788;background:#07080f">
+      <div class="callout-label" style="background:#1f4788;color:#fff">TIER 1 — NATIVE FIRMWARE (ESP32 FAMILY)</div>
+      <p>C/C++, FreeRTOS, direct hardware access. Approximately 50 applications compiled into the firmware binary. The Ghost Engine, the SPI Bus Treaty, the Ghost Partition, the ELF module runtime, the UART peripheral map — all live at this tier. This is where the inventions are implemented. The application layer here is the operating system itself: tasks pinned to specific cores, mutexes governing shared hardware, real-time constraints enforced at the compiler level. Targets: T-Deck Plus (ESP32-S3), M5Stack Cardputer (ESP32-S3), ESP32-P4 (ELECROW CrowPanel 7").</p>
+    </div>
+
+    <div class="callout" style="border-color:#2d5a2d;background:#060a06">
+      <div class="callout-label" style="background:#2d5a2d;color:#aee8ae">TIER 2 — HTML/JS APPLICATION LAYER (x86/ARM, ANDROID, BROWSER)</div>
+      <p>77 self-contained HTML files. Each one is single-file, dependency-free where possible, and runs in a browser or Chromium window with no installation required. Deploy with <code>cp</code>. Update with <code>git pull</code>. No build toolchain. No package manager. No vendor permission. This tier runs on Linux x86/ARM (Fujitsu Stylistic Q508 and equivalent hardware the industry has declared obsolete), Android APK, Luckfox Pico 86 Panel (RV1106/Buildroot), and any modern browser. It does not run on ESP32 family hardware. It is not the same layer as the native firmware. It is a different problem — sovereign computing for the hosts and workstations that receive, analyze, and act on the intelligence the ESP32 devices collect.</p>
+    </div>
+
+    <div class="callout" style="border-color:#5a3a1a;background:#0a0705">
+      <div class="callout-label" style="background:#5a3a1a;color:#c8a06a">THE PROTOCOL LAYER — pm_bridge.py + PISCES BRIDGE</div>
+      <p>The connective tissue between Tier 1 and Tier 2. pm_bridge.py is a 2,754-line Python daemon that runs on any Tier 2 host and speaks JSON over WebSocket to all 77 HTML applications. When a T-Deck Plus is connected via USB, pm_bridge.py relays its Ghost Engine data — GPS-tagged wardrive detections, BLE scans, probe requests, LoRa mesh links, promiscuous-mode 802.11 frames — to the HTML applications as a unified event stream. When no device is connected, pm_bridge.py falls back to the host machine's own radio hardware (CoreWLAN on macOS, nmcli on Linux, netsh on Windows, termux-wifi-scaninfo on Android). The HTML applications never need to know which source they are receiving from. The protocol is the abstraction. Pisces Bridge firmware extends this to any ESP32 dev board: $10 in hardware becomes a streaming sensor for any Tier 2 host.</p>
+    </div>
+
+    <p>Unix said: everything is a file. Pisces Moon says: everything is a website — at the Tier 2 layer. The Tier 1 layer says something different: everything is a task, every task has a core, every core has a contract. Both are true. They serve different hardware and different purposes. pm_bridge.py is why they can work together.</p>
 
     <div class="callout">
-      <div class="callout-label">TARGET 1 — T-DECK PLUS ($50) — FIELD INTELLIGENCE DEVICE</div>
-      <p>The LilyGO T-Deck Plus — ESP32-S3 at 240MHz, 8MB PSRAM, QWERTY keyboard, LoRa radio, GPS, WiFi, Bluetooth LE, I2S audio, MicroSD storage. Retail price: $50. Running Pisces Moon OS v1.1.1 "The Arsenal" with two inventions that did not exist for this hardware class. <strong>The Ghost Engine</strong> runs on Core 0 continuously — wardriving, BLE scanning, GPS logging — always, regardless of what the operator is doing on Core 1. <strong>The SPI Bus Treaty</strong> is the architectural standard that makes the Ghost Engine possible: the first known documented formal behavioral protocol for shared-bus arbitration on the ESP32-S3. 47 built-in applications, ELF module runtime for SD card app deployment without reflashing, Ghost Partition security with sub-millisecond data destruction.</p>
+      <div class="callout-label">TARGET 1 — T-DECK PLUS ($50) — TIER 1 — FIELD INTELLIGENCE DEVICE</div>
+      <p>The LilyGO T-Deck Plus — ESP32-S3 at 240MHz, 8MB PSRAM, QWERTY keyboard, LoRa radio, GPS, WiFi, Bluetooth LE, I2S audio, MicroSD storage. Retail price: $50. Running Pisces Moon OS v1.1.1 "The Arsenal." <strong>The Ghost Engine</strong> runs on Core 0 continuously — wardriving, BLE scanning, GPS logging — always, regardless of what the operator is doing on Core 1. <strong>The SPI Bus Treaty</strong> is the architectural standard that makes the Ghost Engine possible: the first known documented formal behavioral protocol for shared-bus arbitration on the ESP32-S3. 47 native C/C++ applications, ELF module runtime for SD card app deployment without reflashing, Ghost Partition security with sub-millisecond data destruction. Connects to Tier 2 hosts via pm_bridge.py over USB Serial at 921600 baud.</p>
     </div>
 
     <div class="table-wrap">
@@ -348,16 +365,16 @@
     </div>
 
     <div class="callout">
-      <div class="callout-label">TARGET 2 — LINUX ON OBSOLETE x86/ARM (FREE) — ANALYSIS WORKSTATION</div>
-      <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Primary target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation — 77 applications across 11 categories — with native integration of the T-Deck Plus as a dedicated radio coprocessor via the Bridge App protocol.</p>
+      <div class="callout-label">TARGET 2 — LINUX ON OBSOLETE x86/ARM (FREE) — TIER 2 — ANALYSIS WORKSTATION</div>
+      <p>Pisces Moon Linux targets x86 and ARM hardware the industry has declared obsolete: Intel Atom tablets, Core i5 laptops from 2012–2016, ARM single-board computers. Primary target: Fujitsu Stylistic Q508, available on the secondary market for $50–100. Delivers a complete security analysis workstation — 77 HTML applications across 11 categories — running in Chromium with no chrome, no installation beyond a browser, no build toolchain. pm_bridge.py runs as the host intelligence daemon, unifying T-Deck radio data with the host machine's own WiFi and BLE radios. WiGLE 1.4 compatible wardrive output. .pmsession portable field bundles.</p>
       <p>The enterprise pitch is exact: Pisces Moon Linux turns hardware you have already purchased, already depreciated, and already written off into a functional security analysis workstation. Your sunk cost is paid. The software is free. Your hardware refresh cycle just extended by five years.</p>
-      <p>Applications run as single-file HTML/CSS/JavaScript tools requiring no installation beyond a browser. On constrained Atom-class hardware, this matters. The dominant alternative for cross-platform desktop apps is Electron, which ships a full Chromium browser and Node.js runtime with every application:</p>
+      <p>The dominant alternative for cross-platform desktop apps is Electron, which ships a full Chromium browser and Node.js runtime with every application:</p>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th></th><th>Electron</th><th>Pisces Moon Application Layer</th></tr>
+          <tr><th></th><th>Electron</th><th>Pisces Moon HTML Application Layer</th></tr>
         </thead>
         <tbody>
           <tr><td>Executable size</td><td>150–300 MB</td><td>Single HTML file</td></tr>
@@ -372,38 +389,43 @@
     </div>
 
     <div class="callout">
-      <div class="callout-label">TARGET 3 — ANDROID APK — MOBILE OPERATIONS LAYER</div>
-      <p>The same 76-application HTML suite wraps as a native Android APK. The same wardrive analysis tools, security suite, field reference apps, and intelligence tools that run on the Linux tablet run on an Android phone or tablet — no new codebase, no per-platform development cost. The APK is a thin wrapper: Chromium rendering, local file access, no external dependencies, no telemetry, no analytics, no cookies. All HTTPS endpoints explicitly declared in the network security config. The operator brings the device they already carry.</p>
+      <div class="callout-label">TARGET 3 — ANDROID APK — TIER 2 — MOBILE OPERATIONS LAYER</div>
+      <p>The 77-application HTML suite wrapped as a native Android APK. Thin wrapper: Chromium rendering, local file access, no telemetry, no analytics, no cookies. All HTTPS endpoints explicitly declared in the network security config. The wardrive runs as a background service — Android handles concurrent processes natively without requiring a treaty. Swipe out of Pisces Moon; the phone looks like a phone. The operator brings the device they already carry. Pairs with a T-Deck or T-Beam via Web Bluetooth or USB-OTG for richer radio data.</p>
     </div>
 
     <div class="callout">
-      <div class="callout-label">TARGET 4 — LUCKFOX PICO 86 PANEL (RV1106 / BUILDROOT) — EMBEDDED PANEL</div>
+      <div class="callout-label">TARGET 4 — LUCKFOX PICO 86 PANEL (RV1106 / BUILDROOT) — TIER 2 — EMBEDDED PANEL</div>
       <p>The Luckfox Pico 86 Panel is an RV1106-based embedded Linux device running a Buildroot environment with LVGL. Pisces Moon deploys to it via a dedicated serial daemon and LVGL application layer. A $30–50 embedded panel running the same sovereign stack as the $350 field device. The application layer adapts to the form factor. The sovereignty principle does not.</p>
     </div>
 
     <div class="callout">
-      <div class="callout-label">TARGET 5 — M5STACK CARDPUTER (ESP32-S3) — COMPACT FIELD DEVICE</div>
-      <p>The M5Stack Cardputer is an ESP32-S3 device in a compact keyboard form factor — the same silicon class as the T-Deck Plus. Pisces Moon firmware ports to it with display and input HAL adaptation. The Ghost Engine architecture, the SPI Bus Treaty, and the dual-core task split carry over unchanged. The silicon is the same. The protocol is the same. The problems were already solved.</p>
+      <div class="callout-label">TARGET 5 — M5STACK CARDPUTER (ESP32-S3) — TIER 1 — COMPACT FIELD DEVICE</div>
+      <p>The M5Stack Cardputer is an ESP32-S3 device in a compact keyboard form factor — the same silicon class as the T-Deck Plus. Pisces Moon native firmware ports to it with display and input HAL adaptation. The Ghost Engine architecture, the SPI Bus Treaty, and the dual-core task split carry over unchanged. The silicon is the same. The protocol is the same. The problems were already solved.</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">TARGET 6 — ESP32-P4 (ELECROW CROWPANEL 7") — TIER 1 — FIRST BOOT MAY 13, 2026</div>
+      <p>The ESP32-P4 is a new silicon class: dual RISC-V HP cores at 360MHz, a low-power RISC-V Sentinel Core at 40MHz, 32MB HEX PSRAM at 200MHz, and MIPI-DSI output for a 1024×600 display. On this hardware, the Ghost Engine runs on a separate chip entirely — the ESP32-C6 connected via SDIO — with its own processor, its own radio stack, and its own clock domain. Four formal core roles: Ghost Engine (C6, dedicated radio brain via SDIO), OS Core (HP Core 0, app logic), UI Core (HP Core 1, LVGL render), Sentinel Core (LP Core, power watchdog — a Software PMU with no documented prior art). The UART peripheral map replaces the SPI Bus Treaty as the P4 shared-resource protocol. The methodology is identical. The hardware constraint is different. The Ghost Engine is no longer a software trick on shared silicon. It is dedicated hardware. Pisces Moon P4 v1.2.0-alpha. 57 apps registered. Launcher rendering. Touch navigation operational. First boot: May 13, 2026.</p>
     </div>
 
     <div class="callout">
       <div class="callout-label">THE UNIFIED PRINCIPLE</div>
-      <p>Five deployment targets. One application layer. One philosophical foundation. The operator chooses the hardware. The hardware serves the operator. The vendor — any vendor — is not in the loop at any layer. This is what a platform looks like when sovereignty is the design constraint rather than a feature the platform vendor decided to offer.</p>
+      <p>Six deployment targets. Two application layers. One protocol connecting them. One philosophical foundation. One methodology: name the constraint, document the protocol, make it a platform contract. The operator chooses the hardware. The hardware serves the operator. The vendor — any vendor — is not in the loop at any layer. This is what a platform looks like when sovereignty is the design constraint rather than a feature the platform vendor decided to offer.</p>
     </div>
 
   <!-- IV. SIX NOVEL PROBLEMS -->
   <div class="section">
     <div class="section-num">IV</div>
-    <h2 class="section-title">THE ENGINEERING: SIX NOVEL PROBLEMS SOLVED</h2>
+    <h2 class="section-title">THE ENGINEERING: EIGHT NOVEL PROBLEMS SOLVED</h2>
 
     <div class="callout" style="border-color:var(--accent);background:#100d08;margin-bottom:1.75rem">
       <div class="callout-label">THE TECHNICAL CONTRIBUTION</div>
       <p><strong>The solutions are individually documented. The problem they were assembled to solve was not.</strong></p>
-      <p style="margin-top:.75rem">Mutexes are documented. PSRAM heap redirection exists in the ESP-IDF reference. Dual-core task pinning is in the datasheet. Nobody is claiming otherwise. The novelty is that no previous ESP32-S3 project was complex enough to need all of them simultaneously — and that no previous project had designed a formal behavioral protocol to make concurrent multi-subsystem operation stable under real field conditions without adding hardware.</p>
-      <p style="margin-top:.75rem">The SPI Bus Treaty is a systems design contribution, not a components contribution. It is the governance layer that makes the Ghost Engine possible. Six failure modes, discovered under field conditions, assembled into a named architectural standard that is now in the public technical record. Any developer building concurrent multi-subsystem software on this hardware class starts from a documented foundation rather than rediscovering these problems from scratch. All claims are verifiable against the public codebase at github.com/FluidFortune/pisces-moon-os.</p>
+      <p style="margin-top:.75rem">Mutexes are documented. PSRAM heap redirection exists in the ESP-IDF reference. Dual-core task pinning is in the datasheet. Nobody is claiming otherwise. The novelty is that no previous ESP32-S3 project was complex enough to need all of them simultaneously — and that no previous project had designed a formal behavioral protocol to make concurrent multi-subsystem operation stable under real field conditions without adding hardware. Problems seven and eight emerged during the T-LoRa Pager port: hardware-variant GPIO collisions and SPI bus state corruption that only surface when the same OS runs on two physically different devices. The methodology that produced the SPI Bus Treaty produced their solutions too.</p>
+      <p style="margin-top:.75rem">The SPI Bus Treaty is a systems design contribution, not a components contribution. It is the governance layer that makes the Ghost Engine possible. Eight failure modes, discovered under field conditions, assembled into a named architectural standard that is now in the public technical record. Any developer building concurrent multi-subsystem software on this hardware class starts from a documented foundation rather than rediscovering these problems from scratch. All claims are verifiable against the public codebase at github.com/FluidFortune/pisces-moon-os.</p><p style="margin-top:.75rem;font-style:italic;color:var(--text-dim)">The SPI Bus Treaty was the first expression of a methodology. On ESP32-P4 hardware (first boot May 13, 2026), the same methodology produced two new protocols: a formal UART peripheral map governing four serial controllers across four physical connections, and a four-core convention assigning explicit named roles to each processing unit. The contribution is not the specific treaty. The contribution is the methodology: name the constraint, document the protocol, make it a platform contract. The treaties are its expressions.</p>
     </div>
 
-    <p>The platform's credibility rests on its having actually been built and validated on physical hardware under real-world conditions. The following six engineering problems were encountered during development and solved — <strong>none had documented solutions for the ESP32-S3 hardware platform prior to this project.</strong> These are problems that did not exist in the literature because no previous software on this hardware was complex enough to trigger them.</p>
+    <p>The platform's credibility rests on its having actually been built and validated on physical hardware under real-world conditions. The following eight engineering problems were encountered during development and solved — <strong>none had documented solutions for this hardware platform prior to this project.</strong> The first six were discovered on the T-Deck Plus. Problems seven and eight were discovered during the T-LoRa Pager port — hardware-variant collisions that only surface when the same OS runs on two physically different devices.</p>
 
     <p>Two inventions define this project. <strong>The Ghost Engine</strong> — the persistent Core 0 intelligence collection process that is the entire reason this OS exists — and <strong>the SPI Bus Treaty</strong> — the named architectural standard that makes the Ghost Engine possible on shared-bus hardware. The Ghost Engine is the operational paradigm. The Treaty is the engineering standard that enables it. Every other engineering decision in this OS exists in service of one guarantee: the Ghost Engine never stops.</p>
 
@@ -421,7 +443,7 @@
         <p>The Treaty consists of four rules that all OS components and all third-party ELF module developers must follow: <strong>Hit and run</strong> — open, write, close, release the bus immediately, no exceptions. <strong>No extended holds</strong> — no operation may hold the SPI bus for extended periods under any circumstances. <strong>Radio traffic management</strong> — a shared boolean flag coordinates WiFi radio access between the Ghost Engine and the AI client. <strong>Metadata-only destructive operations</strong> — the Nuke security function deletes index files in milliseconds rather than formatting the card over seconds.</p>
         <p>These are not workarounds. They are laws. Every component in the OS is written to obey them. Every ELF module developer who builds for this platform is required to obey them. The Treaty is the reason Core 0 never stops — it is the architectural guarantee that makes persistent dual-core background tasking possible on shared-bus hardware.</p>
         <p>The historical precedent is instructive: Unix filesystem locking conventions (1970s) established formal rules for competing processes sharing a filesystem. The Apollo Guidance Computer's priority scheduling protocol (1969) established formal rules for competing tasks sharing a processor under load. Nintendo's N64 RSP time budget (1996) established formal rules for competing subsystems sharing a signal processor. In each case, the solution was not a patch — it was a protocol. A named standard. A thing that could be taught, documented, and enforced across an entire platform.</p>
-        <p><strong>The SPI Bus Treaty is that standard for the ESP32-S3. It is the first known documented instance of this solution class applied to this hardware architecture. Any developer who builds concurrent multi-subsystem software on the ESP32-S3 and encounters this problem now has a reference. They did not have one before.</strong></p>
+        <p><strong>The SPI Bus Treaty is that standard for the ESP32-S3. It is the first known documented instance of this solution class applied to this hardware architecture. Any developer who builds concurrent multi-subsystem software on the ESP32-S3 and encounters this problem now has a reference. They did not have one before.</strong></p><p>The Treaty established a methodology. On ESP32-P4 hardware, the same methodology produced a formal UART peripheral map (four UARTs, four assigned roles, zero collisions) and a four-core convention (Ghost Engine on dedicated C6 silicon via SDIO, OS Core on HP Core 0, UI Core on HP Core 1, Sentinel Core on LP Core). Different hardware. Same governance principle. The methodology is the invention. The treaties are its expressions.</p>
       </div>
     </div>
 
@@ -496,7 +518,35 @@
       </div>
     </div>
 
-    <blockquote>All six problems were always present in the hardware. They were discovered because this project was the first software on this hardware class complex enough to trigger them. The solutions are now part of the project's public technical documentation — a reference standard for any developer building on this platform.</blockquote>
+    <!-- Problem 7 -->
+    <div class="problem-block">
+      <div class="problem-num">PROBLEM 7</div>
+      <div class="problem-title">GPIO Pin Collision Across Hardware Variants — The SD/Touch Conflict</div>
+      <div class="problem-sub">The Problem</div>
+      <p>When Pisces Moon OS was ported to the T-LoRa Pager — a second LilyGO device sharing the same ESP32-S3 SoC — GPIO 21 was discovered to serve opposite functions on the two devices. On the T-Deck Plus, GPIO 21 is the touch controller reset pin (TOUCH_RST), wired to the GT911 capacitive touch IC. On the T-LoRa Pager, GPIO 21 is the SD card chip-select (SD_CS). Initializing the T-Deck touch driver on T-LoRa Pager hardware pulls SD_CS low at boot, corrupting the SD card mount before any application code runs.</p>
+      <div class="problem-sub">Why It Was Hard</div>
+      <p>The same pin number, the same SoC, the same manufacturer — but completely different functions on two boards in the same product family. The failure mode was an SD mount corruption that appeared to be an SD driver problem, an SPI timing problem, or a power sequencing problem before the root cause was identified. No documentation explicitly maps pin functions across LilyGO product variants. Cross-referencing the schematic alone was insufficient; the labeling in the schematic PDF contained its own errors.</p>
+      <div class="solution">
+        <div class="solution-label">THE SOLUTION: CONDITIONAL COMPILATION WITH HARDWARE DEFINES</div>
+        <p>All touch initialization code is gated behind <code>#ifdef DEVICE_TDECK_PLUS</code>. On T-LoRa Pager targets, touch code is excluded at compile time — not disabled at runtime, which would still risk the GPIO state being set incorrectly during initialization. This is the first documented case of this specific GPIO collision between LilyGO T-Deck Plus and T-LoRa Pager hardware variants, and the first cross-device architecture comparison for Pisces Moon OS.</p>
+      </div>
+    </div>
+
+    <!-- Problem 8 -->
+    <div class="problem-block">
+      <div class="problem-num">PROBLEM 8</div>
+      <div class="problem-title">SPI Bus State Corruption Across Peripheral Initialization — Deferred SD Mount</div>
+      <div class="problem-sub">The Problem</div>
+      <p>On the T-LoRa Pager, SD card CMD0 — the initialization command — returned <code>0xFF</code> (no response) eight times consecutively on every cold boot, despite the same physical SD card mounting successfully on T-Deck Plus hardware. The mount succeeded on warm reboot but not cold boot. The SD card was not defective. The SPI wiring was correct. The pin map was correct.</p>
+      <div class="problem-sub">Why It Was Hard</div>
+      <p>Three independent causes converged to produce the same symptom. Each required separate diagnosis. Fixing one did not fix the problem. All three had to be resolved simultaneously: (1) An Arduino-ESP32 core 2.0.16 SPI/SD driver bug that was partially fixed in 2.0.17, requiring a platform version bump to espressif32 @ 6.10.0. (2) A wrong SPI pin map — the default Arduino SPI pins for the generic ESP32-S3 devkit are different from the physical SPI pins on the T-LoRa Pager PCB. The LilyGoLib variant header containing the correct pin map (SCK=35, MISO=33, MOSI=34, SS=21) had to be explicitly placed in the compiler include path. (3) A bus state problem — even with the correct core and correct pin map, the SD card refused to initialize because other SPI peripherals (display initialization, LoRa initialization) had left the SPI peripheral block in a state the SD card's CMD0 sequence did not accept.</p>
+      <div class="solution">
+        <div class="solution-label">THE SOLUTION: DEFERRED MOUNT WITH COLD SPI RESTART</div>
+        <p>SD initialization is deferred entirely out of the boot sequence into a background FreeRTOS task (<code>late_sd_init_task</code>) that runs after all other peripherals have completed their initialization. The task calls <code>SPI.end()</code>, waits 20ms for the bus to discharge, calls <code>SPI.begin()</code> with the correct pin map as a cold restart, then retries the SD mount up to ten times. The cold SPI restart eliminates the bus state problem. Apps poll a <code>g_sd_ready</code> flag with a timeout before accessing the SD card. The T-Deck Plus does not require this pattern because its peripheral initialization sequence happens to leave SPI in an SD-mountable state — a timing coincidence, not a design guarantee. The deferred mount pattern is now the recommended approach for any new ESP32-S3 hardware target.</p>
+      </div>
+    </div>
+
+    <blockquote>All eight problems were present in the hardware. The first six were discovered because this project was the first software on the T-Deck Plus complex enough to trigger them. Problems seven and eight were discovered during the T-LoRa Pager port — hardware-variant collisions and bus state interactions that only surface when the same OS runs on two physically different devices. The solutions are part of the public technical record. The treaty doesn't change. The hardware around the treaty does.</blockquote>
   </div>
 
   <!-- IV.5 THE HOST BRIDGE -->
@@ -654,7 +704,7 @@
 
     <h3 class="subsection-title">THE ARCHITECTURAL CONTRIBUTION</h3>
 
-    <p>The SPI Bus Treaty and Ghost Engine architecture are not ESP32-S3 specific in their implications. They define a pattern that applies to any microcontroller class with multiple cores and shared peripherals: persistent dual-core background tasking with formal shared-bus arbitration as a named behavioral standard.</p>
+    <p>The SPI Bus Treaty and Ghost Engine architecture are not ESP32-S3 specific in their implications. They define a methodology that applies to any hardware class with multiple cores and shared resources: name the constraint, document the protocol, make it a platform contract. On ESP32-P4 hardware (first boot May 13, 2026), the Ghost Engine runs on dedicated silicon — a separate ESP32-C6 connected via SDIO — in a four-core architecture with formal conventions governing which core owns which responsibility. The UART peripheral map is the P4 treaty. The four-core convention is the P4 governance layer. The methodology produced both, as it produced the SPI Bus Treaty on S3.</p>
 
     <p>As RAM and storage prices remain elevated and organizations look to extend the useful life of existing embedded hardware, this pattern becomes directly applicable to the question of how to extract more concurrent capability from hardware already in the field. The six engineering problems documented in this paper — and the solutions — are now reference material. Any developer encountering shared-bus conflict, PSRAM heap exhaustion, dual-core synchronization failure, dense RF environment instability, security architecture constraints under hardware timing limits, or undocumented hardware batch variation on this hardware class now has a documented starting point.</p>
 
