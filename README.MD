@@ -67,7 +67,7 @@ Pisces Moon OS is a general-purpose sovereign computing platform for the ESP32-S
 | 2 | Pisces Moon Linux (x86/ARM) | HTML/JS suite | Live — 77 apps |
 | 3 | Android APK | HTML/JS suite | Live |
 | 4 | Luckfox Pico 86 Panel (RV1106) | HTML/JS suite | Live |
-| 5 | M5Stack Cardputer ADV (ESP32-S3) | Native firmware | Alpha — 47 apps |
+| 5 | M5Stack Cardputer ADV (ESP32-S3) | Native firmware | Alpha — 47 apps, Cap LoRa868 module pending |
 | 6 | ESP32-P4 / Elecrow CrowPanel 7" | Native firmware | Alpha — first boot May 13, 2026 |
 
 ### Ten novel engineering problems — all documented
@@ -82,6 +82,18 @@ Pisces Moon OS is a general-purpose sovereign computing platform for the ESP32-S
 8. **SPI Bus State Corruption** → Deferred SD mount with cold SPI restart
 9. **Ghost Engine Silent Failure** → Lazy session-file creation
 10. **ELF Execution Without Hardware Isolation** → Three-layer PMS sandbox (first documented on ESP32-S3)
+
+### What makes the Cardputer architecturally distinct
+
+The Cardputer ADV is the third Tier 1 device and the most architecturally different from T-Deck and T-LoRa Pager:
+
+- **Two separate SPI buses** — display on HSPI (no Treaty contention), SD + LoRa on FSPI (Treaty governs this bus). Display updates at full speed during wardrive scans.
+- **M5Cardputer library for keyboard** — TCA8418 controller, but the M5Cardputer library handles all matrix scanning and Fn-layer resolution. Pisces Moon wraps it into universal `PM_KEY_*` constants.
+- **240×135 — 32,400 pixels** — roughly 40% of the T-Deck Plus. Every app UI needed rethinking: textSize=1 throughout, 14px header bars, ring-buffer BIOS auto-scroll, Cardputer-specific splash geometry.
+- **Cap LoRa868 module** — SX1262 LoRa + AT6668 GNSS (GPS/Beidou/GLONASS/Galileo/QZSS) over the 2×7-pin expansion header. Without it, wardrive runs WiFi + BLE only.
+- **47 apps** — same seven categories as T-Deck and T-LoRa Pager. Snake fully reflowed for 240×135 in v1.2.0. Pac-Man, Galaga, SimCity stubbed pending geometry work.
+
+Cardputer-specific build: `pio run -e cardputer_adv`. Uses `partitions_cardputer.csv` (8 MB) — do not flash with the T-Deck/Pager 16 MB partition table.
 
 ### Architectural documentation
 
@@ -139,7 +151,9 @@ Fluid Fortune is an independent forge founded by **Eric Becker** — The Court J
 
 ## License
 
-Website content and code © 2026 Eric Becker / Fluid Fortune.
+Website content and code © 2026 Eric Becker / Fluid Fortune, unless otherwise noted in the license.
+
+See [LICENSE](LICENSE) for full terms.
 
 Pisces Moon OS firmware: [AGPL-3.0-or-later](https://www.gnu.org/licenses/agpl-3.0.html)
 Pisces Moon application layer: MIT
