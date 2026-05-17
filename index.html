@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fluidfortune.com">
   <meta property="og:title" content="Fluid Fortune | Pisces Moon OS — Sovereign Computing on $50 Hardware">
-  <meta property="og:description" content="Sovereign computing tools for the era of private intelligence. Pisces Moon OS: Ghost Engine + SPI Bus Treaty. Five deployment targets. 47 firmware apps. 77 HTML apps. Lety IDE. $144 in hardware. First known documented persistent dual-core background tasking for field intelligence on ESP32-S3.">
+  <meta property="og:description" content="Sovereign computing tools for the era of private intelligence. Pisces Moon OS: Ghost Engine + SPI Bus Treaty. Five deployment targets. 52+ firmware apps. 77 HTML apps. Lety IDE. $144 in hardware. First known documented persistent dual-core background tasking for field intelligence on ESP32-S3.">
   <meta property="og:image" content="https://fluidfortune.com/courtjester.jpg">
   <meta property="og:image:width" content="820">
   <meta property="og:image:height" content="1024">
@@ -20,7 +20,7 @@
   <!-- Twitter/X Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Fluid Fortune | Pisces Moon OS — Sovereign Computing on $50 Hardware">
-  <meta name="twitter:description" content="Sovereign computing tools for the era of private intelligence. Pisces Moon OS: Ghost Engine + SPI Bus Treaty. Five deployment targets. 47 firmware apps. 77 HTML apps. Lety IDE. $144 in hardware.">
+  <meta name="twitter:description" content="Sovereign computing tools for the era of private intelligence. Pisces Moon OS: Ghost Engine + SPI Bus Treaty. Five deployment targets. 52+ firmware apps. 77 HTML apps. Lety IDE. $144 in hardware.">
   <meta name="twitter:image" content="https://fluidfortune.com/courtjester.jpg">
   <meta name="twitter:image:alt" content="FluidFortune — The Court Jester of Vibe Coding">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,9 +63,9 @@
     "name": "Pisces Moon OS",
     "applicationCategory": "OperatingSystem",
     "operatingSystem": "ESP32-S3, Linux, Android",
-    "description": "The first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3 hardware class. Features the Ghost Engine (Core 0 continuous wardriving, BLE scanning, GPS logging) and the SPI Bus Treaty (first named architectural standard for shared-bus arbitration on ESP32-S3). 47 firmware apps, 77 HTML apps, five deployment targets.",
+    "description": "The first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3 hardware class. Features the Ghost Engine (Core 0 continuous wardriving, BLE scanning, GPS logging) and the SPI Bus Treaty (first named architectural standard for shared-bus arbitration on ESP32-S3). 52+ firmware apps, 77 HTML apps, five deployment targets.",
     "url": "https://fluidfortune.com/pisces-moon.html",
-    "downloadUrl": "https://github.com/FluidFortune/pisces-moon-os/releases/tag/v1.1.1",
+    "downloadUrl": "https://github.com/FluidFortune/pisces-moon-os/releases/tag/v1.2.0",
     "version": "1.1.1",
     "releaseNotes": "https://fluidfortune.com/sovereignty.html",
     "author": {
@@ -101,6 +101,7 @@
         <li><a href="#projects">&gt; PROJECTS</a></li>
         <li><a href="#media">&gt; MEDIA</a></li>
         <li><a href="#roast">&gt; ROAST</a></li>
+        <li><a href="#side-projects">&gt; SIDE PROJECTS</a></li>
         <li><a href="#comms">&gt; COMMS</a></li>
         <li><a href="https://blog.fluidfortune.com" target="_blank">&gt; BLOG</a></li>
         <li><a href="https://podcast.fluidfortune.com" target="_blank">&gt; PODCAST</a></li>
@@ -177,19 +178,27 @@
     <!-- ═══════════════════════════════════════ PROJECTS -->
     <section class="section section--dark" id="projects">
       <div class="section-inner">
-        <h2 class="section-title">[ CURRENT PROJECTS ]</h2>
+            <h2 class="section-title">[ CURRENT PROJECTS ]</h2>
 
-        <!-- PROJECT GRID — 2 col desktop, 1 col mobile, built for 4 -->
-        <div class="project-grid">
+    <div class="app-panel" id="projects-panel">
+      <div class="app-panel-nav">
+        <button class="app-tab-btn" data-apptab="flagship">FLAGSHIP</button>
+        <button class="app-tab-btn" data-apptab="tools">TOOLS &amp; UTILITIES</button>
+        <button class="app-tab-btn" data-apptab="media-tools">MEDIA &amp; CONTENT</button>
+        <button class="app-tab-btn" data-apptab="the-project">THE PROJECT</button>
+      </div>
+      <div class="app-panel-body">
 
-          <!-- PISCES MOON — unified platform -->
+        <div id="apptab-flagship" class="app-tab-panel">
+          <div class="project-grid">
+<!-- PISCES MOON — unified platform -->
           <article class="project-card project-card--wide project-card--featured" style="grid-column: 1 / -1;">
             <div class="project-header">
               <h3 class="project-name">PISCES MOON</h3>
-              <span class="project-badge project-badge--alpha">v1.1.1 "THE ARSENAL"</span>
+              <span class="project-badge project-badge--alpha">v1.2.0 "MULTI-DEVICE"</span>
               <span class="project-badge project-badge--live" style="margin-left:.25rem">● NOW PUBLIC</span>
             </div>
-            <p class="project-desc">Two inventions that didn't exist before this project. <strong>The Ghost Engine</strong> — a persistent Core 0 process that wardrives, scans BLE, and logs GPS continuously, always, regardless of what the operator is doing. The device is always collecting. The operator never has to think about it. <strong>The SPI Bus Treaty</strong> — the first named architectural standard for shared-bus arbitration on the ESP32-S3, the reason the Ghost Engine never stops. One platform. Five deployment targets: T-Deck Plus field device (47 apps, ESP32-S3 firmware), Pisces Moon Linux on obsolete x86/ARM (77 apps, Debian 13), Android APK, Luckfox Pico 86 Panel, and M5Stack Cardputer. Plus a complete browser-based developer ecosystem: <strong>Lety</strong> — the in-browser IDE with live preview, cloud build, and Web Serial flash to your T-Deck. <strong>Pisces Bridge</strong> — firmware that turns any $10 ESP32 dev board into a sensor that streams WiFi, BLE, LoRa, and GPS detections to any host. Ghost Partition security, local AI inference, LoRa mesh radio, GPS, and ELF module runtime — on hardware costing $50 to $350. Sovereign by design: fully functional offline, optionally networked as an edge node. As of May 15, 2026 — two LilyGo devices running Pisces Moon OS simultaneously in the field, downtown Los Angeles, session 83. The operator chooses.</p>
+            <p class="project-desc">Two inventions that didn't exist before this project. <strong>The Ghost Engine</strong> — a persistent Core 0 process that wardrives, scans BLE, and logs GPS continuously, always, regardless of what the operator is doing. The device is always collecting. The operator never has to think about it. <strong>The SPI Bus Treaty</strong> — the first named architectural standard for shared-bus arbitration on the ESP32-S3, the reason the Ghost Engine never stops. One platform. Five deployment targets: T-Deck Plus (49 apps), T-LoRa Pager (52 apps), Cardputer ADV (47 apps) — all ESP32-S3 firmware, Pisces Moon Linux on obsolete x86/ARM (77 apps, Debian 13), Android APK, Luckfox Pico 86 Panel, and M5Stack Cardputer. Plus a complete browser-based developer ecosystem: <strong>Lety</strong> — the in-browser IDE with live preview, cloud build, and Web Serial flash to your T-Deck. <strong>Pisces Bridge</strong> — firmware that turns any $10 ESP32 dev board into a sensor that streams WiFi, BLE, LoRa, and GPS detections to any host. Ghost Partition security, local AI inference, LoRa mesh radio, GPS, and ELF module runtime — on hardware costing $50 to $350. Sovereign by design: fully functional offline, optionally networked as an edge node. As of May 15, 2026 — two LilyGo devices running Pisces Moon OS simultaneously in the field, downtown Los Angeles, session 83. The operator chooses.</p>
             <div class="project-links">
               <a href="pisces-moon.html" class="btn btn--primary">LEARN MORE →</a>
               <a href="https://piscesdemo.fluidfortune.com" class="btn" target="_blank" rel="noopener">▶ TRY LIVE DEMO</a>
@@ -199,8 +208,12 @@
               <a href="sovereignty.html" class="btn" target="_blank" rel="noopener">WHITE PAPER</a>
             </div>
           </article>
+          </div>
+        </div>
 
-          <!-- THE PHANTOM -->
+        <div id="apptab-tools" class="app-tab-panel">
+          <div class="project-grid">
+<!-- THE PHANTOM -->
           <article class="project-card">
             <div class="project-header">
               <h3 class="project-name">THE PHANTOM</h3>
@@ -211,12 +224,11 @@
               <a href="https://github.com/FluidFortune/The-Phantom" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
             </div>
           </article>
-
-          <!-- SPADRA SMELTER -->
+<!-- SPADRA SMELTER -->
           <article class="project-card">
             <div class="project-header">
               <h3 class="project-name">SPADRA SMELTER</h3>
-              <span class="project-badge project-badge--version">v1.1.1</span>
+              <span class="project-badge project-badge--version">v1.2.0</span>
             </div>
             <p class="project-desc">RF intelligence analysis platform for wardriving datasets. Drop in a WiGLE-format CSV and get a full intelligence picture — interactive heatmap, anomaly detection, OUI vendor enrichment, persistent device tracking, and export-ready reports. No installation. No server. One HTML file.</p>
             <div class="project-links">
@@ -224,8 +236,47 @@
               <a href="https://spadra-smelter.fluidfortune.com" class="btn btn--primary" target="_blank" rel="noopener">LAUNCH TOOL</a>
             </div>
           </article>
+<!-- TROJAN HORSE -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3 class="project-name">TROJAN HORSE</h3>
+              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
+            </div>
+            <p class="project-desc">A native application wrapper that turns any HTML/JS app into a real desktop application — without Electron's 200MB runtime, without Node.js, without an App Store. ~500 lines of native code per platform. Ships on macOS, Linux, Windows, Android, and iOS. The <code>window.spadra.*</code> bridge gives web apps direct access to the filesystem, serial ports, OS notifications, and hardware — including the T-Deck Plus running Pisces Moon OS. The deployment layer for the entire Fluid Fortune ecosystem.</p>
+            <div class="project-links">
+              <a href="https://github.com/FluidFortune/trojan-horse" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
+            </div>
+          </article>
+<!-- THE LIGHTHOUSE -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3 class="project-name">THE LIGHTHOUSE</h3>
+              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
+            </div>
+            <p class="project-desc">A signal between your device and your AI. The Lighthouse is a lightweight Python server that sits between any HTTP client and your existing Claude.ai or Gemini browser session — no API key, no extra cost, no per-token billing. It types your message, waits for the response, and returns it as JSON. The AI you already pay for, with your existing Projects and memory intact, accessible from any device that can make an HTTP POST. A $60 ESP32 device. A Raspberry Pi. curl. Anything.</p>
+            <p class="project-desc" style="font-size:.75rem;font-style:italic;color:var(--text-muted)">A standard API call returns "Hello! How can I help you today?" The Lighthouse returns a continuation of an existing relationship.</p>
+            <div class="project-links">
+              <a href="https://github.com/FluidFortune/the-lighthouse" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
+            </div>
+          </article>
+<!-- LITTLE SOUL -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3 class="project-name">LITTLE SOUL</h3>
+              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
+            </div>
+            <p class="project-desc">A GitHub-native website builder that runs as a single HTML file. Six themes. Six layouts. Eight section types. Multi-page with auto-generated navigation. Build complete websites and publish directly to GitHub Pages — no server, no database, no subscription, no bloat.</p>
+            <div class="project-links">
+              <a href="https://github.com/FluidFortune/little-soul" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
+              <a href="https://little-soul.fluidfortune.com" class="btn btn--primary" target="_blank" rel="noopener">OPEN BUILDER</a>
+            </div>
+          </article>
+          </div>
+        </div>
 
-          <!-- WOZBOT — spans full width to accommodate the video -->
+        <div id="apptab-media-tools" class="app-tab-panel">
+          <div class="project-grid">
+<!-- WOZBOT — spans full width to accommodate the video -->
           <article class="project-card project-card--featured project-card--wide" id="wozbot">
             <div class="project-header">
               <h3 class="project-name">WOZBOT</h3>
@@ -255,8 +306,7 @@
               </div>
             </div>
           </article>
-
-          <!-- PUNKY -->
+<!-- PUNKY -->
           <article class="project-card">
             <div class="project-header">
               <h3 class="project-name">PUNKY</h3>
@@ -268,54 +318,12 @@
               <a href="https://punky.fluidfortune.com" class="btn btn--primary" target="_blank" rel="noopener">OPEN EDITOR</a>
             </div>
           </article>
+          </div>
+        </div>
 
-          <!-- TROJAN HORSE -->
-          <article class="project-card">
-            <div class="project-header">
-              <h3 class="project-name">TROJAN HORSE</h3>
-              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
-            </div>
-            <p class="project-desc">A native application wrapper that turns any HTML/JS app into a real desktop application — without Electron's 200MB runtime, without Node.js, without an App Store. ~500 lines of native code per platform. Ships on macOS, Linux, Windows, Android, and iOS. The <code>window.spadra.*</code> bridge gives web apps direct access to the filesystem, serial ports, OS notifications, and hardware — including the T-Deck Plus running Pisces Moon OS. The deployment layer for the entire Fluid Fortune ecosystem.</p>
-            <div class="project-links">
-              <a href="https://github.com/FluidFortune/trojan-horse" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
-            </div>
-          </article>
-
-          <!-- THE LIGHTHOUSE -->
-          <article class="project-card">
-            <div class="project-header">
-              <h3 class="project-name">THE LIGHTHOUSE</h3>
-              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
-            </div>
-            <p class="project-desc">A signal between your device and your AI. The Lighthouse is a lightweight Python server that sits between any HTTP client and your existing Claude.ai or Gemini browser session — no API key, no extra cost, no per-token billing. It types your message, waits for the response, and returns it as JSON. The AI you already pay for, with your existing Projects and memory intact, accessible from any device that can make an HTTP POST. A $60 ESP32 device. A Raspberry Pi. curl. Anything.</p>
-            <p class="project-desc" style="font-size:.75rem;font-style:italic;color:var(--text-muted)">A standard API call returns "Hello! How can I help you today?" The Lighthouse returns a continuation of an existing relationship.</p>
-            <div class="project-links">
-              <a href="https://github.com/FluidFortune/the-lighthouse" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
-            </div>
-          </article>
-              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
-            </div>
-            <p class="project-desc">A lightweight, GitHub-native podcast publisher that runs as a single HTML file in your browser. Add episodes, generate show pages, and publish valid RSS feeds directly to your GitHub Pages podcast site with one click. No server. No install. No subscription.</p>
-            <div class="project-links">
-              <a href="https://github.com/FluidFortune/static" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
-              <a href="https://static.fluidfortune.com" class="btn btn--primary" target="_blank" rel="noopener">OPEN PUBLISHER</a>
-            </div>
-          </article>
-
-          <!-- LITTLE SOUL -->
-          <article class="project-card">
-            <div class="project-header">
-              <h3 class="project-name">LITTLE SOUL</h3>
-              <span class="project-badge project-badge--alpha">v0.1.0-alpha</span>
-            </div>
-            <p class="project-desc">A GitHub-native website builder that runs as a single HTML file. Six themes. Six layouts. Eight section types. Multi-page with auto-generated navigation. Build complete websites and publish directly to GitHub Pages — no server, no database, no subscription, no bloat.</p>
-            <div class="project-links">
-              <a href="https://github.com/FluidFortune/little-soul" class="btn" target="_blank" rel="noopener">VIEW ON GITHUB</a>
-              <a href="https://little-soul.fluidfortune.com" class="btn btn--primary" target="_blank" rel="noopener">OPEN BUILDER</a>
-            </div>
-          </article>
-
-          <!-- THE PROJECT — living document, spans full width -->
+        <div id="apptab-the-project" class="app-tab-panel">
+          <div class="project-grid">
+<!-- THE PROJECT — living document, spans full width -->
           <article class="project-card project-card--wide" style="grid-column: 1 / -1;">
             <div class="project-header">
               <h3 class="project-name">THE FLUID FORTUNE PROJECT</h3>
@@ -326,8 +334,60 @@
               <a href="project.html" class="btn btn--primary">READ THE DOCUMENT →</a>
             </div>
           </article>
+          </div>
+        </div>
 
-        </div><!-- /project-grid -->
+      </div>
+    </div><!-- /app-panel -->
+
+      </div>
+    </section>
+
+        <!-- ═══════════════════════════════════════ SIDE PROJECTS -->
+    <section class="section section--dark" id="side-projects">
+      <div class="section-inner">
+        <h2 class="section-title">[ THE SIDE PROJECTS ]</h2>
+        <div class="section-body">
+          <p>Standalone experiments, tools, and experiences that live outside the main forge. Different audiences, different purposes — same philosophy.</p>
+        </div>
+        <div class="side-projects-grid">
+
+          <div class="side-project-card">
+            <div class="side-project-name">VIBE CALC</div>
+            <div class="side-project-url">vibecalc.fluidfortune.com</div>
+            <div class="side-project-desc">A calculator that answers in vibes instead of numbers. The first app shipped on the Pisces Moon Linux platform. Zero practical value. Infinite personality.</div>
+            <a href="https://vibecalc.fluidfortune.com" class="side-project-link" target="_blank" rel="noopener">LAUNCH →</a>
+          </div>
+
+          <div class="side-project-card">
+            <div class="side-project-name">THE DENIRO ZONE</div>
+            <div class="side-project-url">the-deniro-zone.fluidfortune.com</div>
+            <div class="side-project-desc">A dedicated corner of the internet for a very specific obsession. You either get it or you don't. Robert De Niro would probably not get it.</div>
+            <a href="https://the-deniro-zone.fluidfortune.com" class="side-project-link" target="_blank" rel="noopener">ENTER →</a>
+          </div>
+
+          <div class="side-project-card">
+            <div class="side-project-name">AMARA</div>
+            <div class="side-project-url">amara.fluidfortune.com</div>
+            <div class="side-project-desc">A standalone experience. Details forthcoming.</div>
+            <a href="https://amara.fluidfortune.com" class="side-project-link" target="_blank" rel="noopener">VISIT →</a>
+          </div>
+
+          <div class="side-project-card">
+            <div class="side-project-name">PORTLAND</div>
+            <div class="side-project-url">portland.fluidfortune.com</div>
+            <div class="side-project-desc">A standalone experience. Details forthcoming.</div>
+            <a href="https://portland.fluidfortune.com" class="side-project-link" target="_blank" rel="noopener">VISIT →</a>
+          </div>
+
+          <div class="side-project-card">
+            <div class="side-project-name">TRUE CRIME</div>
+            <div class="side-project-url">truecrime.fluidfortune.com</div>
+            <div class="side-project-desc">A standalone experience. Details forthcoming.</div>
+            <a href="https://truecrime.fluidfortune.com" class="side-project-link" target="_blank" rel="noopener">VISIT →</a>
+          </div>
+
+        </div>
       </div>
     </section>
 
@@ -397,19 +457,20 @@
               <div class="media-card-icon" style="color:#8b5cf6;font-size:1.4rem">🎬</div>
               <div>
                 <h3 class="media-card-title" style="color:#c4b5fd">I AM AN ACTOR</h3>
-                <p class="media-card-sub" style="color:#8b5cf6">SAG-AFTRA PODCAST — UNOFFICIAL SPONSORS</p>
+                <p class="media-card-sub" style="color:#8b5cf6">SAG-AFTRA PODCAST — UNOFFICIAL SPONSORS — NOW LIVE</p>
               </div>
             </div>
-            <p class="media-card-desc">Fluid Fortune is the unofficial sponsor of <em>I Am An Actor</em> — the new SAG-AFTRA podcast hosted by <strong style="color:#e2d9f3">Jamie Chung</strong>, launching May 12th, 2026. First guest: <strong style="color:#e2d9f3">Kate Hudson</strong>. Long-form conversations with working actors about the craft, the industry, and what it actually takes.</p>
-            <p class="media-card-desc" style="font-size:.75rem;color:#7c3aed;font-family:var(--font-mono);letter-spacing:.08em;margin-top:.25rem">We met the host between fares. She's the real thing. So is the show.</p>
+            <p class="media-card-desc">Fluid Fortune is the unofficial sponsor of <em>I Am An Actor</em> — the SAG-AFTRA podcast hosted by <strong style="color:#e2d9f3">Jamie Chung</strong>. Long-form conversations with working actors about the craft, the industry, and what it actually takes. We met the host between fares. She's the real thing. So is the show.</p>
+            <p class="media-card-desc" style="font-size:.75rem;color:#7c3aed;font-family:var(--font-mono);letter-spacing:.08em;margin-top:.25rem">SickBird Productions · Arts · Updated Weekly · 5.0 ★</p>
             <div class="media-card-tags" style="margin-top:.75rem">
               <span style="background:#2d1b4e;color:#c4b5fd;border-color:#5b21b6">SAG-AFTRA</span>
               <span style="background:#2d1b4e;color:#c4b5fd;border-color:#5b21b6">JAMIE CHUNG</span>
-              <span style="background:#2d1b4e;color:#c4b5fd;border-color:#5b21b6">LAUNCHING MAY 12</span>
+              <span style="background:#2d1b4e;color:#c4b5fd;border-color:#5b21b6">● NOW LIVE</span>
             </div>
-            <div style="margin-top:1rem;padding:.6rem 1rem;background:#12091f;border:1px solid #4c1d95;font-family:var(--font-mono);font-size:.62rem;color:#7c3aed;letter-spacing:.1em">
-              MORE INFORMATION COMING SOON →
+            <div style="margin-top:1rem">
+              <a href="https://podcasts.apple.com/us/podcast/i-am-an-actor/id1895304979" class="btn btn--primary" target="_blank" rel="noopener" style="background:#7c3aed;border-color:#8b5cf6;color:#fff;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;padding:.55rem 1.1rem;text-decoration:none;display:inline-block">▶ LISTEN ON APPLE PODCASTS →</a>
             </div>
+          </div>
           </div>
 
         </div><!-- /media-grid -->
@@ -612,4 +673,38 @@
     // Typewriter effect on hero sub
     const sub = document.querySelector('.tagline-sub');
     if (sub) {
-      co
+      nst originalText = sub.textContent;
+      sub.textContent = '';
+      let i = 0;
+      function type() {
+        if (i < originalText.length) {
+          sub.textContent += originalText.charAt(i);
+          i++;
+          setTimeout(type, 28);
+        }
+      }
+      setTimeout(type, 800);
+    }
+
+  </script>
+
+  <!-- ── PROJECT PANEL TABS ───────────────────────────── -->
+  <script>
+  (function() {
+    var panels = document.querySelectorAll('#projects-panel .app-tab-panel');
+    var btns   = document.querySelectorAll('#projects-panel .app-tab-btn');
+    function activateProj(id) {
+      btns.forEach(function(b){ b.classList.toggle('active', b.dataset.apptab === id); });
+      panels.forEach(function(p){ p.classList.toggle('active', p.id === 'apptab-' + id); });
+      var body = document.querySelector('#projects-panel .app-panel-body');
+      if (body) body.scrollTop = 0;
+    }
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){ activateProj(btn.dataset.apptab); });
+    });
+    activateProj('flagship');
+  })();
+  </script>
+
+</body>
+</html>
