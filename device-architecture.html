@@ -153,6 +153,7 @@ footer a{color:var(--green-dim);text-decoration:none}
   <button class="tab-btn" data-tab="boot">BOOT SEQUENCE</button>
   <button class="tab-btn" data-tab="rendering">WIDTH-AWARE RENDERING</button>
   <button class="tab-btn" data-tab="pitfalls">COMMON PITFALLS</button>
+  <button class="tab-btn" data-tab="cardputer">CARDPUTER ADV</button>
 </div>
 
 <!-- ══ OVERVIEW ══════════════════════════════════════════ -->
@@ -170,7 +171,7 @@ footer a{color:var(--green-dim);text-decoration:none}
     <div class="device-card tdeck">
       <div class="device-card-label">TARGET 1A — ORIGIN DEVICE</div>
       <div class="device-card-title">T-DECK PLUS</div>
-      <p>320×240 ST7789, GT911 capacitive touch, physical 5-pin trackball, AXP2101 PMU with direct GPIO peripheral rails. SD mounts synchronously at boot. The device where the SPI Bus Treaty was invented. v1.1.1 "The Arsenal".</p>
+      <p>320×240 ST7789, GT911 capacitive touch, physical 5-pin trackball, AXP2101 PMU with direct GPIO peripheral rails. SD mounts synchronously at boot. The device where the SPI Bus Treaty was invented. v1.2.0 "The Arsenal".</p>
     </div>
     <div class="device-card tpager">
       <div class="device-card-label">TARGET 1B — CONFIRMED RUNNING</div>
@@ -189,16 +190,22 @@ footer a{color:var(--green-dim);text-decoration:none}
       <tr><td>SoC</td><td>ESP32-S3</td><td>ESP32-S3</td></tr>
       <tr><td>PSRAM</td><td>8 MB</td><td>8 MB</td></tr>
       <tr><td>Flash</td><td>16 MB</td><td>16 MB</td></tr>
-      <tr><td>Display</td><td>320×240 ST7789</td><td>480×222 ST7796 (rendered 480×240)</td></tr>
+      <tr><td>Display</td><td>320×240 ST7789</td><td>480×222 ST7796U (rendered 480×240, y-offset 49)</td></tr>
       <tr><td>Touch</td><td>GT911 capacitive</td><td>None</td></tr>
-      <tr><td>Keyboard</td><td>Direct-wired matrix, polled</td><td>TCA8418 dedicated controller over I²C</td></tr>
-      <tr><td>Cursor input</td><td>5-pin physical trackball</td><td>Rotary encoder + click (synthetic TrackballState)</td></tr>
-      <tr><td>Power</td><td>AXP2101 + BOARD_POWERON GPIO</td><td>AXP2101 + XL9555 I/O expander</td></tr>
+      <tr><td>Keyboard</td><td>TCA8418 I2C 0x34 (same chip as T-LoRa Pager)</td><td>TCA8418 I2C 0x34, KEY_INT=6</td></tr>
+      <tr><td>Cursor input</td><td>5-pin physical trackball</td><td>Rotary encoder A=40/B=41/BTN=7 (synthetic TrackballState)</td></tr>
+      <tr><td>Power</td><td>AXP2101 + BOARD_POWERON GPIO</td><td>AXP2101 + XL9555 I2C 0x20</td></tr>
       <tr><td>Peripheral enables</td><td>Direct GPIOs</td><td>Almost all behind XL9555 I²C expander</td></tr>
-      <tr><td>SD card</td><td>Mounts at boot, synchronous</td><td>Deferred mount, background task, poll g_sd_ready</td></tr>
-      <tr><td>LoRa radio</td><td>SX1262 on shared SPI</td><td>SX1262 on shared SPI</td></tr>
-      <tr><td>GPS</td><td>UART (RX=44, TX=43)</td><td>UART (RX=4, TX=12)</td></tr>
-      <tr><td>Audio</td><td>I²S → MAX98357 amp (pins 5/6/7)</td><td>I²S → ES8311 codec (different pins + codec init)</td></tr>
+      <tr><td>SD card</td><td>CS=39, mounts at boot</td><td>CS=21, deferred mount, poll g_sd_ready</td></tr>
+      <tr><td>LoRa SX1262</td><td>CS=9, shared SPI</td><td>CS=36, IRQ=14, RST=47, BUSY=48, shared SPI</td></tr>
+      <tr><td>GPS</td><td>UART RX=44, TX=43</td><td>MIA-M10Q, TX=4, RX=12, PPS=13</td></tr>
+      <tr><td>NFC</td><td>None</td><td>ST25R3916, CS=39, IRQ=5, shared SPI</td></tr>
+      <tr><td>IMU</td><td>None</td><td>BHI260AP, I2C 0x28, HIRQ=8</td></tr>
+      <tr><td>Haptic</td><td>None</td><td>DRV2605, I2C 0x5A (direct register writes)</td></tr>
+      <tr><td>RTC</td><td>None</td><td>PCF85063A, I2C 0x51, RTC_INT=1</td></tr>
+      <tr><td>Audio</td><td>I²S → ES8311 codec (I2C + I2S)</td><td>ES8311 codec I2C 0x18, I2S 10/11/18/45/17</td></tr>
+      <tr><td>I2C bus</td><td>SDA=18, SCL=8</td><td>SDA=3, SCL=2</td></tr>
+      <tr><td>Backlight</td><td>GPIO 42</td><td>GPIO 42 PWM → AW9364; KB backlight GPIO 46 PWM</td></tr>
       <tr><td>Build target</td><td><code>[env:tdeckplus]</code></td><td><code>[env:tlorapager]</code></td></tr>
       <tr><td>Define</td><td><code>DEVICE_TDECK_PLUS</code></td><td><code>DEVICE_TLORAPAGER</code></td></tr>
       <tr><td>Platform</td><td>espressif32 @ 6.7.0</td><td>espressif32 @ 6.10.0</td></tr>
@@ -207,9 +214,34 @@ footer a{color:var(--green-dim);text-decoration:none}
     </tbody>
   </table>
 
+  <h3>T-LoRa Pager full peripheral map</h3>
+  <table class="cmp-table">
+    <thead><tr><th>Peripheral</th><th>GPIO / Bus</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Display ST7796U</td><td>CS=38, DC=37, BL=42</td><td>y-offset 49 required in controller frame buffer</td></tr>
+      <tr><td>LoRa SX1262</td><td>CS=36, IRQ=14, RST=47, BUSY=48</td><td>Shared SPI, XL9555 P03 power gate</td></tr>
+      <tr><td>SD Card</td><td>CS=21</td><td>Shared SPI, same pin as T-Deck touch reset</td></tr>
+      <tr><td>NFC ST25R3916</td><td>CS=39, IRQ=5</td><td>Shared SPI, XL9555 P05 power gate</td></tr>
+      <tr><td>GPS MIA-M10Q</td><td>TX=4, RX=12, PPS=13</td><td>UART, XL9555 P04 power gate</td></tr>
+      <tr><td>I2C bus</td><td>SDA=3, SCL=2</td><td>All I2C devices share this bus</td></tr>
+      <tr><td>Rotary encoder</td><td>A=40, B=41, BTN=7</td><td>Direct GPIO, Gray code state machine</td></tr>
+      <tr><td>Keyboard TCA8418</td><td>I2C 0x34</td><td>KEY_INT=6, autonomous FIFO scanning</td></tr>
+      <tr><td>IMU BHI260AP</td><td>I2C 0x28</td><td>HIRQ=8</td></tr>
+      <tr><td>Haptic DRV2605</td><td>I2C 0x5A</td><td>Tactile click on keypress and encoder button</td></tr>
+      <tr><td>RTC PCF85063A</td><td>I2C 0x51</td><td>RTC_INT=1</td></tr>
+      <tr><td>Audio ES8311</td><td>I2C 0x18, I2S 10/11/18/45/17</td><td>Codec requires init sequence before I2S</td></tr>
+      <tr><td>XL9555 expander</td><td>I2C 0x20</td><td>Init before any peripheral — power gates all rails</td></tr>
+    </tbody>
+  </table>
+
   <div class="callout warning">
     <div class="callout-label">CRITICAL PIN COLLISION</div>
     <p>GPIO 21 is the touch reset pin on T-Deck Plus and the SD chip-select on T-LoRa Pager. Initializing touch code on T-LoRa Pager pulls SD_CS low at boot and corrupts the SD mount. All touch code must be gated behind <code>#ifdef DEVICE_TDECK_PLUS</code>.</p>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-label">FIRST FLASH RECOMMENDATION</div>
+    <p>Flash LilyGo factory firmware first to confirm all T-LoRa Pager hardware works, then flash Pisces Moon. This establishes a known-good baseline before custom firmware variables are introduced.</p>
   </div>
 
 </div>
@@ -264,8 +296,8 @@ static constexpr int DISP_H = 240;</code></pre>
   <div class="device-pair">
     <div class="device-card tdeck">
       <div class="device-card-label">T-DECK PLUS</div>
-      <div class="device-card-title">PHYSICAL TRACKBALL + MATRIX KEYBOARD + TOUCH</div>
-      <p>5-pin mechanical trackball wired to direct ESP32 GPIOs with internal pullups. <code>update_trackball()</code> does edge-detection with lockout. <code>update_trackball_game()</code> uses shorter lockout for gameplay. 4×10 keyboard matrix scanned directly by the ESP32. GT911 capacitive touch on I²C (SDA=18, SCL=8), reset on GPIO 21.</p>
+      <div class="device-card-title">PHYSICAL TRACKBALL + TCA8418 KEYBOARD + TOUCH</div>
+      <p>5-pin mechanical trackball wired to direct ESP32 GPIOs with internal pullups. <code>update_trackball()</code> does edge-detection with lockout. <code>update_trackball_game()</code> uses shorter lockout for gameplay. TCA8418 keyboard controller on I²C — same chip as T-LoRa Pager, same FIFO-polling pattern. GT911 capacitive touch on I²C (SDA=18, SCL=8), reset on GPIO 21.</p>
     </div>
     <div class="device-card tpager">
       <div class="device-card-label">T-LORA PAGER</div>
@@ -279,7 +311,7 @@ static constexpr int DISP_H = 240;</code></pre>
 
   <div class="callout warning">
     <div class="callout-label">PENDING AUDIT</div>
-    <p>On T-LoRa Pager, sleep should NOT be triggered by a long trackwheel click — that's leftover T-Deck behavior. Power button = sleep. Single encoder click = exit app. Audit of all apps for long-press assumptions is pending v1.1.1.</p>
+    <p>On T-LoRa Pager, sleep should NOT be triggered by a long trackwheel click — that's leftover T-Deck behavior. Power button = sleep. Single encoder click = exit app. Audit of all apps for long-press assumptions is pending v1.2.0.</p>
   </div>
 
 </div>
@@ -600,6 +632,169 @@ gfx->setCursor(DISP_W - margin, y);</code></pre>
   <a href="https://github.com/FluidFortune/pisces-moon-os">GITHUB</a> &nbsp;|&nbsp;
   AGPL-3.0 · ERIC BECKER · 2026
 </footer>
+
+
+<!-- ══ CARDPUTER ADV ═══════════════════════════════════ -->
+<div id="tab-cardputer" class="tab-panel">
+<div class="tab-wrap">
+
+  <h2>M5STACK CARDPUTER ADV</h2>
+
+  <div class="device-pair" style="grid-template-columns:1fr">
+    <div class="device-card tdeck" style="border-top-color:var(--purple,#bc8cff)">
+      <div class="device-card-label" style="color:var(--purple,#bc8cff)">TARGET 5 — COMPACT FIELD DEVICE</div>
+      <div class="device-card-title">CARDPUTER ADV</div>
+      <p>Credit-card form factor. ESP32-S3 Stamp-S3A core (same silicon class as T-Deck and T-LoRa Pager). 56-key full QWERTY via TCA8418. 240×135 ST7789V2 display on its own SPI bus (HSPI) — separate from the SD + LoRa bus (FSPI). Cap LoRa868 module adds SX1262 LoRa and AT6668 GNSS over the 2×7-pin expansion header. 47 apps. Device functional. Cap module pending for full radio validation.</p>
+    </div>
+  </div>
+
+  <h2>AT A GLANCE</h2>
+  <table class="cmp-table">
+    <thead><tr><th>Spec</th><th>Cardputer ADV</th><th>vs T-Deck Plus</th></tr></thead>
+    <tbody>
+      <tr><td>SoC</td><td>ESP32-S3 Stamp-S3A (S3FN8)</td><td>Same silicon class</td></tr>
+      <tr><td>PSRAM</td><td>8 MB octal</td><td>Same</td></tr>
+      <tr><td>Flash</td><td>8 MB (half of T-Deck/Pager)</td><td>T-Deck has 16 MB</td></tr>
+      <tr><td>Display</td><td>240×135 ST7789V2, IPS, landscape</td><td>T-Deck 320×240 — Cardputer is ~40% the pixels</td></tr>
+      <tr><td>Display SPI</td><td>HSPI (dedicated, no Treaty contention)</td><td>T-Deck display shares SPI with SD + LoRa</td></tr>
+      <tr><td>SD + LoRa SPI</td><td>FSPI (separate from display)</td><td>T-Deck all three on one bus</td></tr>
+      <tr><td>Keyboard</td><td>TCA8418 I2C — M5Cardputer library handles scanning</td><td>T-Deck: TCA8418 direct Wire reads</td></tr>
+      <tr><td>Fn modifier</td><td>Dedicated Fn key → arrow keys, ESC, DEL via key combo</td><td>T-Deck: trackball for navigation</td></tr>
+      <tr><td>Cursor input</td><td>Fn+arrows (PM_KEY_LEFT/RIGHT/UP/DOWN)</td><td>5-pin physical trackball</td></tr>
+      <tr><td>Touch</td><td>None</td><td>GT911 capacitive</td></tr>
+      <tr><td>LoRa</td><td>SX1262 via Cap LoRa868 module (external)</td><td>SX1262 built-in</td></tr>
+      <tr><td>GPS</td><td>AT6668 via Cap LoRa868 module (external)</td><td>L76K built-in</td></tr>
+      <tr><td>Audio</td><td>ES8311 codec + 1W speaker + 3.5mm jack</td><td>ES8311 codec</td></tr>
+      <tr><td>IMU</td><td>BMI270 6-axis</td><td>None</td></tr>
+      <tr><td>Battery</td><td>1750 mAh, independent power switch</td><td>No independent power switch</td></tr>
+      <tr><td>Build target</td><td><code>[env:cardputer_adv]</code></td><td><code>[env:tdeckplus]</code></td></tr>
+      <tr><td>Define</td><td><code>DEVICE_CARDPUTER_ADV</code></td><td><code>DEVICE_TDECK_PLUS</code></td></tr>
+      <tr><td>Platform</td><td>espressif32 @ 6.7.0</td><td>espressif32 @ 6.7.0</td></tr>
+      <tr><td>Partition table</td><td>partitions_cardputer.csv (8 MB)</td><td>partitions.csv (16 MB)</td></tr>
+      <tr><td>App count</td><td>47 apps</td><td>49 apps</td></tr>
+    </tbody>
+  </table>
+
+  <h2>THE KEY ARCHITECTURAL DIFFERENCE</h2>
+
+  <p>The Cardputer ADV has two separate SPI buses — HSPI for the display, FSPI for SD and LoRa. This is architecturally distinct from both the T-Deck Plus and T-LoRa Pager, where all three share one bus.</p>
+
+  <div class="device-pair">
+    <div class="device-card tdeck">
+      <div class="device-card-label">T-DECK PLUS / T-LORA PAGER</div>
+      <div class="device-card-title">ONE SPI BUS</div>
+      <p>Display + SD + LoRa all share one SPI peripheral. The SPI Bus Treaty governs all three. Display writes contend with SD writes and LoRa transactions. The Treaty mutex is the arbitration.</p>
+    </div>
+    <div class="device-card tpager" style="border-top-color:var(--purple,#bc8cff)">
+      <div class="device-card-label">CARDPUTER ADV</div>
+      <div class="device-card-title">TWO SPI BUSES</div>
+      <p>Display on HSPI — no Treaty contention. Display can update at full speed during a wardrive scan. SD and LoRa share FSPI — the SPI Bus Treaty still governs this bus. Apps that touch SD or LoRa must still take the mutex regardless. The Treaty is universal across the platform.</p>
+    </div>
+  </div>
+
+  <h2>INPUT — FN MODIFIER LAYER</h2>
+
+  <p>The Cardputer ADV uses the M5Cardputer library for keyboard handling. The ESP32 does not scan the matrix directly — it polls the TCA8418 chip's key event FIFO via <code>M5Cardputer.update()</code>. Pisces Moon translates the library's <code>KeysState</code> into universal <code>PM_KEY_*</code> constants.</p>
+
+  <table class="cmp-table">
+    <thead><tr><th>Cardputer Key Combo</th><th>Pisces Moon Code</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><code>Fn + `</code></td><td><code>PM_KEY_ESC</code></td><td>Exit / back</td></tr>
+      <tr><td><code>Fn + ;</code></td><td><code>PM_KEY_UP</code></td><td>Previous category</td></tr>
+      <tr><td><code>Fn + ,</code></td><td><code>PM_KEY_LEFT</code></td><td>Navigate left</td></tr>
+      <tr><td><code>Fn + .</code></td><td><code>PM_KEY_DOWN</code></td><td>Next category</td></tr>
+      <tr><td><code>Fn + /</code></td><td><code>PM_KEY_RIGHT</code></td><td>Navigate right</td></tr>
+      <tr><td><code>Fn + Bksp</code></td><td><code>PM_KEY_DEL</code></td><td>Delete / back</td></tr>
+      <tr><td><code>Enter</code></td><td><code>PM_KEY_ENTER</code></td><td>Launch / select</td></tr>
+      <tr><td><code>Bksp</code></td><td><code>PM_KEY_BACKSPACE</code></td><td>Backspace</td></tr>
+      <tr><td><code>Q</code></td><td>Exit key</td><td>Exit app (same as T-LoRa Pager)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <div class="callout-label">LIBRARY VERSION REQUIREMENT</div>
+    <p>Use <code>m5stack/M5Cardputer @ ^1.1.1</code>. Version 1.1.0 has an uppercase-key bug where z/c/b/m occasionally return lowercase when shift is held. Always pin to 1.1.1 or later.</p>
+  </div>
+
+  <h2>DISPLAY — 240×135 LAYOUT STRATEGIES</h2>
+
+  <p>The Cardputer has 32,400 pixels — roughly 40% of the T-Deck Plus (76,800) and 30% of the T-LoRa Pager (106,560). Every app UI that works on T-Deck needs rethinking for Cardputer.</p>
+
+  <table class="cmp-table">
+    <thead><tr><th>Strategy</th><th>T-Deck approach</th><th>Cardputer approach</th></tr></thead>
+    <tbody>
+      <tr><td>Text size</td><td>Mix of sizes 1, 2, and 3</td><td>Size 1 almost everywhere</td></tr>
+      <tr><td>Header bar</td><td>24px</td><td>14px</td></tr>
+      <tr><td>Data tables</td><td>Full columns visible</td><td>Vertical scroll with per-item detail view</td></tr>
+      <tr><td>Games</td><td>Full game board</td><td>5px cells, tighter grid, Fn-arrow navigation</td></tr>
+      <tr><td>Boot POST</td><td>15 lines, all visible</td><td>Ring buffer — 9 lines visible, auto-scrolls upward</td></tr>
+      <tr><td>Splash icon</td><td>y=72 centered</td><td>y=22 (above title — Cardputer-specific geometry)</td></tr>
+    </tbody>
+  </table>
+
+  <p>All Cardputer-specific UI code is gated behind <code>#ifdef DEVICE_CARDPUTER_ADV</code>. T-Deck and T-LoRa Pager layouts are untouched.</p>
+
+  <h2>CAP LORA868 MODULE</h2>
+
+  <p>The Cardputer ADV base board has no LoRa radio and no GPS. The Cap LoRa868 module — an M5Stack expansion plugging into the 2×7-pin header — adds both.</p>
+
+  <table class="cmp-table">
+    <thead><tr><th>Component</th><th>Chip</th><th>GPIO / Bus</th></tr></thead>
+    <tbody>
+      <tr><td>LoRa radio</td><td>SX1262 (868 MHz / 915 MHz)</td><td>CS=5, RST=3, IRQ=4, BUSY=6, shared FSPI</td></tr>
+      <tr><td>GPS</td><td>AT6668 (GPS/Beidou/GLONASS/Galileo/QZSS)</td><td>TX=13, RX=15, UART</td></tr>
+      <tr><td>SPI bus (FSPI)</td><td>SD + LoRa shared</td><td>MOSI=14, MISO=39, SCK=40</td></tr>
+      <tr><td>SD card</td><td>—</td><td>CS=12, shared FSPI</td></tr>
+    </tbody>
+  </table>
+
+  <p>Without the Cap module: wardrive runs WiFi + BLE only, no GPS tagging. With it: full Ghost Engine stack. SD mount timing with Cap module is an open question — working hypothesis is synchronous mount like T-Deck (no XL9555 expander means no power-gating timing issue), but field validation with actual hardware pending.</p>
+
+  <h2>KNOWN ISSUES (v1.2.0)</h2>
+
+  <div class="pitfall-list">
+    <div class="pitfall">
+      <div class="pitfall-num">01</div>
+      <div>
+        <div class="pitfall-title">WiFi scans returning 0 networks</div>
+        <p class="pitfall-desc">Observed in field test. BLE finds devices in the same scan window, so RF hardware is functional. Root cause under investigation — pending Serial monitor capture (USB CDC fix shipped in v1.2.0 should allow diagnosis).</p>
+        <div class="pitfall-fix">Status: under investigation post USB-CDC fix</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">02</div>
+      <div>
+        <div class="pitfall-title">USB CDC invisible after boot (pre-v1.2.0)</div>
+        <p class="pitfall-desc">M5Cardputer.begin() called Serial.begin() internally, disrupting the already-enumerated USB-CDC peripheral on native-USB ESP32-S3. Host saw the device drop and never re-enumerated. Fixed: cfg.serial_baudrate = 0 before both M5Cardputer.begin() calls.</p>
+        <div class="pitfall-fix">Fixed in v1.2.0 — two-line change in keyboard.cpp</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">03</div>
+      <div>
+        <div class="pitfall-title">Games partially reflowed</div>
+        <p class="pitfall-desc">Snake is fully reflowed for 240×135 in v1.2.0. Pac-Man, Galaga, and SimCity show launcher entries but display "Cardputer port pending" placeholder. Game board geometry for 240×135 pending.</p>
+        <div class="pitfall-fix">Planned for v1.2.x patch release</div>
+      </div>
+    </div>
+    <div class="pitfall">
+      <div class="pitfall-num">04</div>
+      <div>
+        <div class="pitfall-title">DFU entry sequence differs from T-Deck/Pager</div>
+        <p class="pitfall-desc">Cardputer has a slide power switch on the side plus a G0 boot button. To enter DFU: slide to OFF, hold G0, apply USB power, release G0. Flashing with incorrect partition table (e.g. T-Deck's 16 MB table on Cardputer's 8 MB flash) will boot but with undersized or overlapping partitions.</p>
+        <div class="pitfall-fix">Always use pio run -e cardputer_adv — never tdeck_plus or tlorapager env</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="treaty-banner">
+    <div class="treaty-banner-title">THE TREATY DOESN'T CHANGE. THE HARDWARE AROUND THE TREATY DOES.</div>
+    <div class="treaty-banner-sub">Two SPI buses means the display is free. SD + LoRa still share FSPI. The Treaty still governs that bus. The convention is the same.</div>
+  </div>
+
+</div>
+</div>
+
 
 <script>
 (function() {
