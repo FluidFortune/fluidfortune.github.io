@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pisces Moon OS | Sovereign Computing on $50 Hardware</title>
-  <meta name="description" content="Pisces Moon OS v1.1.1 — the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. Ghost Engine. SPI Bus Treaty. 47 firmware apps. 77 HTML apps. Five deployment targets. Lety IDE. $144 total hardware cost.">
+  <meta name="description" content="Pisces Moon OS v1.2.0 — the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. Ghost Engine. SPI Bus Treaty. 52+ firmware apps. 77 HTML apps. Five deployment targets. Lety IDE. $144 total hardware cost.">
   <link rel="canonical" href="https://fluidfortune.com/pisces-moon.html">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fluidfortune.com/pisces-moon.html">
   <meta property="og:title" content="Pisces Moon OS | Sovereign Computing on $50 Hardware">
-  <meta property="og:description" content="Pisces Moon OS v1.1.1 — the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. Ghost Engine. SPI Bus Treaty. 47 firmware apps. 77 HTML apps. Five deployment targets. Lety IDE. $144 total hardware cost.">
+  <meta property="og:description" content="Pisces Moon OS v1.2.0 — the first known documented implementation of persistent dual-core background tasking for field intelligence collection on the ESP32-S3. Ghost Engine. SPI Bus Treaty. 52+ firmware apps. 77 HTML apps. Five deployment targets. Lety IDE. $144 total hardware cost.">
   <meta property="og:image" content="https://fluidfortune.com/piscesmoon.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -119,6 +119,16 @@
     /* Quote */
     blockquote{border-left:3px solid var(--amber-dim);margin:2rem 0;padding:.85rem 1.25rem;background:var(--surface);font-family:var(--font-serif);font-style:italic;color:var(--text-dim);font-size:.95rem;line-height:1.7}
 
+
+    /* ── TAB SYSTEM ──────────────────────────────── */
+    .tab-nav{display:flex;gap:0;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:var(--deep);z-index:50;margin:0}
+    .tab-nav::-webkit-scrollbar{display:none}
+    .tab-btn{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-muted);padding:.7rem 1.1rem;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:.15s;text-transform:uppercase;margin-bottom:-2px}
+    .tab-btn:hover{color:var(--text);border-bottom-color:var(--border)}
+    .tab-btn.active{color:var(--amber-dim);border-bottom-color:var(--amber-dim)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
     /* CTA block */
     .cta-block{border:1px solid var(--amber-dim);background:var(--surface);padding:2rem;text-align:center;margin-top:3rem;position:relative;overflow:hidden}
     .cta-block::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--amber-dim),var(--amber),var(--amber-dim));background-size:200%;animation:burn 3s linear infinite}
@@ -161,7 +171,7 @@
     <h1>PISCES <span>MOON</span></h1>
     <div class="hero-tagline">TWO DEVICES. ONE OS. DOWNTOWN LOS ANGELES. MAY 15, 2026.</div>
     <div class="hero-badges">
-      <span class="badge badge-ver">v1.1.1 "THE ARSENAL"</span>
+      <span class="badge badge-ver">v1.2.0 "MULTI-DEVICE"</span>
       <span class="badge badge-live">● 5 DEPLOYMENT TARGETS</span>
       <span class="badge badge-agpl">AGPL-3.0</span>
       <span class="badge badge-ver">$50 — $350 HARDWARE</span>
@@ -200,18 +210,28 @@
 
     <p>Before Pisces Moon OS, every piece of software ever written for the ESP32-S3 hardware class did one thing. A wardriving tool. A mesh radio platform. A game. When you turned on the device, it did its one function and nothing else.</p>
 
-    <p>Two inventions that did not exist before this project. <strong>The Ghost Engine</strong> — a persistent Core 0 process that wardrives, scans BLE, and logs GPS continuously, always, regardless of what the operator is doing on Core 1. You can play a game. Use the AI terminal. Browse files. The Ghost Engine never stops. <strong>The SPI Bus Treaty</strong> — the first named architectural standard for shared-bus arbitration on the ESP32-S3, the reason the Ghost Engine can run unconditionally. Without it, Core 0 and Core 1 destroy each other over the shared bus. With it, the device is always collecting and the operator is never interrupted. Building an OS complex enough to need both exposed six engineering problems that had no documented solutions for this platform. Not because the solutions were obscure. Because no previous project was complex enough to trigger them.</p>
+    <p>Two inventions that did not exist before this project. <strong>The Ghost Engine</strong> — a persistent Core 0 process that wardrives, scans BLE, and logs GPS continuously, always, regardless of what the operator is doing on Core 1. You can play a game. Use the AI terminal. Browse files. The Ghost Engine never stops. <strong>The SPI Bus Treaty</strong> — the first named architectural standard for shared-bus arbitration on the ESP32-S3, the reason the Ghost Engine can run unconditionally. Without it, Core 0 and Core 1 destroy each other over the shared bus. With it, the device is always collecting and the operator is never interrupted. Building an OS complex enough to need both exposed ten engineering problems that had no documented solutions for this platform. Not because the solutions were obscure. Because no previous project was complex enough to trigger them. The SPI Bus Treaty is now a published architectural whitepaper — <a href="spi-bus-treaty.html" style="color:var(--amber-dim);font-family:var(--font-mono);font-size:.85em">spi-bus-treaty.html</a> — with a systematic audit of all 54 mutex take sites. The Ghost Engine invariant is enforced, documented, and proven across three hardware targets.</p>
 
     <blockquote>"The forge didn't need VC funding to build the Saturn V. It just needed focus and the right raw materials."</blockquote>
 
     <div class="stats">
       <div class="stat"><span class="stat-num">$50</span><span class="stat-label">HARDWARE COST</span></div>
-      <div class="stat"><span class="stat-num">47</span><span class="stat-label">APPLICATIONS</span></div>
-      <div class="stat"><span class="stat-num">6</span><span class="stat-label">NOVEL PROBLEMS SOLVED</span></div>
+      <div class="stat"><span class="stat-num">49</span><span class="stat-label">T-DECK APPS</span></div>
+      <div class="stat"><span class="stat-num">10</span><span class="stat-label">NOVEL PROBLEMS SOLVED</span></div>
       <div class="stat"><span class="stat-num">$144</span><span class="stat-label">TOTAL RECEIPT</span></div>
     </div>
   </div>
 
+
+<div class="tab-nav" id="pm-tabs">
+  <button class="tab-btn" data-tab="targets">TARGETS</button>
+  <button class="tab-btn" data-tab="engineering">ENGINEERING</button>
+  <button class="tab-btn" data-tab="source">SOURCE CODE</button>
+  <button class="tab-btn" data-tab="developer">DEVELOPER</button>
+</div>
+
+<div id="tab-targets" class="tab-panel">
+  <div class="main">
   <!-- DEPLOYMENT TARGETS -->
   <div class="section">
     <div class="section-label">ARCHITECTURE</div>
@@ -224,13 +244,13 @@
         <div class="tier-num">TARGET 1A</div>
         <div class="tier-title">T-DECK PLUS</div>
         <div class="tier-price">$50 — $350 — ORIGIN DEVICE</div>
-        <div class="tier-desc">The device that started it all. LilyGO T-Deck Plus — ESP32-S3, QWERTY keyboard, trackball, 320×240 touchscreen, LoRa SX1262, GPS, WiFi, BLE, MicroSD. Ghost Engine on Core 0, 47 apps, Ghost Partition with sub-millisecond Nuke, ELF module runtime. This is where the SPI Bus Treaty was invented. Session 83 running as of May 15, 2026.</div>
+        <div class="tier-desc">The device that started it all. LilyGO T-Deck Plus — ESP32-S3, QWERTY keyboard, trackball, 320×240 touchscreen, LoRa SX1262, GPS, WiFi, BLE, MicroSD. Ghost Engine on Core 0, 49 apps, Ghost Partition with sub-millisecond Nuke, ELF module runtime. This is where the SPI Bus Treaty was invented. Ghost Ride The Whip (v1.2.0) added to TOOLS. Session 83 running as of May 15, 2026.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 1B</div>
         <div class="tier-title">T-LORA PAGER</div>
         <div class="tier-price">LILYGO ESP32-S3 — CONFIRMED RUNNING</div>
-        <div class="tier-desc">Second confirmed LilyGo device running Pisces Moon OS as of May 15, 2026. Compact form factor, QWERTY keyboard, orange function keys. Same firmware, same Ghost Engine, same SPI Bus Treaty. Both devices wardriving simultaneously: 34.01964, -118.22242. Display optimization and mesh testing this weekend.</div>
+        <div class="tier-desc">Second confirmed LilyGo device running Pisces Moon OS as of May 15, 2026. Compact form factor, QWERTY keyboard, orange function keys. Same Ghost Engine, same SPI Bus Treaty, 52 apps. Ghost Ride The Whip (v1.2.0) included. Both devices wardriving simultaneously: 34.01964, -118.22242. Display optimization and mesh testing this weekend.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 2</div>
@@ -254,7 +274,7 @@
         <div class="tier-num">TARGET 5</div>
         <div class="tier-title">CARDPUTER ADV</div>
         <div class="tier-price">ESP32-S3 — LORA/GPS HEADSTOCK PENDING</div>
-        <div class="tier-desc">Compact ESP32-S3 with built-in keyboard. LoRa/GPS headstock on order — full test late May or early June 2026. Ghost Engine, SPI Bus Treaty, dual-core split carry over unchanged. Same silicon. Same protocol. Same problems already solved.</div>
+        <div class="tier-desc">Compact ESP32-S3 with built-in keyboard. 47 apps. Device functional. LoRa/GPS headstock in transit — full radio validation late May or early June 2026. Ghost Engine, SPI Bus Treaty, dual-core split carry over unchanged. Same silicon. Same protocol. Same problems already solved.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 6</div>
@@ -267,10 +287,16 @@
     <blockquote style="margin-top:2rem">The Ghost Engine never stops. The SPI Bus Treaty is why. Two devices. Downtown Los Angeles. Session 83. May 15, 2026.</blockquote>
   </div>
 
+
+  </div>
+</div>
+
+<div id="tab-engineering" class="tab-panel">
+  <div class="main">
   <!-- SIX PROBLEMS -->
   <div class="section">
     <div class="section-label">THE ENGINEERING</div>
-    <h2 class="section-title">EIGHT NOVEL PROBLEMS — NONE IN THE LITERATURE BEFORE THIS PROJECT</h2>
+    <h2 class="section-title">TEN NOVEL PROBLEMS — NONE IN THE LITERATURE BEFORE THIS PROJECT</h2>
 
     <p>The first six problems did not exist in prior documentation because no previous ESP32-S3 project was complex enough to trigger them. Problems seven and eight emerged during the T-LoRa Pager port — hardware-variant GPIO collisions and SPI bus state corruption that only surface when the same firmware runs on two physically different devices. All eight solutions are now the public reference standard for this hardware class. <a href="device-architecture.html" style="color:var(--amber-dim);font-family:var(--font-mono);font-size:.8em">DEVICE ARCHITECTURE REFERENCE →</a></p>
 
@@ -320,6 +346,12 @@
     </div>
   </div>
 
+
+  </div>
+</div>
+
+<div id="tab-source" class="tab-panel">
+  <div class="main">
   <!-- REPOSITORIES -->
   <div class="section">
     <div class="section-label">SOURCE CODE</div>
@@ -331,7 +363,7 @@
       <div class="repo-card">
         <div class="repo-name">PISCES MOON OS</div>
         <div class="repo-sub">ESP32-S3 EMBEDDED FIRMWARE</div>
-        <div class="repo-desc">The core firmware for the LilyGO T-Deck Plus. Where the Ghost Engine and the SPI Bus Treaty live. 47 applications, dual-core architecture, Ghost Partition, ELF module runtime. Also covers the M5Stack Cardputer port.</div>
+        <div class="repo-desc">The core firmware for the LilyGO T-Deck Plus. Where the Ghost Engine and the SPI Bus Treaty live. 49 apps (T-Deck Plus), 52 apps (T-LoRa Pager), dual-core architecture, Ghost Partition, ELF module runtime. Also covers the M5Stack Cardputer port.</div>
         <a href="https://github.com/FluidFortune/pisces-moon-os" class="repo-link" target="_blank" rel="noopener">github.com/FluidFortune/pisces-moon-os →</a>
       </div>
       <div class="repo-card">
@@ -368,6 +400,17 @@
   </div>
 
   <!-- CTA -->
+
+  </div>
+</div>
+
+<div id="tab-developer" class="tab-panel">
+  <div class="main">
+    <div class="section">
+      <div class="section-label">DEVELOPER ECOSYSTEM</div>
+      <h2 class="section-title">BUILD PISCES MOON APPS — NO TOOLCHAIN REQUIRED</h2>
+      <p>Three tools for developers. Try the OS without hardware. Write apps without installing PlatformIO. Flash directly from Chrome. All in the browser.</p>
+    </div>
   <div class="cta-block">
     <div class="cta-title">READ THE SOVEREIGNTY WHITE PAPER</div>
     <p class="cta-desc">The full technical and philosophical documentation. Five industry assumptions being disproved. Six novel engineering problems documented. Two markets, one platform. All claims verifiable.</p>
@@ -380,6 +423,18 @@
 
 </div>
 
+    <div class="section">
+      <div class="section-label">DEVICE ARCHITECTURE</div>
+      <h2 class="section-title">MULTI-DEVICE REFERENCE</h2>
+      <p>T-Deck Plus vs T-LoRa Pager — display topology, input abstraction, power management, SPI Bus Treaty differences, boot sequence comparison, and ten common pitfalls when writing cross-device code.</p>
+      <div style="margin:1.5rem 0">
+        <a href="device-architecture.html" class="btn btn-primary" style="background:var(--amber-dim);color:#0a0807">OPEN DEVICE ARCHITECTURE →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <footer>
   <p>
     <a href="https://fluidfortune.com">FLUID FORTUNE</a>
@@ -391,6 +446,31 @@
     AGPL-3.0 — APRIL 2026
   </p>
 </footer>
+
+
+<script>
+(function() {
+  function activateTab(id) {
+    document.querySelectorAll('#pm-tabs .tab-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.tab === id);
+    });
+    document.querySelectorAll('#pm-tabs ~ .tab-panel').forEach(function(p) {
+      p.classList.toggle('active', p.id === 'tab-' + id);
+    });
+  }
+  var tabs = document.querySelectorAll('#pm-tabs .tab-btn');
+  tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = btn.dataset.tab;
+      history.replaceState(null, '', '#' + id);
+      activateTab(id);
+    });
+  });
+  var hash = location.hash.replace('#','');
+  var valid = Array.from(tabs).map(function(b){return b.dataset.tab;});
+  activateTab(valid.includes(hash) ? hash : valid[0]);
+})();
+</script>
 
 </body>
 </html>
