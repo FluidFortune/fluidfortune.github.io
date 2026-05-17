@@ -1,10 +1,37 @@
-The website itself is a collection of items which are hosted in various GitHub repos.
-Licenses apply on a case-by-case basis per project.
+# License — Fluid Fortune / fluidfortune.com
 
-The website itself is subject to Copyright 2026 by Eric Becker and Fluid Fortune.
+Copyright 2026 Eric Becker / Fluid Fortune
+All rights reserved unless otherwise noted.
 
-All rights to the content posted to the website are reserved unless otherwise
-noted or obvious references to other material, such as Jamie Chung's presence on
-the PodCast "I Am An Actor" which would be subject to Jamie and SAG-AFTRA and other
-involved parties' copyrights and licensing.  It is solely there as a link to their
-work.
+---
+
+## Website
+
+This website (fluidfortune.com) is a collection of items hosted across various GitHub repositories. Licenses apply on a case-by-case basis per project.
+
+The website itself is subject to Copyright 2026 by Eric Becker and Fluid Fortune. All rights to the content posted to this website are reserved unless otherwise noted, or unless the content constitutes an obvious reference to third-party material.
+
+**Example of third-party content:** Jamie Chung's presence on the podcast *I Am An Actor* is subject to the copyrights and licensing of Jamie Chung, SAG-AFTRA, SickBird Productions, and other involved parties. Such references are included solely as links to their work.
+
+---
+
+## Software Licenses (per project)
+
+**Pisces Moon OS — firmware**
+License: GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later)
+Repo: [github.com/FluidFortune/pisces-moon-os](https://github.com/FluidFortune/pisces-moon-os)
+Full text: [gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html)
+
+**Pisces Moon Linux — HTML application layer**
+License: MIT
+Repo: [github.com/FluidFortune/pisces-moon-linux](https://github.com/FluidFortune/pisces-moon-linux)
+
+**All other Fluid Fortune projects**
+License terms are specified in each project's individual repository.
+See [github.com/FluidFortune](https://github.com/FluidFortune) for per-project licenses.
+
+---
+
+## Contact
+
+For licensing inquiries: [forge@fluidfortune.com](mailto:forge@fluidfortune.com)
