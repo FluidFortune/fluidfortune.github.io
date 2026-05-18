@@ -258,7 +258,7 @@
         <div class="tier-num">TARGET 1A</div>
         <div class="tier-title">T-DECK PLUS</div>
         <div class="tier-price">$50 — $350 — ORIGIN DEVICE</div>
-        <div class="tier-desc">The device that started it all. LilyGO T-Deck Plus — ESP32-S3, QWERTY keyboard, trackball, 320×240 touchscreen, LoRa SX1262, GPS, WiFi, BLE, MicroSD. Ghost Engine on Core 0, 49 apps, Ghost Partition with sub-millisecond Nuke, ELF module runtime. This is where the SPI Bus Treaty was invented. Ghost Ride The Whip (v1.2.0) added to TOOLS. Session 83 running as of May 15, 2026.</div>
+        <div class="tier-desc">The device that started it all. LilyGO T-Deck Plus — ESP32-S3, QWERTY keyboard, trackball, 320×240 touchscreen, LoRa SX1262, GPS, WiFi, BLE, MicroSD. Ghost Engine on Core 0, 49 apps, Ghost Partition with sub-millisecond metadata Nuke (operational inaccessibility), ELF module runtime. This is where the SPI Bus Treaty was invented. Ghost Ride The Whip (v1.2.0) added to TOOLS. Session 83 running as of May 15, 2026.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 1B</div>
@@ -312,7 +312,7 @@
     <div class="section-label">THE ENGINEERING</div>
     <h2 class="section-title">TEN NOVEL PROBLEMS — NONE IN THE LITERATURE BEFORE THIS PROJECT</h2>
 
-    <p>The first six problems did not exist in prior documentation because no previous ESP32-S3 project was complex enough to trigger them. Problems seven and eight emerged during the T-LoRa Pager port — hardware-variant GPIO collisions and SPI bus state corruption that only surface when the same firmware runs on two physically different devices. All eight solutions are now the public reference standard for this hardware class. <a href="device-architecture.html" style="color:var(--amber-dim);font-family:var(--font-mono);font-size:.8em">DEVICE ARCHITECTURE REFERENCE →</a></p>
+    <p>The first six problems did not exist in prior documentation because no previous ESP32-S3 project was complex enough to trigger them. Problems seven and eight emerged during the T-LoRa Pager port — hardware-variant GPIO collisions and SPI bus state corruption. Problem nine is the Ghost Engine silent failure mode on devices with deferred SD mount. Problem ten is the first hardware-enforced ELF sandbox on the ESP32-S3 for a general-purpose OS. All ten solutions are now the public reference standard for this hardware class. <a href="device-architecture.html" style="color:var(--amber-dim);font-family:var(--font-mono);font-size:.8em">DEVICE ARCHITECTURE REFERENCE →</a></p>
 
     <div class="problems">
       <div class="problem-item">
@@ -347,7 +347,7 @@
         <div class="problem-num">05</div>
         <div class="problem-content">
           <div class="problem-title">Security Architecture Under Hardware Timing Constraints</div>
-          <p class="problem-desc">AES encryption — the standard solution — holds the SPI bus long enough to crash the device. The security requirement and hardware constraint were irreconcilable within the original framing. Solution: reframe the requirement. Metadata deletion renders all Ghost Partition data permanently unreachable in milliseconds, within Treaty budget.</p>
+          <p class="problem-desc">AES encryption — the standard solution — holds the SPI bus long enough to crash the device. The security requirement and hardware constraint were irreconcilable within the original framing. Solution: reframe the requirement. Metadata deletion renders all Ghost Partition data operationally inaccessible in milliseconds, within Treaty budget. The underlying flash sectors retain data until overwritten — the Nuke provides time-pressure inaccessibility, not forensic destruction.</p>
         </div>
       </div>
       <div class="problem-item">
