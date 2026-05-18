@@ -153,8 +153,8 @@
       text-transform:uppercase;
       flex-shrink:0;
     }
-    .app-tab-btn:hover{color:var(--text);border-bottom-color:var(--border)}
-    .app-tab-btn.active{color:var(--green);border-bottom-color:var(--green);background:#050a05}
+    .app-tab-btn:hover{color:#c8e87a;background:rgba(200,232,122,.06);border-bottom-color:rgba(200,232,122,.3)}
+    .app-tab-btn.active{color:#c8e87a;background:#040904;border-bottom:3px solid #c8e87a;font-weight:bold}
     .app-panel-body{
       height:680px;
       overflow-y:auto;
@@ -162,10 +162,19 @@
       scrollbar-width:thin;
       scrollbar-color:var(--border) transparent;
     }
+    .app-panel-body .section,
+    .app-panel-body .callout,
+    .app-panel-body .problem-block,
+    .app-panel-body .doc-section,
+    .app-panel-body > .app-tab-panel > * {
+      max-width:var(--max-w);
+      margin-left:auto;
+      margin-right:auto;
+    }
     .app-panel-body::-webkit-scrollbar{width:4px}
     .app-panel-body::-webkit-scrollbar-track{background:transparent}
     .app-panel-body::-webkit-scrollbar-thumb{background:var(--border)}
-    .app-tab-panel{display:none}
+    .app-tab-panel{display:none !important}.app-tab-panel.active{display:block !important}
     .app-tab-panel.active{display:block}
 
     .closing{border-top:1px solid var(--border);margin-top:3rem;padding-top:2rem;font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted);letter-spacing:.08em;line-height:2}
@@ -473,8 +482,8 @@ TIER 1 — NATIVE FIRMWARE (ESP32 FAMILY)</div>
     </div>
 
     <div class="callout">
-      <div class="callout-label">TARGET 5 — M5STACK CARDPUTER (ESP32-S3) — TIER 1 — COMPACT FIELD DEVICE</div>
-      <p>The M5Stack Cardputer is an ESP32-S3 device in a compact keyboard form factor — the same silicon class as the T-Deck Plus. Pisces Moon native firmware ports to it with display and input HAL adaptation. The Ghost Engine architecture, the SPI Bus Treaty, and the dual-core task split carry over unchanged. The silicon is the same. The protocol is the same. The problems were already solved.</p>
+      <div class="callout-label">TARGET 5 — M5STACK CARDPUTER ADV (ESP32-S3, NO PSRAM) — TIER 1 — ALPHA</div>
+      <p>The M5Stack Cardputer ADV is an ESP32-S3 device in a compact keyboard form factor. Same Xtensa LX7 CPU as the T-Deck Plus and T-LoRa Pager, but the ESP32-S3FN8 variant has <strong>no PSRAM</strong> — only 512 KB internal SRAM. Pisces Moon's entire memory architecture was designed around 8 MB PSRAM availability. The launcher renders and lightweight apps run. Apps requiring large buffer allocations (wardrive WiFi scan results, Gemini client transcript, SQLite page cache) are under active engineering to add reduced-allocation <code>#ifdef DEVICE_CARDPUTER_ADV</code> fallbacks. The Ghost Engine architecture, SPI Bus Treaty, and dual-core split carry over unchanged. The protocol is the same. The memory is not. 47 apps registered. Classification: alpha pending memory audit completion.</p>
     </div>
 
     <div class="callout">
