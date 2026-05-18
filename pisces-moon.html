@@ -121,13 +121,27 @@
 
 
     /* ── TAB SYSTEM ──────────────────────────────── */
-    .tab-nav{display:flex;gap:0;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:var(--deep);z-index:50;margin:0}
+    .tab-nav{display:flex;gap:0;border-bottom:none;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;background:#0a0e0a;z-index:50;margin:0;padding:0 0 0 0;border-top:1px solid var(--border)}
     .tab-nav::-webkit-scrollbar{display:none}
-    .tab-btn{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-muted);padding:.7rem 1.1rem;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:.15s;text-transform:uppercase;margin-bottom:-2px}
-    .tab-btn:hover{color:var(--text);border-bottom-color:var(--border)}
-    .tab-btn.active{color:var(--amber-dim);border-bottom-color:var(--amber-dim)}
-    .tab-panel{display:none}
-    .tab-panel.active{display:block}
+    .tab-btn{
+      font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;
+      color:#5a7a5a;padding:.85rem 1.4rem;
+      background:none;border:none;
+      border-bottom:3px solid transparent;
+      border-right:1px solid var(--border);
+      cursor:pointer;white-space:nowrap;
+      transition:.2s;text-transform:uppercase;
+      margin-bottom:0;
+    }
+    .tab-btn:hover{color:#c8e87a;background:rgba(200,232,122,.06);border-bottom-color:rgba(200,232,122,.3)}
+    .tab-btn.active{
+      color:#c8e87a;
+      background:#050f05;
+      border-bottom:3px solid #c8e87a;
+      font-weight:bold;
+    }
+    .tab-panel{display:none !important}
+    .tab-panel.active{display:block !important}
 
     /* CTA block */
     .cta-block{border:1px solid var(--amber-dim);background:var(--surface);padding:2rem;text-align:center;margin-top:3rem;position:relative;overflow:hidden}
@@ -273,8 +287,8 @@
       <div class="tier-card">
         <div class="tier-num">TARGET 5</div>
         <div class="tier-title">CARDPUTER ADV</div>
-        <div class="tier-price">ESP32-S3 — LORA/GPS HEADSTOCK PENDING</div>
-        <div class="tier-desc">Compact ESP32-S3 with built-in keyboard. 47 apps. Device functional. LoRa/GPS headstock in transit — full radio validation late May or early June 2026. Ghost Engine, SPI Bus Treaty, dual-core split carry over unchanged. Same silicon. Same protocol. Same problems already solved.</div>
+        <div class="tier-price">ESP32-S3 (NO PSRAM) — CAP LORA868 PENDING</div>
+        <div class="tier-desc">Compact ESP32-S3 with built-in keyboard — but <strong>no PSRAM</strong> (ESP32-S3FN8: 512 KB internal SRAM only). 47 apps registered in the launcher. Memory architecture constraint under active engineering: Pisces Moon was designed around 8 MB PSRAM availability. Apps relying on large PSRAM buffers (wardrive WiFi scans, Gemini client, SQLite) require audit and reduced-allocation fallbacks before they can be considered validated on this target. Lightweight apps confirmed working. LoRa/GPS Cap module in transit — full radio validation late May or early June 2026.</div>
       </div>
       <div class="tier-card">
         <div class="tier-num">TARGET 6</div>
